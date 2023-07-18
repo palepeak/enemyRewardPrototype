@@ -1,0 +1,223 @@
+[gd_scene load_steps=13 format=3 uid="uid://negnbqdjwjn6"]
+
+[ext_resource type="Texture2D" uid="uid://brpljonl3fggo" path="res://weapons/effects/basicshoteffect.png" id="1_1nk8l"]
+[ext_resource type="Script" path="res://weapons/effects/GunFireHeavy.gd" id="2_2afa1"]
+[ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="3_5ch5i"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_v7422"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_nb61d"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3twcq"]
+gradient = SubResource("Gradient_nb61d")
+
+[sub_resource type="Curve" id="Curve_4yfjm"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2nk0f"]
+curve = SubResource("Curve_4yfjm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_onpbu"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 170.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+damping_min = 500.0
+damping_max = 500.0
+angle_min = 180.0
+angle_max = 180.0
+scale_min = 2.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_2nk0f")
+color = Color(1, 0.819608, 0.329412, 1)
+color_ramp = SubResource("GradientTexture1D_3twcq")
+anim_offset_max = 1.0
+
+[sub_resource type="Animation" id="Animation_e8y48"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_8ynr8"]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PointLight2D1:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.4, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PointLight2D1:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(30, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PointLight2D2:offset")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(5, 0), Vector2(40, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PointLight2D2:energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.3, 0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PointLight2D3:offset")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(20, -2)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("PointLight2D3:energy")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.3, 0.0]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("PointLight2D:energy")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.6, 0.0]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("..")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4igrj"]
+_data = {
+"RESET": SubResource("Animation_e8y48"),
+"default": SubResource("Animation_8ynr8")
+}
+
+[node name="Node2D" type="Node2D"]
+
+[node name="GunFire" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_v7422")
+amount = 7
+process_material = SubResource("ParticleProcessMaterial_onpbu")
+texture = ExtResource("1_1nk8l")
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.9
+local_coords = true
+script = ExtResource("2_2afa1")
+
+[node name="PointLight2D1" type="PointLight2D" parent="GunFire"]
+color = Color(1, 0.847059, 0.431373, 1)
+energy = 0.4
+texture = ExtResource("3_5ch5i")
+texture_scale = 0.1
+
+[node name="PointLight2D2" type="PointLight2D" parent="GunFire"]
+position = Vector2(5, 0)
+color = Color(1, 0.847059, 0.431373, 1)
+energy = 0.3
+texture = ExtResource("3_5ch5i")
+offset = Vector2(5, 0)
+texture_scale = 0.1
+
+[node name="PointLight2D3" type="PointLight2D" parent="GunFire"]
+color = Color(1, 0.847059, 0.431373, 1)
+energy = 0.3
+texture = ExtResource("3_5ch5i")
+texture_scale = 0.1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GunFire"]
+autoplay = "default"
+libraries = {
+"": SubResource("AnimationLibrary_4igrj")
+}
+
+[node name="PointLight2D" type="PointLight2D" parent="GunFire"]
+color = Color(1, 0.894118, 0.580392, 1)
+energy = 0.6
+texture = ExtResource("3_5ch5i")
+offset = Vector2(10, 0)
+texture_scale = 0.3
