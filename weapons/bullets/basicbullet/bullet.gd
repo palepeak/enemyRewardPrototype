@@ -26,8 +26,7 @@ func _process(delta):
 	var collision_result = move_and_collide(direction * speed * delta)
 	if collision_result != null:
 		var other = collision_result.get_collider() as Node
-		
-		if other.name.contains("TileMap"):
+		if other is TileMap:
 			if smoke_scene != null:
 				var smoke = smoke_scene.instantiate() as GPUParticles2D
 				smoke.rotation = collision_result.get_normal().angle()

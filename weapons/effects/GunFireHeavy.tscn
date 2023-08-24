@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://negnbqdjwjn6"]
 
-[ext_resource type="Texture2D" uid="uid://brpljonl3fggo" path="res://weapons/effects/basicshoteffect.png" id="1_1nk8l"]
-[ext_resource type="Script" path="res://weapons/effects/GunFireHeavy.gd" id="2_2afa1"]
-[ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="3_5ch5i"]
+[ext_resource type="Texture2D" uid="uid://brpljonl3fggo" path="res://Weapons/effects/basicshoteffect.png" id="1_1nk8l"]
+[ext_resource type="Script" path="res://Weapons/effects/GunFireHeavy.gd" id="2_2afa1"]
+[ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://Resources/2d_lights_and_shadows_neutral_point_light.webp" id="3_5ch5i"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_v7422"]
 blend_mode = 1

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cq0og86h1ruwr"]
 
-[ext_resource type="Script" path="res://weapons/effects/shell.gd" id="1_2fbl6"]
-[ext_resource type="Texture2D" uid="uid://coi60fhjeipi4" path="res://weapons/effects/shell.png" id="2_3swr1"]
+[ext_resource type="Script" path="res://Weapons/effects/shell.gd" id="1_2fbl6"]
+[ext_resource type="Texture2D" uid="uid://coi60fhjeipi4" path="res://Weapons/effects/shell.png" id="2_3swr1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0tf0p"]
 size = Vector2(5.5, 3.5)

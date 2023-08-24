@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cj2jvej3dn5hd"]
+[gd_scene load_steps=8 format=3 uid="uid://cj2jvej3dn5hd"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_1c74q"]
 [ext_resource type="TileSet" uid="uid://cq5gbuw7llxcs" path="res://Levels/Rooms/Floor2.tres" id="2_dgrop"]
 [ext_resource type="PackedScene" uid="uid://cgh0bx0ywd8gd" path="res://Player/player.tscn" id="3_isyib"]
+[ext_resource type="PackedScene" uid="uid://bg0id55o0vv1c" path="res://Weapons/shotgun/Shotgun.tscn" id="4_k5lu7"]
 [ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://Resources/2d_lights_and_shadows_neutral_point_light.webp" id="5_nir3k"]
 [ext_resource type="Script" path="res://Levels/Rooms/RoomCreator.gd" id="6_i3txd"]
 [ext_resource type="Script" path="res://Levels/Layouts/LayoutCreator.gd" id="7_vn5su"]
@@ -19,6 +20,7 @@ format = 2
 position = Vector2(400, 516)
 disable_mode = 2
 collision_mask = 2
+gun_scene = ExtResource("4_k5lu7")
 
 [node name="PointLight2D" type="PointLight2D" parent="Player"]
 position = Vector2(0, -1)

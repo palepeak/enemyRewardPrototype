@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://coi60fhjeipi4"
-path="res://.godot/imported/shell.png-136ae9a723948e759d36f6f9465c1a49.ctex"
+path="res://.godot/imported/shell.png-de0b3471377a923517d6dbf2dbd13ff5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://weapons/effects/shell.png"
-dest_files=["res://.godot/imported/shell.png-136ae9a723948e759d36f6f9465c1a49.ctex"]
+source_file="res://Weapons/effects/shell.png"
+dest_files=["res://.godot/imported/shell.png-de0b3471377a923517d6dbf2dbd13ff5.ctex"]
 
 [params]
 

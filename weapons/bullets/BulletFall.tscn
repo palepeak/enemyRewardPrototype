@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://dk6qayn760err"]
 
-[ext_resource type="Texture2D" uid="uid://le285lbja2ab" path="res://weapons/bullets/basicdebris.png" id="1_a83yc"]
+[ext_resource type="Texture2D" uid="uid://le285lbja2ab" path="res://Weapons/bullets/basicdebris.png" id="1_a83yc"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_c2hrg"]
 particles_animation = true

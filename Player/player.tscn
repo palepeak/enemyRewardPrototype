@@ -1,9 +1,10 @@
-[gd_scene load_steps=59 format=3 uid="uid://cgh0bx0ywd8gd"]
+[gd_scene load_steps=60 format=3 uid="uid://cgh0bx0ywd8gd"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_cte7x"]
-[ext_resource type="PackedScene" uid="uid://bg0id55o0vv1c" path="res://Weapons/shotgun/Shotgun.tscn" id="2_q1aub"]
 [ext_resource type="Shader" path="res://Player/player.gdshader" id="2_t3sx1"]
+[ext_resource type="PackedScene" uid="uid://cgm0rtxp764ux" path="res://Weapons/pistol/pistol.tscn" id="2_xv2d8"]
 [ext_resource type="Texture2D" uid="uid://c3pwfnoeai35d" path="res://Resources/2_Characters/Character_Generator/0_Premade_Characters/32x32/Premade_Character_32x32_07.png" id="3_8dmm6"]
+[ext_resource type="PackedScene" uid="uid://dqbme1fmb8wfh" path="res://Weapons/Hand.tscn" id="5_r82k5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3aoxc"]
 shader = ExtResource("2_t3sx1")
@@ -419,10 +420,9 @@ _data = {
 size = Vector2(27, 10)
 
 [node name="Player" type="CharacterBody2D"]
-process_priority = -10
 z_index = 3
 script = ExtResource("1_cte7x")
-gun_scene = ExtResource("2_q1aub")
+gun_scene = ExtResource("2_xv2d8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_3aoxc")
@@ -462,3 +462,5 @@ offset_bottom = -20.0
 
 [node name="Line2D" type="Line2D" parent="."]
 process_priority = 1
+
+[node name="other_hand" parent="." instance=ExtResource("5_r82k5")]

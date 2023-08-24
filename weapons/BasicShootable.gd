@@ -58,7 +58,7 @@ func _input(event):
 func _process(delta):
 	in_wall = get_overlapping_bodies().size() > 0
 	
-	if Input.is_action_pressed("r"):
+	if Input.is_action_pressed("reload"):
 		if current_ammo > 0 and current_clip_ammo != clip_size:
 			start_reload()
 	

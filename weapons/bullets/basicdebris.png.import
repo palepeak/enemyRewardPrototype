@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://le285lbja2ab"
-path="res://.godot/imported/basicdebris.png-ecddbfc1df52d871b1cb73ae6e409574.ctex"
+path="res://.godot/imported/basicdebris.png-04e4cb9866285ff962d6641025026052.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://weapons/bullets/basicdebris.png"
-dest_files=["res://.godot/imported/basicdebris.png-ecddbfc1df52d871b1cb73ae6e409574.ctex"]
+source_file="res://Weapons/bullets/basicdebris.png"
+dest_files=["res://.godot/imported/basicdebris.png-04e4cb9866285ff962d6641025026052.ctex"]
 
 [params]
 

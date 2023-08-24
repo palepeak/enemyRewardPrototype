@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://b5py88y4mvx8x"]
 
-[ext_resource type="Script" path="res://weapons/bullets/basicbullet/bullet.gd" id="1_ki8l1"]
-[ext_resource type="PackedScene" uid="uid://cu5e6abnmsedj" path="res://weapons/bullets/BulletSmoke.tscn" id="2_4126n"]
-[ext_resource type="Texture2D" uid="uid://cdbghpogdu4ol" path="res://Modern tiles_Free/bullet.png" id="2_ksqlj"]
-[ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="3_7qo7x"]
-[ext_resource type="PackedScene" uid="uid://dk6qayn760err" path="res://weapons/bullets/BulletFall.tscn" id="3_dd6al"]
+[ext_resource type="Script" path="res://Weapons/bullets/basicbullet/bullet.gd" id="1_ki8l1"]
+[ext_resource type="PackedScene" uid="uid://cu5e6abnmsedj" path="res://Weapons/bullets/BulletSmoke.tscn" id="2_4126n"]
+[ext_resource type="Texture2D" uid="uid://cdbghpogdu4ol" path="res://Resources/bullet.png" id="2_ksqlj"]
+[ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://Resources/2d_lights_and_shadows_neutral_point_light.webp" id="3_7qo7x"]
+[ext_resource type="PackedScene" uid="uid://dk6qayn760err" path="res://Weapons/bullets/BulletFall.tscn" id="3_dd6al"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kgkin"]
 size = Vector2(12, 8)

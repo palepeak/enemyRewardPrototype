@@ -3,12 +3,12 @@
 importer="mp3"
 type="AudioStreamMP3"
 uid="uid://cs1gf5oq26d6j"
-path="res://.godot/imported/mixkit-game-gun-shot-1662.mp3-9c9092038c020fa440d1ef419ac06fc3.mp3str"
+path="res://.godot/imported/mixkit-game-gun-shot-1662.mp3-3965531f50549613301baac77c3a6dd4.mp3str"
 
 [deps]
 
-source_file="res://weapons/pistol/mixkit-game-gun-shot-1662.mp3"
-dest_files=["res://.godot/imported/mixkit-game-gun-shot-1662.mp3-9c9092038c020fa440d1ef419ac06fc3.mp3str"]
+source_file="res://Weapons/pistol/mixkit-game-gun-shot-1662.mp3"
+dest_files=["res://.godot/imported/mixkit-game-gun-shot-1662.mp3-3965531f50549613301baac77c3a6dd4.mp3str"]
 
 [params]
 

@@ -1,15 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://bg0id55o0vv1c"]
+[gd_scene load_steps=14 format=3 uid="uid://bg0id55o0vv1c"]
 
-[ext_resource type="Script" path="res://weapons/shotgun/Shotgun.gd" id="1_ixoca"]
-[ext_resource type="Texture2D" uid="uid://btj47kdm0qvm2" path="res://weapons/shotgun/shotgun.png" id="2_ej0mk"]
-[ext_resource type="PackedScene" uid="uid://b5py88y4mvx8x" path="res://weapons/bullets/basicbullet/bullet.tscn" id="2_pq01j"]
-[ext_resource type="Script" path="res://weapons/BasicShootable.gd" id="3_5gkfv"]
-[ext_resource type="PackedScene" uid="uid://dqbme1fmb8wfh" path="res://weapons/Hand.tscn" id="4_0sclk"]
-[ext_resource type="AudioStream" uid="uid://cs1gf5oq26d6j" path="res://weapons/pistol/mixkit-game-gun-shot-1662.mp3" id="4_aefbm"]
-[ext_resource type="AudioStream" uid="uid://t2nyc3a70s2y" path="res://weapons/pistol/1911-reload-6248.mp3" id="5_7xhfi"]
-[ext_resource type="PackedScene" uid="uid://negnbqdjwjn6" path="res://weapons/effects/GunFireHeavy.tscn" id="7_ofras"]
-[ext_resource type="PackedScene" uid="uid://cq0og86h1ruwr" path="res://weapons/effects/shell.tscn" id="8_jqsp3"]
-[ext_resource type="Script" path="res://weapons/RecoilForce.gd" id="9_kita3"]
+[ext_resource type="Script" path="res://Weapons/shotgun/Shotgun.gd" id="1_ixoca"]
+[ext_resource type="Texture2D" uid="uid://btj47kdm0qvm2" path="res://Weapons/shotgun/shotgun.png" id="2_ej0mk"]
+[ext_resource type="PackedScene" uid="uid://b5py88y4mvx8x" path="res://Weapons/bullets/basicbullet/bullet.tscn" id="2_pq01j"]
+[ext_resource type="Script" path="res://Weapons/BasicShootable.gd" id="3_5gkfv"]
+[ext_resource type="PackedScene" uid="uid://dqbme1fmb8wfh" path="res://Weapons/Hand.tscn" id="4_0sclk"]
+[ext_resource type="AudioStream" uid="uid://cs1gf5oq26d6j" path="res://Weapons/pistol/mixkit-game-gun-shot-1662.mp3" id="4_aefbm"]
+[ext_resource type="AudioStream" uid="uid://t2nyc3a70s2y" path="res://Weapons/pistol/1911-reload-6248.mp3" id="5_7xhfi"]
+[ext_resource type="PackedScene" uid="uid://negnbqdjwjn6" path="res://Weapons/effects/GunFireHeavy.tscn" id="7_ofras"]
+[ext_resource type="PackedScene" uid="uid://cq0og86h1ruwr" path="res://Weapons/effects/shell.tscn" id="8_jqsp3"]
+[ext_resource type="Script" path="res://Weapons/RecoilForce.gd" id="9_kita3"]
+[ext_resource type="Script" path="res://Weapons/GunPositioner.gd" id="11_kb5my"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sqa6h"]
 animations = [{
@@ -68,5 +69,9 @@ position = Vector2(5, -2)
 script = ExtResource("9_kita3")
 recoil_duration_seconds = 0.5
 recoil_force_initial = 300
+
+[node name="GunPositioner" type="Node" parent="."]
+script = ExtResource("11_kb5my")
+position = 0.3
 
 [connection signal="successful_shoot" from="BasicShootable" to="." method="_on_basic_shootable_successful_shoot"]

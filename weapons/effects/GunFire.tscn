@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://c3qbv2i4yfwjr"]
 
-[ext_resource type="Texture2D" uid="uid://brpljonl3fggo" path="res://weapons/effects/basicshoteffect.png" id="1_h7yob"]
-[ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://2d_lights_and_shadows_neutral_point_light.webp" id="2_u5gqo"]
+[ext_resource type="Texture2D" uid="uid://brpljonl3fggo" path="res://Weapons/effects/basicshoteffect.png" id="1_h7yob"]
+[ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://Resources/2d_lights_and_shadows_neutral_point_light.webp" id="2_u5gqo"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_v7422"]
 blend_mode = 1
