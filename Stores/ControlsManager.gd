@@ -3,7 +3,7 @@ extends Node
 func _ready():
 	Input.joy_connection_changed.connect(_on_joy_connection_changed)
 
-func _process(delta):
+func _process(_delta):
 	pass
 	
 	

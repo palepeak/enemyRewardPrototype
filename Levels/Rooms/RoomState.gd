@@ -34,26 +34,26 @@ func get_exits(direction: RoomDirection) -> Array[Vector2]:
 	match direction:
 		RoomDirection.LEFT:
 			if height < 20:
-				exits.append(Vector2(x, y+wall_height+(height/2)))
+				exits.append(Vector2(x, y+wall_height+(height/2.0)))
 			else:
-				exits.append(Vector2(x, y+wall_height+2))
+				exits.append(Vector2(x, y+wall_height+2.0))
 				exits.append(Vector2(x, y+wall_height+height-4))
 				
 		RoomDirection.RIGHT:
 			if height < 20:
-				exits.append(Vector2(x+width+1, y+wall_height+(height/2)))
+				exits.append(Vector2(x+width+1, y+wall_height+(height/2.0)))
 			else:
-				exits.append(Vector2(x+width+1, y+wall_height+2))
+				exits.append(Vector2(x+width+1, y+wall_height+2.0))
 				exits.append(Vector2(x+width+1, y+wall_height+height-4))
 		RoomDirection.TOP:
 			if width < 20:
-				exits.append(Vector2(x+(width/2), y+wall_height-1))
+				exits.append(Vector2(x+(width/2.0), y+wall_height-1))
 			else:
 				exits.append(Vector2(x+3, y+wall_height-1))
 				exits.append(Vector2(x+width-2, y+wall_height-1))
 		_:
 			if width < 20:
-				exits.append(Vector2(x+(width/2), y+wall_height+height))
+				exits.append(Vector2(x+(width/2.0), y+wall_height+height))
 			else:
 				exits.append(Vector2(x+3, y+wall_height+height))
 				exits.append(Vector2(x+width-2, y+wall_height+height))

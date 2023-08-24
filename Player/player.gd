@@ -27,7 +27,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	var direction = get_mouse_position_rotation()
 	
 	if not is_left_hand and (direction > 2 * PI/3 or direction < -2 * PI/3):
@@ -48,7 +48,7 @@ func _process(delta):
 	gun.rotation = get_gun_rotation(is_left_hand)
 	gun.z_index = z_index+1
 	
-	var velocity = Vector2.ZERO # The player's movement vector.
+	velocity = Vector2.ZERO # The player's movement vector.
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
 	if Input.is_action_pressed("move_left"):

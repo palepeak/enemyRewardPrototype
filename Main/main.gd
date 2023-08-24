@@ -6,12 +6,11 @@ var current_level: Level
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Environment.AMBIENT_SOURCE_BG
 	ResourceLoader.load_threaded_request(LEVEL_PATH)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	$CanvasLayer/FPSCounter.text = str(Engine.get_frames_per_second())
 	
 	if not level_loaded:

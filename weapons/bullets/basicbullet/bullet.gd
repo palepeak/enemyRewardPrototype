@@ -2,10 +2,10 @@ class_name Bullet extends RigidBody2D
 
 @export var smoke_scene: PackedScene
 @export var fall_scene: PackedScene
-var speed = 0
-var direction = Vector2(0,0)
-var range = 0
-var start_pos: Vector2
+var bullet_speed = 0
+var bullet_direction = Vector2(0,0)
+var bullet_range = 0
+var bullet_start_pos: Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,8 +14,8 @@ func _ready():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if range != 0:
-		if global_position.distance_to(start_pos) > range:
+	if bullet_range != 0:
+		if global_position.distance_to(bullet_start_pos) > bullet_range:
 			if fall_scene != null:
 				var fall = fall_scene.instantiate() as GPUParticles2D
 				fall.global_position = global_position
@@ -23,7 +23,7 @@ func _process(delta):
 				
 				get_tree().root.add_child(fall)
 			queue_free()
-	var collision_result = move_and_collide(direction * speed * delta)
+	var collision_result = move_and_collide(bullet_direction * bullet_speed * delta)
 	if collision_result != null:
 		var other = collision_result.get_collider() as Node
 		if other is TileMap:
@@ -35,8 +35,10 @@ func _process(delta):
 			queue_free()
 		pass
 		
-func fire(start_pos, direction, speed):
+func fire(start_pos, direction: Vector2, speed, range):
+	rotation = direction.angle()
 	self.global_position = start_pos
-	self.start_pos = start_pos
-	self.speed = speed
-	self.direction = direction
+	self.bullet_start_pos = start_pos
+	self.bullet_speed = speed
+	self.bullet_direction = direction
+	self.bullet_range = range

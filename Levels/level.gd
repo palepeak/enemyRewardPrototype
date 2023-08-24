@@ -1,6 +1,5 @@
 class_name Level extends Node2D
 
-var floor
 var player: CharacterBody2D
 var room_creator: RoomCreator
 var layout_creator: LayoutCreator
@@ -10,10 +9,10 @@ signal setup_complete
 
 func set_floor(floor_arg: int):
 	init_setup.emit()
-	$LevelMap.tile_set = get_floor_tileset()
+	$LevelMap.tile_set = get_floor_tileset(floor_arg)
 	room_creator = $RoomCreator as RoomCreator
 	layout_creator = $LayoutCreator as LayoutCreator
-	layout_creator.get_layout(1)
+	layout_creator.get_layout(floor_arg)
 
 
 func _ready():
@@ -22,7 +21,7 @@ func _ready():
 	remove_child(player)
 
 
-func _process(delta):
+func _process(_delta):
 	var mouse_position = get_viewport().get_mouse_position()
 	var viewport = get_viewport_rect().size
 	var bound_mouse_position = Vector2(
@@ -50,8 +49,8 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	setup_complete.emit()
 	add_child(player)
 	
-func get_floor_tileset() -> TileSet:
-	match floor:
+func get_floor_tileset(floor_arg) -> TileSet:
+	match floor_arg:
 		1: 
 			return preload("res://Levels/Rooms/Floor1.tres")
 		2: 
