@@ -29,7 +29,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	var direction = get_mouse_position_rotation()
-	
+	$Label.text = str(global_position)
 	if not is_left_hand and (direction > 2 * PI/3 or direction < -2 * PI/3):
 		# switch to left hand
 		is_left_hand = true

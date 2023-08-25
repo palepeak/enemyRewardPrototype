@@ -35,10 +35,10 @@ func _process(delta):
 			queue_free()
 		pass
 		
-func fire(start_pos, direction: Vector2, speed, range):
+func fire(start_pos, direction: Vector2, speed, range_arg):
 	rotation = direction.angle()
 	self.global_position = start_pos
 	self.bullet_start_pos = start_pos
 	self.bullet_speed = speed
 	self.bullet_direction = direction
-	self.bullet_range = range
+	self.bullet_range = range_arg

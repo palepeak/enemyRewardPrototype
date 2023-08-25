@@ -55,7 +55,7 @@ func _input(event):
 		try_shoot()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	in_wall = get_overlapping_bodies().size() > 0
 	
 	if Input.is_action_pressed("reload"):

@@ -9,7 +9,7 @@ func _ready():
 	linear_velocity = (Vector2(-100 * cos(global_rotation),randf_range(10,-10)))
 	angular_velocity = randf_range(-PI, PI)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if abs(position.y-original_position.y) > 16 and bounced:
 		freeze = true
 	elif abs(position.y-original_position.y) > 16 and !bounced:

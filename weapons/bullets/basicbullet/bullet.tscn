@@ -10,7 +10,6 @@
 size = Vector2(12, 8)
 
 [node name="bullet" type="RigidBody2D"]
-z_as_relative = false
 collision_layer = 4
 collision_mask = 8
 gravity_scale = 0.0
@@ -20,6 +19,8 @@ smoke_scene = ExtResource("2_4126n")
 fall_scene = ExtResource("3_dd6al")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 100
+z_as_relative = false
 texture = ExtResource("2_ksqlj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

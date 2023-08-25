@@ -2,3 +2,5 @@
 .godot/
 *.exe
 *.tpz
+*.tmp
+.idea/
