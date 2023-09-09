@@ -39,7 +39,7 @@ frame_progress = 0.37483
 [node name="ChamberPoint" type="Node2D" parent="."]
 position = Vector2(0, -10)
 
-[node name="BasicShootable" type="Area2D" parent="."]
+[node name="BasicShootable" type="Area2D" parent="." node_paths=PackedStringArray("fire_point", "chamber_point")]
 collision_layer = 16
 collision_mask = 10
 script = ExtResource("8_k46dr")
@@ -47,6 +47,8 @@ max_ammo = 100
 clip_size = 6
 shoot_speed = 0.2
 reload_time = 1.0
+fire_point = NodePath("FirePoint")
+chamber_point = NodePath("../ChamberPoint")
 on_shoot_sfx = ExtResource("7_4bmlr")
 on_reload_sfx = ExtResource("9_b4wjn")
 fire_effect = ExtResource("8_ikphd")

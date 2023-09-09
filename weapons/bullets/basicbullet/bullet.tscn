@@ -28,6 +28,6 @@ shape = SubResource("RectangleShape2D_kgkin")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 color = Color(1, 0.988235, 0.380392, 1)
-energy = 0.3
+energy = 0.5
 texture = ExtResource("3_7qo7x")
 texture_scale = 0.4

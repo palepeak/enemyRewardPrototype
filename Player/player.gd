@@ -9,8 +9,6 @@ class_name Player extends CharacterBody2D
 # Global
 
 # Local
-
-
 var speed = 500
 var gun: Node2D
 var is_left_hand = false
@@ -23,7 +21,8 @@ func _ready():
 	$AnimatedSprite2D.play("idle_down")
 	$AnimatedSprite2D.z_index = z_index
 	
-	add_gun(gun_scene.instantiate())
+	if gun_scene != null:
+		add_gun(gun_scene.instantiate())
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,8 +44,9 @@ func _process(_delta):
 		gun.position = $AnimatedSprite2D/GunLine/GunPosition.position
 		$other_hand.position = $AnimatedSprite2D/LeftHand.position
 	
-	gun.rotation = get_gun_rotation(is_left_hand)
-	gun.z_index = z_index+1
+	if gun != null:
+		gun.rotation = get_gun_rotation(is_left_hand)
+		gun.z_index = z_index+1
 	
 	velocity = Vector2.ZERO # The player's movement vector.
 	if Input.is_action_pressed("move_right"):
@@ -89,6 +89,7 @@ func _process(_delta):
 	set_velocity(velocity)
 	move_and_slide()
 
+
 func add_gun(new_gun: Node2D):
 	if gun != null:
 		remove_child(gun)
@@ -110,6 +111,7 @@ func add_gun(new_gun: Node2D):
 	else:
 		$other_hand.visible = false
 	add_child(gun)
+	
 	
 func get_mouse_position_rotation() -> float:
 	return (controlsManager.get_aim_position(self) - global_position).normalized().angle()
