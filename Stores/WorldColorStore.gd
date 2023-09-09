@@ -58,7 +58,6 @@ func post_draw_color_line(start: Vector2i, end: Vector2i):
 	requests.push_back([start, end])
 		
 func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, thread_ref):
-	print("thrad started")
 	var visited = {}
 	var to_visit = [start, end]
 	while !to_visit.is_empty():
