@@ -456,6 +456,7 @@ position = Vector2(-0.5, 26)
 shape = SubResource("RectangleShape2D_dkms4")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
+visible = false
 offset_left = -7.0
 offset_top = -60.0
 offset_right = 33.0
@@ -467,6 +468,7 @@ process_priority = 1
 [node name="other_hand" parent="." instance=ExtResource("5_r82k5")]
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_top = -60.0
 offset_right = 40.0
 offset_bottom = -37.0
