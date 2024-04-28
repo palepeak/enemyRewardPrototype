@@ -20,7 +20,6 @@ func _process(_delta):
 		if load_progress == ResourceLoader.THREAD_LOAD_LOADED:
 			current_level = ResourceLoader.load_threaded_get(LEVEL_PATH).instantiate() as Level
 			current_level.setup_complete.connect(stop_loading_screen)
-			current_level.init_setup.connect(start_loading_screen)
 			current_level.set_floor(1)
 			add_child(current_level)
 			level_loaded = true

@@ -42,22 +42,17 @@ func _process(_delta):
 	if color_texture == null:
 		return
 	
-	threads_mutex.lock()
-	if threads.size() < 10 and !requests.is_empty():
+	if !requests.is_empty():
 		var request = requests.pop_back()
-		var thread = Thread.new()
-		threads.push_back(thread)
-		thread.start(_thread_draw_color_function.bind(
+		_thread_draw_color_function(
 			request[0]/image_compression_factor,
 			request[1]/image_compression_factor, 
-			10/image_compression_factor, 
-			thread))
-	threads_mutex.unlock()
+			10/image_compression_factor)
 	
 func post_draw_color_line(start: Vector2i, end: Vector2i):
 	requests.push_back([start, end])
 		
-func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, thread_ref):
+func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int):
 	var visited = {}
 	var to_visit = [start, end]
 	while !to_visit.is_empty():
@@ -87,9 +82,7 @@ func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, th
 			continue
 			
 		# draw pixel onto image
-		image_mutex.lock()
 		color_image_map.set_pixelv(current_pixel, color_bit)
-		image_mutex.unlock()
 		# add neighbors to visit list
 		for x in range(current_pixel.x-1, current_pixel.x+2):
 			for y in range(current_pixel.y-1, current_pixel.y+2):
@@ -99,9 +92,6 @@ func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, th
 	
 	# this call is thread safe without mutex
 	color_texture.update(color_image_map)
-	threads_mutex.lock()
-	threads.erase(thread_ref)
-	threads_mutex.unlock()
 
 func distance_to(point1: Vector2i, point2: Vector2i) -> int:
 	return int(sqrt(pow((point2.y - point1.y), 2) + pow((point2.x - point1.x), 2)))

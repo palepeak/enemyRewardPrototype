@@ -69,7 +69,7 @@ render_target_update_mode = 4
 
 [node name="LevelMap" type="TileMap" parent="LevelMapContainer/SubViewport"]
 tile_set = ExtResource("2_dgrop")
-cell_quadrant_size = 32
+rendering_quadrant_size = 32
 format = 2
 
 [node name="Timer" type="Timer" parent="."]

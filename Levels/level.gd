@@ -24,7 +24,6 @@ func set_floor(floor_arg: int):
 
 
 func _ready():
-
 	# remove the player instance until level setup is complete
 	player = $Player as CharacterBody2D
 	remove_child(player)
