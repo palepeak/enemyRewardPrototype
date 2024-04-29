@@ -11,7 +11,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	$CanvasLayer/FPSCounter.text = str(Engine.get_frames_per_second())
 	
 	if not level_loaded:
 		var progress_array = []

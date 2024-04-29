@@ -30,6 +30,10 @@ window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
 window/driver="vulkan"
 
+[gui]
+
+theme/custom_font="res://Resources/alagard.ttf"
+
 [input]
 
 move_up={

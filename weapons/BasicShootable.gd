@@ -65,24 +65,24 @@ func _process(_delta):
 		
 func try_shoot():
 	if can_shoot && current_clip_ammo > 0 && not in_wall:
-			if fire_effect != null:
-				var fire = fire_effect.instantiate() as Node2D
-				fire.global_position = fire_point.global_position
-				fire.rotation = global_rotation
-				get_tree().root.add_child(fire)
-			if recoil_force_handler != null:
-				recoil_force_handler.start_recoil()
-			if shell_scene != null:
-				var shell = shell_scene.instantiate() as Node2D
-				shell.global_position = chamber_point.global_position
-				shell.global_rotation = global_rotation
-				get_tree().root.add_child(shell)
-				
-			can_shoot = false
-			shoot_timer.start(shoot_speed)
-			current_clip_ammo -= 1
-			successful_shoot.emit()
-			audio_stream_player_shoot.play()
+		if fire_effect != null:
+			var fire = fire_effect.instantiate()
+			fire.global_position = fire_point.global_position
+			fire.rotation = global_rotation
+			get_tree().root.add_child(fire)
+		if recoil_force_handler != null:
+			recoil_force_handler.start_recoil()
+		if shell_scene != null:
+			var shell = shell_scene.instantiate() as Node2D
+			shell.global_position = chamber_point.global_position
+			shell.global_rotation = global_rotation
+			get_tree().root.add_child(shell)
+			
+		can_shoot = false
+		shoot_timer.start(shoot_speed)
+		current_clip_ammo -= 1
+		successful_shoot.emit()
+		audio_stream_player_shoot.play()
 
 func on_shoot_ready():
 	can_shoot = true

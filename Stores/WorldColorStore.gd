@@ -28,9 +28,6 @@ func set_world_state(level_map: TileMap):
 		false,
 		Image.FORMAT_L8
 	)
-	for i in level_map_bounding.size.x / image_compression_factor:
-		for n in 50/image_compression_factor:
-			color_image_map.set_pixel(i, n, color_bit)
 			
 	color_texture = ImageTexture.create_from_image(color_image_map)
 	
