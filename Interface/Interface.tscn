@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://cdsetlk7430dq" path="res://Interface/HealthLantern.tscn" id="3_ypn5q"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j46oq"]
-bg_color = Color(0, 0, 0, 0.34902)
+bg_color = Color(0, 0, 0, 0.65098)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mst02"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ftq0s"]
 bg_color = Color(0.74902, 0.105882, 0.321569, 1)
 
 [node name="Interface" type="Node2D"]
@@ -53,6 +53,13 @@ offset_right = 860.0
 offset_bottom = 503.0
 theme_override_fonts/font = ExtResource("2_6eq1f")
 theme_override_styles/background = SubResource("StyleBoxFlat_j46oq")
-theme_override_styles/fill = SubResource("StyleBoxFlat_mst02")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ftq0s")
 step = 1.0
-value = 50.0
+value = 95.0
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_left = 821.0
+offset_top = 476.0
+offset_right = 823.0
+offset_bottom = 503.0
+color = Color(0.917647, 0.988235, 0.435294, 1)

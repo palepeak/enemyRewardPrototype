@@ -21,6 +21,7 @@ var requests = []
 
 const color_bit: Color = Color.WHITE
 
+
 func set_world_state(level_map: TileMap):
 	# Saving the current level mao
 	level_tile_map = level_map
@@ -38,25 +39,21 @@ func set_world_state(level_map: TileMap):
 		Image.FORMAT_L8
 	)
 	
-	var unique_tiles = level_map.get_used_cells(0)
-	var layer_count = level_map.get_layers_count()
-	for layer in layer_count:
-		if layer == 0:
-			continue
-		var new_tiles = level_tile_map.get_used_cells(layer)
-		for tile in new_tiles:
-			if !unique_tiles.has(tile):
-				unique_tiles.append(tile)
-	total_size = (unique_tiles.size()*32*32/image_compression_factor)/image_compression_factor
-	print(unique_tiles.size())
+	var scoring_tiles = level_map.get_used_cells(0)
+	total_size = scoring_tiles.size()*32*32
 	world_progress_update.emit(0)
 			
 	color_texture = ImageTexture.create_from_image(color_image_map)
-	
+
 
 func get_color_texture() -> Texture2D:
 	return color_texture
-	
+
+
+func post_draw_color_line(start: Vector2i, end: Vector2i):
+	requests.push_back([start, end])
+
+
 func _process(_delta):
 	if color_texture == null:
 		return
@@ -81,10 +78,8 @@ func _process(_delta):
 				request[1]/image_compression_factor, 
 				radius/image_compression_factor,
 				null)
-	
-func post_draw_color_line(start: Vector2i, end: Vector2i):
-	requests.push_back([start, end])
-		
+
+
 func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, thread_ref):
 	var visited = {}
 	var to_visit = [start, end]
@@ -109,7 +104,7 @@ func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, th
 		if start == end:
 			closest_point = start
 		# checking distance
-		var distance = distance_to(current_pixel, closest_point)
+		var distance = _distance_to(current_pixel, closest_point)
 		# point too far, ignore
 		if distance > radius:
 			continue
@@ -119,15 +114,15 @@ func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, th
 		if color_image_map.get_pixelv(current_pixel) != color_bit && _coord_on_tilemap_contains_tile(current_pixel):
 			# draw pixel onto image
 			color_image_map.set_pixelv(current_pixel, color_bit)
-			progress_pixel += 1
+			if _coord_on_tilemap_contains_scoring_tile(current_pixel):
+				progress_pixel += image_compression_factor * image_compression_factor
 			progress_percent = progress_pixel*100/total_size
 			
 			if THREADED:
 				image_mutex.unlock()
 			if (progress_percent != emitted_progress):
-				print(str(progress_pixel) + "\t" + str(total_size))
 				emitted_progress = progress_percent
-				call_deferred("update_progress_percent", progress_percent)
+				call_deferred("_update_progress_percent", progress_percent)
 		elif THREADED:
 			image_mutex.unlock()
 			
@@ -148,20 +143,29 @@ func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, th
 		color_texture.update(color_image_map)
 
 
-func update_progress_percent(progress):
+func _update_progress_percent(progress):
 	if progress >= emitted_progress:
 		world_progress_update.emit(progress)
-		
+
+
+# Only layer 0 is used for scoring
+func _coord_on_tilemap_contains_scoring_tile(position) -> bool:
+	var tilemap_position = position
+	tilemap_position *= image_compression_factor
+	tilemap_position /= 32
+	return level_tile_map.get_cell_source_id(0, tilemap_position) != -1
+
+
 func _coord_on_tilemap_contains_tile(position) -> bool:
 	var tilemap_position = position
 	tilemap_position *= image_compression_factor
 	tilemap_position /= 32
-	var layer_count = level_tile_map.get_layers_count()
-	for layer in layer_count:
-		if level_tile_map.get_cell_source_id(layer, tilemap_position) != -1:
+	for layer in level_tile_map.get_layers_count():
+		var result = level_tile_map.get_cell_source_id(layer, tilemap_position) != -1
+		if result:
 			return true
 	return false
 
 
-func distance_to(point1: Vector2i, point2: Vector2i) -> int:
+func _distance_to(point1: Vector2i, point2: Vector2i) -> int:
 	return int(sqrt(pow((point2.y - point1.y), 2) + pow((point2.x - point1.x), 2)))
