@@ -5,6 +5,8 @@ class_name UserInterface extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	update_max_health(3)
+	GunStore.on_current_clip_ammo_changed.connect(update_ammo)
+	WorldColorStore.world_progress_update.connect(update_progress)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

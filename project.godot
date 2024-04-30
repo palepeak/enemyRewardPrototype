@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 ControlsManager="*res://Stores/ControlsManager.gd"
 WorldColorStore="*res://Stores/WorldColorStore.gd"
+GunStore="*res://Stores/GunStore.gd"
 
 [display]
 
@@ -29,10 +30,6 @@ window/size/window_height_override=1056
 window/stretch/mode="viewport"
 window/vsync/vsync_mode=0
 window/driver="vulkan"
-
-[gui]
-
-theme/custom_font="res://Resources/alagard.ttf"
 
 [input]
 

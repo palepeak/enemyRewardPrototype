@@ -47,7 +47,7 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
 		# No ammo left, nothing to do
-		if current_ammo <= 0 and current_clip_ammo <= 0:
+		if current_ammo == 0 and current_clip_ammo <= 0:
 			return
 		# Clip empty, need to reload
 		if current_clip_ammo <= 0:
@@ -59,7 +59,7 @@ func _process(_delta):
 	in_wall = get_overlapping_bodies().size() > 0
 	
 	if Input.is_action_pressed("reload"):
-		if current_ammo > 0 and current_clip_ammo != clip_size:
+		if (current_ammo == -1 or current_ammo > 0) and current_clip_ammo != clip_size:
 			start_reload()
 	
 		
@@ -81,6 +81,7 @@ func try_shoot():
 		can_shoot = false
 		shoot_timer.start(shoot_speed)
 		current_clip_ammo -= 1
+		GunStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
 		successful_shoot.emit()
 		audio_stream_player_shoot.play()
 
@@ -95,8 +96,15 @@ func start_reload():
 	reload_timer.start(reload_time)
 
 func on_reload_ready():
+	# No max ammo, processing differently
+	if current_ammo == -1:
+		current_clip_ammo = clip_size
+		GunStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
+		return
+		
 	# Find how many ammo is needed
 	var ammo_needed = clip_size - current_clip_ammo
 	# Set the clip size to max clip or ammo left
 	current_clip_ammo = min(current_ammo + current_clip_ammo, clip_size)
+	GunStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
 	current_ammo = max(0, current_ammo - ammo_needed)

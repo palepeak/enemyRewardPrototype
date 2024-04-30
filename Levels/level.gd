@@ -31,6 +31,7 @@ func _ready():
 
 func _process(_delta):
 	$LevelMapContainer/Sprite2D.material.set_shader_parameter("color_map", worldColorStore.get_color_texture())
+	($Player/Sprite2D as Sprite2D).texture = worldColorStore.get_color_texture()
 	var mouse_position = get_viewport().get_mouse_position()
 	var viewport = get_viewport_rect().size
 	var bound_mouse_position = Vector2(
@@ -44,16 +45,16 @@ func _process(_delta):
 func _on_layout_creator_setup_complete(node: LayoutNode):
 	# debug rooms
 	var room1 = RoomState.new(0, 0, 20, 20, 3)
-	var room2 = RoomState.new(60, 0, 20, 20, 3)
+	#var room2 = RoomState.new(60, 0, 20, 20, 3)
 	room_creator.create_room(room1, level_map)
-	room_creator.create_room(room2, level_map)
+	#room_creator.create_room(room2, level_map)
 	
-	var room1_exit = room1.get_exits(RoomState.RoomDirection.RIGHT)[0]
-	var room2_exit = room2.get_exits(RoomState.RoomDirection.LEFT)[0]
-	room_creator.create_hall(HallState.new(room1_exit, room2_exit, 3), level_map)
-	var room1_exit2 = room1.get_exits(RoomState.RoomDirection.RIGHT)[1]
-	var room2_exit2 = room2.get_exits(RoomState.RoomDirection.LEFT)[1]
-	room_creator.create_hall(HallState.new(room1_exit2, room2_exit2, 3), level_map)
+	#var room1_exit = room1.get_exits(RoomState.RoomDirection.RIGHT)[0]
+	#var room2_exit = room2.get_exits(RoomState.RoomDirection.LEFT)[0]
+	#room_creator.create_hall(HallState.new(room1_exit, room2_exit, 3), level_map)
+	#var room1_exit2 = room1.get_exits(RoomState.RoomDirection.RIGHT)[1]
+	#var room2_exit2 = room2.get_exits(RoomState.RoomDirection.LEFT)[1]
+	#room_creator.create_hall(HallState.new(room1_exit2, room2_exit2, 3), level_map)
 	var collision_map = level_map.duplicate()
 	collision_map.z_index = -1000
 	$LevelMapContainer.add_child(collision_map)
