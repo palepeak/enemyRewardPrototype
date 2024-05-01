@@ -42,3 +42,8 @@ func fire(start_pos, direction: Vector2, speed, range_arg):
 	self.bullet_speed = speed
 	self.bullet_direction = direction
 	self.bullet_range = range_arg
+
+
+func _on_enemy_hit(area):
+	print("hit")
+	queue_free()

@@ -1,9 +1,23 @@
-[gd_scene load_steps=58 format=3 uid="uid://cgh0bx0ywd8gd"]
+[gd_scene load_steps=64 format=3 uid="uid://cgh0bx0ywd8gd"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_cte7x"]
 [ext_resource type="PackedScene" uid="uid://cgm0rtxp764ux" path="res://Weapons/pistol/pistol.tscn" id="2_xv2d8"]
+[ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="3_4hak0"]
 [ext_resource type="Texture2D" uid="uid://c3pwfnoeai35d" path="res://Resources/2_Characters/Character_Generator/0_Premade_Characters/32x32/Premade_Character_32x32_07.png" id="3_8dmm6"]
+[ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="4_gfokj"]
 [ext_resource type="PackedScene" uid="uid://dqbme1fmb8wfh" path="res://Weapons/Hand.tscn" id="5_r82k5"]
+[ext_resource type="Script" path="res://Player/PlayerHealthManager.gd" id="6_5g4de"]
+[ext_resource type="Texture2D" uid="uid://cxbb0ldw5brde" path="res://Resources/character_single.png" id="7_ifgia"]
+[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://CharacterUtils/CharacterDeathParticle.tscn" id="8_2nq5u"]
+[ext_resource type="PackedScene" uid="uid://bbpab1rj0viwd" path="res://Player/PlayerHitbox.tscn" id="10_5tmny"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dkms4"]
+size = Vector2(27, 10)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qpyio"]
+resource_local_to_scene = true
+shader = ExtResource("4_gfokj")
+shader_parameter/frame = 0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tmohb"]
 atlas = ExtResource("3_8dmm6")
@@ -390,28 +404,9 @@ _data = {
 }
 point_count = 2
 
-[sub_resource type="Animation" id="Animation_eiym5"]
-resource_name = "default"
-loop_mode = 1
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:material:shader_parameter/outline_state")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.5, 1)
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_8vdcw"]
-_data = {
-"default": SubResource("Animation_eiym5")
-}
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dkms4"]
-size = Vector2(27, 10)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h104g"]
+radius = 14.0
+height = 42.0
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 3
@@ -419,49 +414,49 @@ collision_mask = 2
 script = ExtResource("1_cte7x")
 gun_scene = ExtResource("2_xv2d8")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_x7pwn")
-animation = &"walk_down"
-frame = 4
-frame_progress = 0.0748563
+[node name="TerrainHitbox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 26)
+shape = SubResource("RectangleShape2D_dkms4")
 
-[node name="GunLine" type="Path2D" parent="AnimatedSprite2D"]
+[node name="HitFlashSprite" parent="." instance=ExtResource("3_4hak0")]
+material = SubResource("ShaderMaterial_qpyio")
+sprite_frames = SubResource("SpriteFrames_x7pwn")
+animation = &"idle_down"
+autoplay = ""
+
+[node name="GunLine" type="Path2D" parent="HitFlashSprite"]
 curve = SubResource("Curve2D_e7x0b")
 
-[node name="GunPosition" type="PathFollow2D" parent="AnimatedSprite2D/GunLine"]
+[node name="GunPosition" type="PathFollow2D" parent="HitFlashSprite/GunLine"]
 position = Vector2(-18, 13)
 loop = false
 
-[node name="RightHand" type="Node2D" parent="AnimatedSprite2D"]
+[node name="RightHand" type="Node2D" parent="HitFlashSprite"]
 position = Vector2(10, 13)
 
-[node name="LeftHand" type="Node2D" parent="AnimatedSprite2D"]
+[node name="LeftHand" type="Node2D" parent="HitFlashSprite"]
 position = Vector2(-12, 13)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite2D"]
-libraries = {
-"": SubResource("AnimationLibrary_8vdcw")
-}
-autoplay = "default"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 26)
-shape = SubResource("RectangleShape2D_dkms4")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-visible = false
-offset_left = -7.0
-offset_top = -60.0
-offset_right = 33.0
-offset_bottom = -20.0
-
-[node name="Line2D" type="Line2D" parent="."]
-process_priority = 1
 
 [node name="other_hand" parent="." instance=ExtResource("5_r82k5")]
 
-[node name="Label" type="Label" parent="."]
+[node name="PositionLabel" type="Label" parent="."]
 visible = false
 offset_top = -60.0
 offset_right = 40.0
 offset_bottom = -37.0
+
+[node name="PlayerHealthManager" type="Node" parent="." node_paths=PackedStringArray("host_object")]
+script = ExtResource("6_5g4de")
+max_health = 3
+death_sprite = ExtResource("7_ifgia")
+death_particle = ExtResource("8_2nq5u")
+host_object = NodePath("..")
+
+[node name="PlayerHitbox" parent="." instance=ExtResource("10_5tmny")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHitbox"]
+position = Vector2(0, 5)
+shape = SubResource("CapsuleShape2D_h104g")
+debug_color = Color(0.913725, 0, 0.72549, 0.419608)
+
+[connection signal="player_hit" from="PlayerHitbox" to="PlayerHealthManager" method="process_hit"]

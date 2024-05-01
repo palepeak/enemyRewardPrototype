@@ -32,7 +32,7 @@ func set_world_state(level_map: TileMap):
 	var level_map_bounding = Rect2i(Vector2i(0,0), level_size)
 	
 	#creating the image
-	color_image_map = Image.new().create(
+	color_image_map = Image.create(
 		level_map_bounding.size.x / image_compression_factor,
 		level_map_bounding.size.y / image_compression_factor,
 		false,
@@ -82,7 +82,7 @@ func _process(_delta):
 
 func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, thread_ref):
 	var visited = {}
-	var to_visit = [start, end]
+	var to_visit = [end, start]
 	while !to_visit.is_empty():
 		# get current pixel to work with
 		var current_pixel = to_visit.pop_back() as Vector2i

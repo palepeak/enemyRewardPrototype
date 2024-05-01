@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cj2jvej3dn5hd"]
+[gd_scene load_steps=12 format=3 uid="uid://cj2jvej3dn5hd"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_1c74q"]
 [ext_resource type="TileSet" uid="uid://cq5gbuw7llxcs" path="res://Levels/Rooms/Floor2.tres" id="2_dgrop"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Levels/Rooms/RoomCreator.gd" id="6_i3txd"]
 [ext_resource type="Script" path="res://Levels/Layouts/LayoutCreator.gd" id="7_vn5su"]
 [ext_resource type="PackedScene" uid="uid://cj7p86h4ojskm" path="res://Interface/Interface.tscn" id="8_ufs7w"]
+[ext_resource type="PackedScene" uid="uid://b6wbreupq0v3m" path="res://Enemies/EnemyGhost.tscn" id="9_dq2se"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rge26"]
 shader = ExtResource("2_p4isx")
@@ -78,6 +79,8 @@ wait_time = 0.01
 autostart = true
 
 [node name="Interface" parent="." instance=ExtResource("8_ufs7w")]
+
+[node name="EnemyGhost" parent="." instance=ExtResource("9_dq2se")]
 
 [connection signal="setup_complete" from="LayoutCreator" to="." method="_on_layout_creator_setup_complete"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

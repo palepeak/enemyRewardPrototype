@@ -2,14 +2,13 @@ class_name Player extends CharacterBody2D
 
 # Exports
 @export var gun_scene: PackedScene
-
-# Stores
-@onready var controlsManager = get_node("/root/ControlsManager")
+@export var dead: bool = false
 
 # Global
 
 # Local
-var speed = 500
+@onready var sprite: HitFlashSprite = $HitFlashSprite
+var speed = 400
 var gun: Node2D
 var is_left_hand = false
 var gun_one_handed = true
@@ -18,8 +17,8 @@ var gun_position = 0.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	motion_mode = MOTION_MODE_FLOATING
-	$AnimatedSprite2D.play("idle_down")
-	$AnimatedSprite2D.z_index = z_index
+	sprite.play("idle_down")
+	sprite.z_index = z_index
 	
 	if gun_scene != null:
 		add_gun(gun_scene.instantiate())
@@ -27,22 +26,25 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if dead:
+		return
+	
 	var direction = get_mouse_position_rotation()
-	$Label.text = str(global_position)
+	$PositionLabel.text = str(global_position)
 	if not is_left_hand and (direction > 2 * PI/3 or direction < -2 * PI/3):
 		# switch to left hand
 		is_left_hand = true
 		gun.scale = Vector2(-1,1)
-		$AnimatedSprite2D/GunLine/GunPosition.progress_ratio = gun_position
-		gun.position = $AnimatedSprite2D/GunLine/GunPosition.position
-		$other_hand.position = $AnimatedSprite2D/RightHand.position
+		$HitFlashSprite/GunLine/GunPosition.progress_ratio = gun_position
+		gun.position = $HitFlashSprite/GunLine/GunPosition.position
+		$other_hand.position = $HitFlashSprite/RightHand.position
 	elif is_left_hand and (direction > -PI/3 and direction < 1 * PI/3):
 		# switch to right hand
 		is_left_hand = false
 		gun.scale = Vector2(1,1)
-		$AnimatedSprite2D/GunLine/GunPosition.progress_ratio = 1.0 - gun_position
-		gun.position = $AnimatedSprite2D/GunLine/GunPosition.position
-		$other_hand.position = $AnimatedSprite2D/LeftHand.position
+		$HitFlashSprite/GunLine/GunPosition.progress_ratio = 1.0 - gun_position
+		gun.position = $HitFlashSprite/GunLine/GunPosition.position
+		$other_hand.position = $HitFlashSprite/LeftHand.position
 	
 	if gun != null:
 		gun.rotation = get_gun_rotation(is_left_hand)
@@ -65,26 +67,30 @@ func _process(_delta):
 	
 	# Setting moving animation
 	if direction > PI/4 and direction <= 3 * PI/4:
+		$other_hand.visible = true
 		if moving:
-			$AnimatedSprite2D.play("walk_down")
+			sprite.play("walk_down")
 		else:
-			$AnimatedSprite2D.play("idle_down")
+			sprite.play("idle_down")
 	elif direction > -PI/4 and direction <= PI/4:
+		$other_hand.visible = false
 		if moving:
-			$AnimatedSprite2D.play("walk_right")
+			sprite.play("walk_right")
 		else:
-			$AnimatedSprite2D.play("idle_right")
+			sprite.play("idle_right")
 	elif direction > -3 * PI/4 and direction <= -PI/4:
+		$other_hand.visible = true
 		gun.z_index = z_index-1
 		if moving:
-			$AnimatedSprite2D.play("walk_up")
+			sprite.play("walk_up")
 		else:
-			$AnimatedSprite2D.play("idle_up")
+			sprite.play("idle_up")
 	else:
+		$other_hand.visible = false
 		if moving:
-			$AnimatedSprite2D.play("walk_left")
+			sprite.play("walk_left")
 		else:
-			$AnimatedSprite2D.play("idle_left")
+			sprite.play("idle_left")
 		
 	set_velocity(velocity)
 	move_and_slide()
@@ -100,27 +106,39 @@ func add_gun(new_gun: Node2D):
 	if gun_positioner.size() > 0:
 		gun_position = (gun_positioner[0] as GunPositioner).position
 		gun_one_handed = (gun_positioner[0] as GunPositioner).one_handed
-	$AnimatedSprite2D/GunLine/GunPosition.progress_ratio = 1.0 - gun_position
-	gun.position = $AnimatedSprite2D/GunLine/GunPosition.position
+	$HitFlashSprite/GunLine/GunPosition.progress_ratio = 1.0 - gun_position
+	gun.position = $HitFlashSprite/GunLine/GunPosition.position
 	if gun_one_handed == true or gun_one_handed == null:
 		$other_hand.visible = true
 		if is_left_hand:
-			$other_hand.position = $AnimatedSprite2D/RightHand.position
+			$other_hand.position = $HitFlashSprite/RightHand.position
 		else:
-			$other_hand.position = $AnimatedSprite2D/LeftHand.position
+			$other_hand.position = $HitFlashSprite/LeftHand.position
 	else:
 		$other_hand.visible = false
 	add_child(gun)
 	
+func remove_gun():
+	if gun != null:
+		remove_child(gun)
+		gun = null
 	
 func get_mouse_position_rotation() -> float:
-	return (controlsManager.get_aim_position(self) - global_position).normalized().angle()
+	return (ControlsManager.get_aim_position(self) - global_position).normalized().angle()
 
 
 func get_gun_rotation(is_flipped) -> float:
 	var opposite = gun.opposite
-	var hypotnuse = controlsManager.get_aim_position(self).distance_to(gun.global_position)
-	var base_rotation = (controlsManager.get_aim_position(self) - gun.global_position).normalized().angle()
+	var hypotnuse = ControlsManager.get_aim_position(self).distance_to(gun.global_position)
+	var base_rotation = (ControlsManager.get_aim_position(self) - gun.global_position).normalized().angle()
 	if is_flipped:
 		return base_rotation - asin(opposite/hypotnuse) + PI
 	return base_rotation + asin(opposite/hypotnuse)
+
+
+func process_death():
+	dead = true
+	remove_gun()
+	for child in get_children():
+		if child is PlayerHitbox:
+			remove_child(child)

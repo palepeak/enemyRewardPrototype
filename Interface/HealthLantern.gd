@@ -1,13 +1,16 @@
 class_name HealthLantern extends Container
 
 @onready var sprite = $LanternSprite
+var active = true
 
 
 func stop():
+	active = false
 	sprite.play("stop")
 
 
 func start():
+	active = true
 	sprite.play("start") 
 
 

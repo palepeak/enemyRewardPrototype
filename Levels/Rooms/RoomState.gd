@@ -1,6 +1,8 @@
 class_name RoomState extends Object
 
 
+# values are in grid values. 
+#	eg. (x=10, y=20) == (global_position.x=320, global_position.y=640)
 var x: int
 var y: int
 var width: int
