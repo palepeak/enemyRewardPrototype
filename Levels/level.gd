@@ -57,7 +57,7 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	setup_complete.emit()
 	$LevelMapContainer/SubViewport.size = (level_map.get_used_rect().size * 32)
 	WorldColorStore.set_world_state(level_map)
-	PlayerStore.add_player_ref(player)
+	PlayerStore.add_player_ref_as_primary(player)
 	add_child(player)
 
 

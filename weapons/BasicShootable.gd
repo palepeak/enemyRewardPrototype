@@ -38,6 +38,8 @@ func _ready():
 	add_child(shoot_timer)
 	add_child(reload_timer)
 	
+	audio_stream_player_shoot.volume_db = -5.0
+	audio_stream_player_reload.volume_db = -10.0
 	audio_stream_player_shoot.max_polyphony = 4
 	audio_stream_player_shoot.stream = on_shoot_sfx
 	audio_stream_player_reload.stream = on_reload_sfx

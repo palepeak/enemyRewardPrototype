@@ -45,5 +45,4 @@ func fire(start_pos, direction: Vector2, speed, range_arg):
 
 
 func _on_enemy_hit(area):
-	print("hit")
 	queue_free()

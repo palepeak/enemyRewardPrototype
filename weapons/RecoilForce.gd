@@ -10,7 +10,6 @@ func _process(delta):
 	var target = get_parent().get_parent() as CharacterBody2D
 	var new_forces = []
 	var velocity = Vector2.ZERO
-	print(current_forces)
 	for force in current_forces:
 		var current_duration = force[1]
 		var angle_vector = force[0]

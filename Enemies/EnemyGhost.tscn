@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://EnemyUtils/PathFinders/NoCollisionPathFinder.gd" id="3_qiu7j"]
 [ext_resource type="Script" path="res://CharacterUtils/CharacterHealthManager.gd" id="5_xt14a"]
 [ext_resource type="Texture2D" uid="uid://u51ofhsr1nca" path="res://Resources/ghost_single1.png" id="6_rt6a2"]
-[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://CharacterUtils/CharacterDeathParticle.tscn" id="7_addvs"]
+[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://EnemyUtils/EnemyDeathParticle.tscn" id="9_d6cxv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xr0o3"]
 radius = 15.0
@@ -80,7 +80,6 @@ path_desired_distance = 4.0
 target_desired_distance = 4.0
 navigation_layers = 7
 path_postprocessing = 1
-debug_enabled = true
 script = ExtResource("3_qiu7j")
 player_tracker = NodePath("PlayerTracker")
 root_node = NodePath("..")
@@ -93,7 +92,7 @@ script = ExtResource("2_8geq2")
 script = ExtResource("5_xt14a")
 max_health = 100
 death_sprite = ExtResource("6_rt6a2")
-death_particle = ExtResource("7_addvs")
+death_particle = ExtResource("9_d6cxv")
 host_object = NodePath("..")
 
 [node name="Area2D" type="Area2D" parent="."]

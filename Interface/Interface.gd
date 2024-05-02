@@ -8,11 +8,7 @@ func _ready():
 	GunStore.on_current_clip_ammo_changed.connect(update_ammo)
 	WorldColorStore.world_progress_update.connect(update_progress)
 	PlayerStore.player_health_changed.connect(update_health)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	$CanvasLayer/FPSCounter.text = str(Engine.get_frames_per_second())
+	DebugStore.debug_mode_changed.connect(toggle_debug_visiblity)
 
 
 func update_max_health(new_max_health):
@@ -40,3 +36,7 @@ func update_health(new_health: int):
 
 func update_ammo(ammo_count):
 	$CanvasLayer/AmmoCount.text = str(ammo_count % 7)
+	
+
+func toggle_debug_visiblity(visible: bool):
+	($CanvasLayer/DebugMenu as VBoxContainer).visible = visible

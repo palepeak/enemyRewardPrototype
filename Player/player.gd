@@ -137,6 +137,7 @@ func get_gun_rotation(is_flipped) -> float:
 
 
 func process_death():
+	$HitFlashSprite.visible = false
 	dead = true
 	remove_gun()
 	for child in get_children():

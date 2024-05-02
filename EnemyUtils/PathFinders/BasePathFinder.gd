@@ -12,6 +12,7 @@ func _ready():
 	_refresh_timer.timeout.connect(recalculate_path)
 	add_child(_refresh_timer)
 	_refresh_timer.start()
+	DebugStore.debug_mode_changed.connect(set_debug_enabled)
 
 
 func _get_player_position() -> Vector2:

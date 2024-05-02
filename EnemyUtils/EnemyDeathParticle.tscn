@@ -1,9 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://c7sk51mlrecuc"]
 
-[ext_resource type="Shader" path="res://EnemyUtils/EnemyDeathParticle.gdshader" id="1_h20ok"]
-[ext_resource type="Texture2D" uid="uid://u51ofhsr1nca" path="res://Resources/ghost_single1.png" id="1_iaepi"]
-[ext_resource type="Texture2D" uid="uid://div46717kf3qd" path="res://Resources/particle.png" id="2_6lngk"]
-[ext_resource type="Script" path="res://EnemyUtils/EnemyDeathParticle.gd" id="3_me0o7"]
+[ext_resource type="Shader" path="res://EnemyUtils/EnemyDeathParticle.gdshader" id="1_s0ram"]
+[ext_resource type="Texture2D" uid="uid://u51ofhsr1nca" path="res://Resources/ghost_single1.png" id="2_tob0s"]
+[ext_resource type="Texture2D" uid="uid://div46717kf3qd" path="res://Resources/particle.png" id="3_g15df"]
 
 [sub_resource type="Gradient" id="Gradient_xnpg1"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -12,7 +11,7 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 gradient = SubResource("Gradient_xnpg1")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hkjog"]
-shader = ExtResource("1_h20ok")
+shader = ExtResource("1_s0ram")
 shader_parameter/direction = Vector3(0, 1, 0)
 shader_parameter/spread = 45.0
 shader_parameter/flatness = 0.0
@@ -53,7 +52,23 @@ shader_parameter/emission_box_extents = Vector3(16, 32, 0)
 shader_parameter/color_value = Color(1, 1, 1, 1)
 shader_parameter/gravity = Vector3(0, 40, 0)
 shader_parameter/color_ramp = SubResource("GradientTexture1D_0t2qa")
-shader_parameter/sprite = ExtResource("1_iaepi")
+shader_parameter/sprite = ExtResource("2_tob0s")
+
+[sub_resource type="GDScript" id="GDScript_yjygf"]
+script/source = "extends GPUParticles2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	if DebugStore.debug_mode:
+		print(\"death started\")
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
 
 [sub_resource type="Animation" id="Animation_4kfbf"]
 resource_name = "new_animation"
@@ -82,11 +97,11 @@ _data = {
 z_index = 1000
 amount = 1000
 process_material = SubResource("ShaderMaterial_hkjog")
-texture = ExtResource("2_6lngk")
+texture = ExtResource("3_g15df")
 lifetime = 2.0
 explosiveness = 1.0
 local_coords = true
-script = ExtResource("3_me0o7")
+script = SubResource("GDScript_yjygf")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

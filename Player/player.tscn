@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dqbme1fmb8wfh" path="res://Weapons/Hand.tscn" id="5_r82k5"]
 [ext_resource type="Script" path="res://Player/PlayerHealthManager.gd" id="6_5g4de"]
 [ext_resource type="Texture2D" uid="uid://cxbb0ldw5brde" path="res://Resources/character_single.png" id="7_ifgia"]
-[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://CharacterUtils/CharacterDeathParticle.tscn" id="8_2nq5u"]
+[ext_resource type="PackedScene" uid="uid://umsvnyu32sng" path="res://Player/PlayerDeathParticle.tscn" id="9_he3dn"]
 [ext_resource type="PackedScene" uid="uid://bbpab1rj0viwd" path="res://Player/PlayerHitbox.tscn" id="10_5tmny"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dkms4"]
@@ -449,7 +449,7 @@ offset_bottom = -37.0
 script = ExtResource("6_5g4de")
 max_health = 3
 death_sprite = ExtResource("7_ifgia")
-death_particle = ExtResource("8_2nq5u")
+death_particle = ExtResource("9_he3dn")
 host_object = NodePath("..")
 
 [node name="PlayerHitbox" parent="." instance=ExtResource("10_5tmny")]

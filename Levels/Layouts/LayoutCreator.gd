@@ -6,7 +6,7 @@ const LINE_CHEST_2_TARGET_DEPTH = 6
 
 var thread: Thread
 
-var _level_layout: LayoutNode
+var _level_layout: LayoutNode = null
 signal setup_complete(LayoutNode)
 
 func get_layout(dungeon_floor: int):

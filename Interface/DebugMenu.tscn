@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://brh810ofxocq5"]
+
+[ext_resource type="Script" path="res://Interface/DebugMenu.gd" id="1_v7uem"]
+
+[node name="DebugMenu" type="VBoxContainer"]
+offset_right = 500.0
+offset_bottom = 500.0
+script = ExtResource("1_v7uem")
+
+[node name="FPSCounter" type="Label" parent="."]
+layout_mode = 2
+text = "test"
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerPosition" type="Label" parent="."]
+layout_mode = 2
+text = "test 2"
