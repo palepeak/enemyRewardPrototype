@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnj1hmykfok1i"]
+
+[ext_resource type="Script" path="res://EnemyUtils/CameraEnemySpawner.gd" id="1_cbk3d"]
+[ext_resource type="PackedScene" uid="uid://b6wbreupq0v3m" path="res://Enemies/EnemyGhost.tscn" id="2_il2y8"]
+
+[sub_resource type="Curve2D" id="Curve2D_utkir"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -100, -100, 0, 0, 0, 0, 1060, -100, 0, 0, 0, 0, 1060, 628, 0, 0, 0, 0, -100, 628, 0, 0, 0, 0, -100, -100)
+}
+point_count = 5
+
+[node name="CameraEnemySpawner" type="Path2D"]
+position = Vector2(-480, -264)
+curve = SubResource("Curve2D_utkir")
+script = ExtResource("1_cbk3d")
+enemy_scene = ExtResource("2_il2y8")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+position = Vector2(-100, -100)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

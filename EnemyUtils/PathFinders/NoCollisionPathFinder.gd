@@ -1,2 +1,1 @@
 class_name NoCollisionPathFinder extends BasePathFinder
-

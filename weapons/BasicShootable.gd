@@ -95,9 +95,11 @@ func start_reload():
 		return
 	if !audio_stream_player_reload.playing:
 		audio_stream_player_reload.play()
+	can_shoot = false
 	reload_timer.start(reload_time)
 
 func on_reload_ready():
+	can_shoot = true
 	# No max ammo, processing differently
 	if current_ammo == -1:
 		current_clip_ammo = clip_size
