@@ -17,7 +17,8 @@ var room_area_scene = preload("res://Levels/Rooms/RoomArea2D.tscn")
 # Called when the node enters the scene tree for the first time.
 func create_room(
 	room_state: RoomState,
-	tilemap: TileMap
+	tilemap: TileMap,
+	level_root: Node2D,
 ):
 	set_up_layers(tilemap)
 	draw_boarder_and_back_wall(
@@ -28,7 +29,7 @@ func create_room(
 	create_area(
 		room_state.x, room_state.y, 
 		room_state.width, room_state.height, room_state.wall_height,
-		tilemap
+		level_root,
 	)
 	draw_floor(
 		room_state.x, room_state.y, 
@@ -125,12 +126,12 @@ func create_area(
 	width: int,
 	height: int,
 	wall_height: int,
-	tilemap: TileMap
+	level_root: Node2D,
 ):
 	var area2d = room_area_scene.instantiate() as RoomArea2D
 	area2d.set_room_state(width+2, height+2)
 	area2d.position = Vector2(x*32, (y+wall_height-1) * 32)
-	get_tree().root.add_child(area2d)
+	level_root.add_child(area2d)
 
 func draw_floor(
 	x: int,

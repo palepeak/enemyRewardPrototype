@@ -42,8 +42,8 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	# debug rooms
 	var room1 = RoomState.new(0, 0, 20, 20, 3)
 	var room2 = RoomState.new(60, 0, 20, 20, 3)
-	room_creator.create_room(room1, level_map)
-	room_creator.create_room(room2, level_map)
+	room_creator.create_room(room1, level_map, self)
+	room_creator.create_room(room2, level_map, self)
 	
 	var room1_exit = room1.get_exits(RoomState.RoomDirection.RIGHT)[0]
 	var room2_exit = room2.get_exits(RoomState.RoomDirection.LEFT)[0]
