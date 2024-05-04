@@ -519,6 +519,7 @@ texture = SubResource("ViewportTexture_uybvy")
 centered = false
 
 [node name="DarknessParticles" type="GPUParticles2D" parent="LevelMapContainer"]
+z_index = 2000
 material = SubResource("CanvasItemMaterial_8yoly")
 amount = 4000
 process_material = SubResource("ShaderMaterial_fknvl")
