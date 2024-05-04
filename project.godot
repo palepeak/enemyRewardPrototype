@@ -18,10 +18,10 @@ config/icon="res://icon.svg"
 [autoload]
 
 ControlsManager="*res://Stores/ControlsManager.gd"
-WorldColorStore="*res://Stores/WorldColorStore.gd"
-GunStore="*res://Stores/GunStore.gd"
 PlayerStore="*res://Stores/PlayerStore.gd"
 DebugStore="*res://Stores/DebugStore.gd"
+GameStateStore="*res://Stores/GameStateStore.gd"
+HudUiStore="*res://Stores/HudUiStore.gd"
 
 [display]
 
@@ -70,6 +70,11 @@ debug_toggle={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194334,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
+launch_color={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":2,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -87,6 +92,8 @@ debug_toggle={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+limits/opengl/max_renderable_lights=256
+limits/opengl/max_lights_per_object=1000
 environment/defaults/default_clear_color=Color(0.227451, 0.227451, 0.313726, 1)
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true

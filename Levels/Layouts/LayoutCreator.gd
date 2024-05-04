@@ -23,6 +23,7 @@ func _thread_get_layout(dungeon_floor: int):
 	var root = _get_line_layout(dungeon_floor)
 	_level_layout = root
 
+
 func _get_line_layout(dungeon_floor: int) -> LayoutNode:
 	var root = LayoutNode.new(0, LayoutNode.RoomType.SPAWN)
 	
@@ -37,8 +38,19 @@ func _get_line_layout(dungeon_floor: int) -> LayoutNode:
 	cur_node.add_child(boss_node)
 	
 	# make chest paths and rooms
-	make_path(LINE_CHEST_2_TARGET_DEPTH, root, dungeon_floor, get_chest_node(LINE_CHEST_2_TARGET_DEPTH))
-	make_path(LINE_CHEST_1_TARGET_DEPTH, root, dungeon_floor, get_chest_node(LINE_CHEST_1_TARGET_DEPTH))
+	make_path(
+		LINE_CHEST_2_TARGET_DEPTH, 
+		root, 
+		dungeon_floor, 
+		get_chest_node(LINE_CHEST_2_TARGET_DEPTH),
+	)
+	make_path(
+		LINE_CHEST_1_TARGET_DEPTH, 
+		root, 
+		dungeon_floor, 
+		get_chest_node(LINE_CHEST_1_TARGET_DEPTH),
+	)
+	
 	# make shop path
 	var shop_depth = get_line_shop_depth()
 	make_path(shop_depth, root, dungeon_floor, get_shop_node(shop_depth))
@@ -47,17 +59,27 @@ func _get_line_layout(dungeon_floor: int) -> LayoutNode:
 	return root
 	
 func make_path(target_depth: int, root: LayoutNode, dungeon_floor: int, leaf: LayoutNode):
-	# make path to chest1
+	# make path to target. cur_node is always a valid pathable node
 	var cur_node = root
-	var seen_depths = Array()
-	for i in target_depth:
-		cur_node = cur_node.get_random_child()
-		# calculate if we should split 
-		if seen_depths.has(cur_node.depth):
-			continue
-		seen_depths.append(cur_node.depth)
-		if randf_range(0, target_depth-1) < cur_node.depth:
-			# split into new branch
+	while cur_node.depth == 0:
+		cur_node = cur_node.get_random_normal_child()
+	var target_split_depth = randi_range(0, target_depth-1)
+	
+	var seen_depths = [0]
+	for i in range(1, target_depth):
+		var candidate_node = cur_node
+		# get the next child that is a different depth
+		while candidate_node != null && seen_depths.has(candidate_node.depth):
+			candidate_node = candidate_node.get_random_normal_child()
+		
+		# valid nodes to path off of, lets check it and switch to it if needed
+		if candidate_node != null:
+			cur_node = candidate_node
+			seen_depths.append(cur_node.depth)
+		
+		# no valid children to traverse to or randomly decided 
+		#	to branch into new path
+		if candidate_node == null || cur_node.depth >= target_split_depth:
 			for n in range(cur_node.depth, target_depth):
 				for m in get_room_length(dungeon_floor):
 					var new_node = LayoutNode.new(n+1)

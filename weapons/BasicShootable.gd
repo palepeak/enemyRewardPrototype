@@ -83,7 +83,7 @@ func try_shoot():
 		can_shoot = false
 		shoot_timer.start(shoot_speed)
 		current_clip_ammo -= 1
-		GunStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
+		HudUiStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
 		successful_shoot.emit()
 		audio_stream_player_shoot.play()
 
@@ -103,12 +103,12 @@ func on_reload_ready():
 	# No max ammo, processing differently
 	if current_ammo == -1:
 		current_clip_ammo = clip_size
-		GunStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
+		HudUiStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
 		return
 		
 	# Find how many ammo is needed
 	var ammo_needed = clip_size - current_clip_ammo
 	# Set the clip size to max clip or ammo left
 	current_clip_ammo = min(current_ammo + current_clip_ammo, clip_size)
-	GunStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
+	HudUiStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
 	current_ammo = max(0, current_ammo - ammo_needed)

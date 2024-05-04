@@ -1,6 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bm21keyqr33wm"]
+[gd_scene load_steps=8 format=3 uid="uid://bm21keyqr33wm"]
 
 [ext_resource type="Script" path="res://Main/main.gd" id="1_wtus5"]
+[ext_resource type="PackedScene" uid="uid://cusu3nyo2p1dc" path="res://GameScreens/TitleScreen.tscn" id="2_ndcrr"]
+[ext_resource type="PackedScene" uid="uid://dgkp1yvrqh74q" path="res://GameScreens/GameOverScreen.tscn" id="3_oyma6"]
+[ext_resource type="PackedScene" uid="uid://cj7p86h4ojskm" path="res://Interface/Interface.tscn" id="4_7qi6e"]
 
 [sub_resource type="Animation" id="Animation_koo47"]
 resource_name = "fade_in"
@@ -41,10 +44,6 @@ _data = {
 [node name="Main" type="Node2D"]
 script = ExtResource("1_wtus5")
 
-[node name="loadingProgress" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
@@ -56,4 +55,12 @@ libraries = {
 [node name="LoadingOverlay" type="ColorRect" parent="CanvasLayer"]
 offset_right = 960.0
 offset_bottom = 528.0
-color = Color(0, 0, 0, 1)
+color = Color(0.0705882, 0.0705882, 0.0705882, 0)
+
+[node name="TitleScreen" parent="CanvasLayer" instance=ExtResource("2_ndcrr")]
+
+[node name="GameOverScreen" parent="CanvasLayer" instance=ExtResource("3_oyma6")]
+visible = false
+
+[node name="Interface" parent="CanvasLayer" instance=ExtResource("4_7qi6e")]
+visible = false

@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://c1beqhdh73cbk"]
+
+[ext_resource type="Script" path="res://ColorLauncher/ColorLauncher.gd" id="1_0yvia"]
+[ext_resource type="PackedScene" uid="uid://bbqtvmlr8aflb" path="res://ColorLauncher/ColorBomb.tscn" id="2_edipv"]
+[ext_resource type="PackedScene" uid="uid://dx413vrlj5dkt" path="res://ColorLauncher/ColorBombResidual.tscn" id="3_rbfr7"]
+
+[sub_resource type="Gradient" id="Gradient_0d8vc"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_55osv"]
+gradient = SubResource("Gradient_0d8vc")
+
+[sub_resource type="Gradient" id="Gradient_m4vp3"]
+offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
+colors = PackedColorArray(0.619608, 0.0196078, 0.388235, 1, 0.74902, 0.105882, 0.321569, 1, 0.929412, 0.466667, 0.25098, 1, 0.917647, 0.988235, 0.435294, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bx2vj"]
+gradient = SubResource("Gradient_m4vp3")
+
+[sub_resource type="Curve2D" id="Curve2D_f0nq2"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 2
+
+[node name="ColorLauncher" type="Node2D"]
+script = ExtResource("1_0yvia")
+bomb = ExtResource("2_edipv")
+bomb_residual = ExtResource("3_rbfr7")
+
+[node name="ReloadBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -40.0
+offset_right = 224.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.25, 4)
+value = 100.0
+allow_greater = true
+allow_lesser = true
+texture_under = SubResource("GradientTexture1D_55osv")
+texture_progress = SubResource("GradientTexture1D_bx2vj")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_f0nq2")
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 5.0
+default_color = Color(1, 1, 1, 0.254902)
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_reload_timer_timeout"]

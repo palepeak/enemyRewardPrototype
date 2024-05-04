@@ -1,6 +1,5 @@
 extends Node
 
-signal player_health_changed(new_health: int)
 var _primary_player: Player = null
 var _player_refs = []
 

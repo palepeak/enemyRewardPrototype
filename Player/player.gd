@@ -134,12 +134,3 @@ func get_gun_rotation(is_flipped) -> float:
 	if is_flipped:
 		return base_rotation - asin(opposite/hypotnuse) + PI
 	return base_rotation + asin(opposite/hypotnuse)
-
-
-func process_death():
-	$HitFlashSprite.visible = false
-	dead = true
-	remove_gun()
-	for child in get_children():
-		if child is PlayerHitbox:
-			remove_child(child)

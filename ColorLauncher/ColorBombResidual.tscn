@@ -1,0 +1,127 @@
+[gd_scene load_steps=15 format=3 uid="uid://dx413vrlj5dkt"]
+
+[ext_resource type="Texture2D" uid="uid://cbpyeh4gcrdrb" path="res://Resources/fire_lit-sheet.png" id="1_dt15t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hivc"]
+atlas = ExtResource("1_dt15t")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwk0j"]
+atlas = ExtResource("1_dt15t")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6g31e"]
+atlas = ExtResource("1_dt15t")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kscrl"]
+atlas = ExtResource("1_dt15t")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_525qb"]
+atlas = ExtResource("1_dt15t")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6c0mu"]
+atlas = ExtResource("1_dt15t")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sxtm2"]
+atlas = ExtResource("1_dt15t")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hfcvx"]
+atlas = ExtResource("1_dt15t")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_30j56"]
+atlas = ExtResource("1_dt15t")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_121v7"]
+atlas = ExtResource("1_dt15t")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ay7s4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1hivc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwk0j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6g31e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kscrl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_525qb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6c0mu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sxtm2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hfcvx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_30j56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_121v7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 20.0
+}]
+
+[sub_resource type="Animation" id="Animation_julu3"]
+resource_name = "fade_out"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(5, 10),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(10),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ciumx"]
+_data = {
+"fade_out": SubResource("Animation_julu3")
+}
+
+[node name="ColorBombResidual" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_ay7s4")
+autoplay = "default"
+frame_progress = 0.938015
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ciumx")
+}
+autoplay = "fade_out"

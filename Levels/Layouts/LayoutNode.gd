@@ -12,12 +12,15 @@ func _init(depth_arg: int, room_type_arg: RoomType = RoomType.NORMAL):
 func add_child(child: LayoutNode):
 	children.append(child)
 	
-func get_random_child() -> LayoutNode:
-	while(true):
-		var child = children.pick_random()
+func get_random_normal_child() -> LayoutNode:
+	var valid_children = []
+	for child in children:
 		if child.room_type == RoomType.NORMAL:
-			return child
-	return null
+			valid_children.append(child)
+	if valid_children.size() == 0:
+		print("No valid children")
+		return null
+	return valid_children.pick_random()
 	
 	
 func debug_print():

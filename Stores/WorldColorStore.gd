@@ -1,6 +1,5 @@
-extends Node
+class_name WorldColorStore extends Node
 
-signal world_progress_update(progress)
 const THREADED = true
 
 var level_tile_map: TileMap = null
@@ -41,7 +40,7 @@ func set_world_state(level_map: TileMap):
 	
 	var scoring_tiles = level_map.get_used_cells(0)
 	total_size = scoring_tiles.size()*32*32
-	world_progress_update.emit(0)
+	HudUiStore.world_progress_update.emit(0)
 			
 	color_texture = ImageTexture.create_from_image(color_image_map)
 
@@ -145,7 +144,7 @@ func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, th
 
 func _update_progress_percent(progress):
 	if progress >= emitted_progress:
-		world_progress_update.emit(progress)
+		HudUiStore.world_progress_update.emit(progress)
 
 
 # Only layer 0 is used for scoring

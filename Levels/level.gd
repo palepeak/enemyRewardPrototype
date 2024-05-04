@@ -3,6 +3,7 @@ class_name Level extends Node2D
 # Global
 
 # Local
+@onready var world_color_store: WorldColorStore = $WorldColorStore
 @onready var level_map = $LevelMapContainer/SubViewport/LevelMap
 var player: CharacterBody2D
 var room_creator: RoomCreator
@@ -27,7 +28,14 @@ func _ready():
 
 
 func _process(_delta):
-	$LevelMapContainer/Sprite2D.material.set_shader_parameter("color_map", WorldColorStore.get_color_texture())
+	$LevelMapContainer/Sprite2D.material.set_shader_parameter(
+		"color_map", 
+		world_color_store.get_color_texture(),
+	)
+	$LevelMapContainer/DarknessParticles.process_material.set_shader_parameter(
+		"color_map", 
+		world_color_store.get_color_texture(),
+	)
 	var mouse_position = get_viewport().get_mouse_position()
 	var viewport = get_viewport_rect().size
 	var bound_mouse_position = Vector2(
@@ -56,9 +64,13 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	$LevelMapContainer.add_child(collision_map)
 	setup_complete.emit()
 	$LevelMapContainer/SubViewport.size = (level_map.get_used_rect().size * 32)
-	WorldColorStore.set_world_state(level_map)
+	world_color_store.set_world_state(level_map)
 	PlayerStore.add_player_ref_as_primary(player)
+	
+	world_color_store.post_draw_color_line(player.global_position, player.global_position)
 	add_child(player)
+	
+	$LevelMapContainer/DarknessParticles.start_darkness(level_map)
 
 
 func get_floor_tileset(floor_arg) -> TileSet:
@@ -69,10 +81,3 @@ func get_floor_tileset(floor_arg) -> TileSet:
 			return preload("res://Levels/Rooms/Floor2.tres")
 		_:
 			return preload("res://Levels/Rooms/Floor1.tres")
-
-
-func _on_timer_timeout():
-	WorldColorStore.post_draw_color_line(
-		player.global_position, 
-		player.global_position
-	)

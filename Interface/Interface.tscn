@@ -11,13 +11,16 @@ bg_color = Color(0, 0, 0, 0.65098)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ftq0s"]
 bg_color = Color(0.74902, 0.105882, 0.321569, 1)
 
-[node name="Interface" type="Node2D"]
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource("1_7dwbl")
 health_sprite = ExtResource("3_ypn5q")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="AmmoCount" type="RichTextLabel" parent="CanvasLayer"]
+[node name="AmmoCount" type="RichTextLabel" parent="."]
+layout_mode = 0
 offset_left = 40.0
 offset_top = 71.0
 offset_right = 129.0
@@ -25,7 +28,8 @@ offset_bottom = 111.0
 theme_override_fonts/normal_font = ExtResource("2_6eq1f")
 text = "6"
 
-[node name="AmmoMax" type="RichTextLabel" parent="CanvasLayer"]
+[node name="AmmoMax" type="RichTextLabel" parent="."]
+layout_mode = 0
 offset_left = 40.0
 offset_top = 71.0
 offset_right = 129.0
@@ -33,13 +37,15 @@ offset_bottom = 111.0
 theme_override_fonts/normal_font = ExtResource("2_6eq1f")
 text = "  /6"
 
-[node name="HealthBar" type="HBoxContainer" parent="CanvasLayer"]
+[node name="HealthBar" type="HBoxContainer" parent="."]
+layout_mode = 0
 offset_left = 35.0
 offset_top = 25.0
 offset_right = 190.0
 offset_bottom = 65.0
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer"]
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 0
 offset_left = 100.0
 offset_top = 476.0
 offset_right = 860.0
@@ -50,12 +56,14 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_ftq0s")
 step = 1.0
 value = 95.0
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
 offset_left = 821.0
 offset_top = 476.0
 offset_right = 823.0
 offset_bottom = 503.0
 color = Color(0.917647, 0.988235, 0.435294, 1)
 
-[node name="DebugMenu" parent="CanvasLayer" instance=ExtResource("4_1we2d")]
+[node name="DebugMenu" parent="." instance=ExtResource("4_1we2d")]
 visible = false
+layout_mode = 0
