@@ -58,4 +58,8 @@ default_color = Color(1, 1, 1, 0.254902)
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
+[node name="RayCast2D" type="RayCast2D" parent="."]
+collision_mask = 8
+collide_with_areas = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_reload_timer_timeout"]
