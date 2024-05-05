@@ -1,12 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://bm21keyqr33wm"]
+[gd_scene load_steps=9 format=3 uid="uid://bm21keyqr33wm"]
 
 [ext_resource type="Script" path="res://Main/main.gd" id="1_wtus5"]
 [ext_resource type="PackedScene" uid="uid://cusu3nyo2p1dc" path="res://GameScreens/TitleScreen.tscn" id="2_ndcrr"]
 [ext_resource type="PackedScene" uid="uid://dgkp1yvrqh74q" path="res://GameScreens/GameOverScreen.tscn" id="3_oyma6"]
 [ext_resource type="PackedScene" uid="uid://cj7p86h4ojskm" path="res://Interface/Interface.tscn" id="4_7qi6e"]
 [ext_resource type="PackedScene" uid="uid://c1lnu3ka2xyco" path="res://GameScreens/PauseScreen.tscn" id="5_t3qn4"]
-[ext_resource type="Script" path="res://Main/FadeMusicPlayer.gd" id="6_ig1g8"]
-[ext_resource type="AudioStream" uid="uid://qp8hrbd5mio6" path="res://Resources/music/title_music.tres" id="7_ng145"]
 
 [sub_resource type="Animation" id="Animation_koo47"]
 resource_name = "fade_in"
@@ -68,81 +66,6 @@ _data = {
 "fade_out": SubResource("Animation_djr4x")
 }
 
-[sub_resource type="Animation" id="Animation_maghj"]
-resource_name = "fade_out"
-length = 2.0
-tracks/0/type = "method"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(2),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"_play_fade_track"
-}]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("LevelAudioStreamPlayer:volume_db")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-10.0, -80.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("AudioStreamPlayer:volume_db")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-10.0, -80.0]
-}
-
-[sub_resource type="Animation" id="Animation_72osx"]
-resource_name = "fade_in"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("LevelAudioStreamPlayer:volume_db")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-80.0, -10.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AudioStreamPlayer:volume_db")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [-80.0, -10.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_53c5u"]
-_data = {
-"fade_in": SubResource("Animation_72osx"),
-"fade_out": SubResource("Animation_maghj")
-}
-
 [node name="Main" type="Node2D"]
 script = ExtResource("1_wtus5")
 
@@ -157,6 +80,7 @@ libraries = {
 [node name="TitleScreen" parent="CanvasLayer" instance=ExtResource("2_ndcrr")]
 
 [node name="GameOverScreen" parent="CanvasLayer" instance=ExtResource("3_oyma6")]
+visible = false
 
 [node name="Interface" parent="CanvasLayer" instance=ExtResource("4_7qi6e")]
 visible = false
@@ -165,30 +89,6 @@ visible = false
 visible = false
 
 [node name="LoadingOverlay" type="ColorRect" parent="CanvasLayer"]
-visible = false
 offset_right = 960.0
 offset_bottom = 528.0
 color = Color(0, 0, 0, 1)
-
-[node name="FadeMusicPlayer" type="Node" parent="."]
-process_mode = 3
-script = ExtResource("6_ig1g8")
-
-[node name="LevelAudioStreamPlayer" type="AudioStreamPlayer" parent="FadeMusicPlayer"]
-volume_db = -10.0
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="FadeMusicPlayer"]
-stream = ExtResource("7_ng145")
-volume_db = -10.0
-autoplay = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="FadeMusicPlayer"]
-libraries = {
-"": SubResource("AnimationLibrary_53c5u")
-}
-
-[node name="RetryTimer" type="Timer" parent="FadeMusicPlayer"]
-wait_time = 0.5
-one_shot = true
-
-[connection signal="timeout" from="FadeMusicPlayer/RetryTimer" to="FadeMusicPlayer" method="_play_fade_track"]

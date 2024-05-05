@@ -148,4 +148,16 @@ func draw_floor(
 		for m in height:
 			floor_cells.append(Vector2(x+n+1, y+m+wall_height))
 	tilemap.set_cells_terrain_connect(ROOMS_LAYER, floor_cells, 0, FLOOR_TERRAIN_ID, false)
-	
+
+
+func place_boss_room(exit: Vector2, level_map: TileMap, boss_room_ref: BossRoom):
+	level_map.erase_cell(0, exit + Vector2(0, 1))
+	level_map.erase_cell(0, exit + Vector2(-1, 1))
+	level_map.erase_cell(0, exit + Vector2(0, 0))
+	level_map.erase_cell(0, exit + Vector2(-1, 0))
+	level_map.erase_cell(0, exit + Vector2(0, -1))
+	level_map.erase_cell(0, exit + Vector2(-1, -1))
+	level_map.erase_cell(0, exit + Vector2(0, -2))
+	level_map.erase_cell(0, exit + Vector2(-1, -2))
+	boss_room_ref.global_position = exit * 32
+	boss_room_ref.z_index = level_map.z_index+1

@@ -3,12 +3,16 @@ extends Node2D
 const LEVEL_PATH = "res://Levels/level.tscn"
 var level_loading = false
 var level_loaded = false
+const MUSIC_PLAYER_PATH = "res://Main/FadeMusicPlayer.tscn"
+var music_loaded = false
 var current_level: Level
 
-@onready var fade_music_player: FadeMusicPlayer = $FadeMusicPlayer
+var fade_music_player: FadeMusicPlayer
 
 
 func _ready():
+	ResourceLoader.load_threaded_request(MUSIC_PLAYER_PATH)
+	
 	GameStateStore.start_game.connect(start_game)
 	GameStateStore.show_title_screen.connect(show_title_screen)
 	GameStateStore.show_game_over_screen.connect(show_game_over_screen)
@@ -32,6 +36,16 @@ func _process(_delta):
 			$CanvasLayer/Interface.show_hud()
 			level_loading = false
 			level_loaded = true
+	
+	
+	if not music_loaded:
+		var progress_array = []
+		var load_progress = ResourceLoader.load_threaded_get_status(MUSIC_PLAYER_PATH, progress_array)
+		if load_progress == ResourceLoader.THREAD_LOAD_LOADED:
+			fade_music_player = ResourceLoader.load_threaded_get(MUSIC_PLAYER_PATH).instantiate() as FadeMusicPlayer
+			add_child(fade_music_player)
+			music_loaded = true
+			stop_loading_screen()
 
 
 func start_game():

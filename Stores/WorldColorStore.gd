@@ -1,8 +1,12 @@
 class_name WorldColorStore extends Node
 
+signal world_color_progress_update(progress: int)
+
 const THREADED = true
 
 var level_tile_map: TileMap = null
+var boss_tile_map: TileMap = null
+var boss_tile_map_position = null
 var color_image_map: Image = null
 var image_compression_factor = 4
 var color_texture: ImageTexture = null
@@ -21,9 +25,11 @@ var requests = []
 const color_bit: Color = Color.WHITE
 
 
-func set_world_state(level_map: TileMap):
+func set_world_state(level_map: TileMap, boss_map: TileMap):
 	# Saving the current level mao
 	level_tile_map = level_map
+	boss_tile_map = boss_map
+	boss_tile_map_position = boss_tile_map.global_position
 	
 	# getting the bounding rect of the level map
 	var level_map_bounding_cells = level_tile_map.get_used_rect()
@@ -150,6 +156,7 @@ func _thread_draw_color_function(
 func _update_progress_percent(progress):
 	if progress >= emitted_progress:
 		HudUiStore.world_progress_update.emit(progress)
+		world_color_progress_update.emit(progress)
 
 
 # Only layer 0 is used for scoring
@@ -164,8 +171,17 @@ func _coord_on_tilemap_contains_tile(position) -> bool:
 	var tilemap_position = position
 	tilemap_position *= image_compression_factor
 	tilemap_position /= 32
+	
+	var boss_map_position = position
+	boss_map_position *= image_compression_factor
+	boss_map_position -= Vector2i(boss_tile_map_position)
+	boss_map_position /= 32
 	for layer in level_tile_map.get_layers_count():
 		var result = level_tile_map.get_cell_source_id(layer, tilemap_position) != -1
+		if result:
+			return true
+	for layer in boss_tile_map.get_layers_count():
+		var result = boss_tile_map.get_cell_source_id(layer, boss_map_position) != -1
 		if result:
 			return true
 	return false

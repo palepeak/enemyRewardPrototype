@@ -27,7 +27,7 @@ func _play_fade_track():
 		stream_player.stream_paused = false
 		($AnimationPlayer as AnimationPlayer).play("fade_in")
 	else:
-		print("music load miss: " + track_title)
+		DebugStore.debug_print("music load miss: " + track_title)
 		($RetryTimer as Timer).start()
 
 

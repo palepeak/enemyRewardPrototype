@@ -7,11 +7,13 @@ var bullet_direction = Vector2(0,0)
 var bullet_range = 0
 var bullet_start_pos: Vector2
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	contact_monitor = true
 	max_contacts_reported = 5
-	
+
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if bullet_range != 0:
@@ -32,6 +34,8 @@ func _process(delta):
 				smoke.rotation = collision_result.get_normal().angle()
 				smoke.global_position = collision_result.get_position()
 				get_tree().root.add_child(smoke)
+			queue_free()
+		else:
 			queue_free()
 		pass
 		

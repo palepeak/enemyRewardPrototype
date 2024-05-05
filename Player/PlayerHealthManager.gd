@@ -5,8 +5,7 @@ class_name PlayerHealthManager extends CharacterHealthManager
 
 func process_hit(area: Area2D):
 	super.process_hit(area)
-	if DebugStore.debug_mode:
-		print("player_hit")
+	DebugStore.debug_print("player_hit")
 	HudUiStore.player_health_changed.emit(current_health)
 
 

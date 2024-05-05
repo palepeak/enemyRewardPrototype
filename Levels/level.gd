@@ -5,6 +5,7 @@ class_name Level extends Node2D
 # Local
 @onready var world_color_store: WorldColorStore = $WorldColorStore
 @onready var level_map = $LevelMapContainer/SubViewport/LevelMap
+@onready var boss_map: BossRoom = $LevelMapContainer/BossRoom
 var player: CharacterBody2D
 var room_creator: RoomCreator
 var layout_creator: LayoutCreator
@@ -25,6 +26,7 @@ func _ready():
 	# remove the player instance until level setup is complete
 	player = $Player as CharacterBody2D
 	remove_child(player)
+	world_color_store.world_color_progress_update.connect(on_world_color_progress_update)
 
 
 func _process(_delta):
@@ -59,18 +61,28 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	var room1_exit2 = room1.get_exits(RoomState.RoomDirection.RIGHT)[1]
 	var room2_exit2 = room2.get_exits(RoomState.RoomDirection.LEFT)[1]
 	room_creator.create_hall(HallState.new(room1_exit2, room2_exit2, 3), level_map)
+	room_creator.place_boss_room(
+		room2.get_exits(RoomState.RoomDirection.TOP)[1], 
+		level_map, 
+		boss_map,
+	)
+	boss_map.boss_room_entered.connect(entered_boss_room)
+	boss_map.boss_room_exited.connect(exited_boss_room)
+	
+	$LevelMapContainer/SubViewport.size = (level_map.get_used_rect().size * 32)
+	world_color_store.set_world_state(level_map, boss_map)
+	$LevelMapContainer/DarknessParticles.start_darkness(level_map)
+	
+	# Level map is only used for visuals, so we need to duplicate it 
+	# for the other functionalities like collision and navigation
 	var collision_map = level_map.duplicate()
 	collision_map.z_index = -1000
 	$LevelMapContainer.add_child(collision_map)
-	setup_complete.emit()
-	$LevelMapContainer/SubViewport.size = (level_map.get_used_rect().size * 32)
-	world_color_store.set_world_state(level_map)
-	PlayerStore.add_player_ref_as_primary(player)
 	
+	setup_complete.emit()
+	PlayerStore.add_player_ref_as_primary(player)
 	world_color_store.post_draw_color_line(player.global_position, player.global_position)
 	add_child(player)
-	
-	$LevelMapContainer/DarknessParticles.start_darkness(level_map)
 
 
 func get_floor_tileset(floor_arg) -> TileSet:
@@ -81,3 +93,21 @@ func get_floor_tileset(floor_arg) -> TileSet:
 			return preload("res://Levels/Rooms/Floor2.tres")
 		_:
 			return preload("res://Levels/Rooms/Floor1.tres")
+
+
+func on_world_color_progress_update(progress: int):
+	if progress >= 95:
+		$Camera2D/CameraEnemySpawner.enabled = false
+
+
+func entered_boss_room(_area: Area2D):
+	var progress = world_color_store.emitted_progress
+	$Camera2D/CameraEnemySpawner.enabled = false
+	$LevelMapContainer/DarknessParticles/AnimationPlayer.play("fade_out")
+
+
+func exited_boss_room(_area: Area2D):
+	var progress = world_color_store.emitted_progress
+	if progress < 95:
+		$Camera2D/CameraEnemySpawner.enabled = true
+	$LevelMapContainer/DarknessParticles/AnimationPlayer.play("fade_in")

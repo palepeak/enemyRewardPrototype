@@ -1,4 +1,10 @@
-extends GPUParticles2D
+class_name DarknessParticle extends GPUParticles2D
+
+@export var world_color_store: WorldColorStore
+
+
+func _ready():
+	world_color_store.world_color_progress_update.connect(on_world_color_progress_update)
 
 
 func start_darkness(level_map: TileMap):
@@ -11,4 +17,9 @@ func start_darkness(level_map: TileMap):
 	shader.set_shader_parameter("emission_box_extents", [emission_box_extents.x, emission_box_extents.y, 1])
 	shader.set_shader_parameter("screen_size", screen_size)
 	shader.set_shader_parameter("level_size", level_size)
-	amount = 12000
+	amount = level_size.x * level_size.y / 100
+
+
+func on_world_color_progress_update(progress: int):
+	if progress == 100:
+		$AnimationPlayer.play("fade_out_permanent")

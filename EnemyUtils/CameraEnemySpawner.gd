@@ -15,18 +15,11 @@ func _ready():
 		spawn_timer.start()
 
 
-func enable():
-	enabled = true
-	spawn_timer.start()
-
-
-func disable():
-	enabled = false
-	spawn_timer.stop()
-
-
 func _on_timer_timeout():
-	spawn_enemies()
+	if !enabled:
+		spawn_timer.stop()
+	else:
+		spawn_enemies()
 
 
 func spawn_enemies():

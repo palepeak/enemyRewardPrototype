@@ -10,3 +10,7 @@ func _process(_delta):
 	if Input.is_action_just_pressed("debug_toggle"):
 		debug_mode = !debug_mode
 		debug_mode_changed.emit(debug_mode)
+
+
+func debug_print(message):
+	if debug_mode: print(message)

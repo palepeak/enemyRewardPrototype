@@ -8,6 +8,9 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_was24"]
 
+[sub_resource type="Animation" id="Animation_gva6q"]
+length = 0.001
+
 [sub_resource type="Animation" id="Animation_rad1b"]
 resource_name = "show"
 length = 2.0
@@ -36,9 +39,6 @@ tracks/1/keys = {
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.784314)]
 }
 
-[sub_resource type="Animation" id="Animation_gva6q"]
-length = 0.001
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lg3ff"]
 _data = {
 "RESET": SubResource("Animation_gva6q"),
@@ -46,7 +46,6 @@ _data = {
 }
 
 [node name="Control" type="Control"]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 960.0

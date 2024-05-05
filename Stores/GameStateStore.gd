@@ -4,6 +4,7 @@ signal start_game()
 signal show_title_screen()
 signal show_game_over_screen()
 signal toggle_pause_screen()
+signal show_win_screen()
 
 var _current_level: Level
 

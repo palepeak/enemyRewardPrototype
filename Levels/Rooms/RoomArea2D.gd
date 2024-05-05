@@ -1,7 +1,6 @@
 class_name RoomArea2D extends Area2D
 
 
-
 func set_room_state(width: int, height: int):
 	width *= 32
 	height *= 32
@@ -16,10 +15,8 @@ func set_room_state(width: int, height: int):
 
 
 func _on_area_entered(area):
-	if DebugStore.debug_mode:
-		print("player in area" + str(self))
+	DebugStore.debug_print("player in area" + str(self))
 
 
 func _on_area_exited(area):
-	if DebugStore.debug_mode:
-		print("player left area" + str(self))
+	DebugStore.debug_print("player left area" + str(self))
