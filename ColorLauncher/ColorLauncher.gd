@@ -48,6 +48,7 @@ func _process(_delta):
 	$Line2D.points = $Path2D.curve.get_baked_points()
 	
 func _fire():
+	$AudioStreamPlayer.play()
 	can_launch = false
 	reload_timer.start()
 	
