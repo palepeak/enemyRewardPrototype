@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cj2jvej3dn5hd"]
+[gd_scene load_steps=25 format=3 uid="uid://cj2jvej3dn5hd"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_1c74q"]
 [ext_resource type="TileSet" uid="uid://cq5gbuw7llxcs" path="res://Levels/Rooms/Floor2.tres" id="2_dgrop"]
@@ -13,7 +13,6 @@
 [ext_resource type="Shader" path="res://Levels/LevelShadow.gdshader" id="9_ucyfx"]
 [ext_resource type="Texture2D" uid="uid://7cafgqgj3tkf" path="res://Resources/smoke.png" id="10_3iaqs"]
 [ext_resource type="Script" path="res://Levels/DarknessParticle2D.gd" id="10_chu0m"]
-[ext_resource type="Script" path="res://Levels/PauseHandler.gd" id="14_n03u8"]
 [ext_resource type="PackedScene" uid="uid://be5xe1ejj8plo" path="res://Levels/FunctionalRooms/BossRoom.tscn" id="16_qv37e"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rge26"]
@@ -145,6 +144,7 @@ _data = {
 }
 
 [node name="Level" type="Node2D"]
+process_mode = 1
 process_priority = 1
 script = ExtResource("1_1c74q")
 
@@ -191,7 +191,6 @@ drag_right_margin = 0.0
 drag_bottom_margin = 0.0
 
 [node name="CameraEnemySpawner" parent="Camera2D" instance=ExtResource("6_or3tf")]
-enabled = false
 spawn_frequency = 4.0
 
 [node name="LevelMapContainer" type="Node" parent="."]
@@ -233,9 +232,5 @@ format = 2
 
 [node name="WorldColorStore" type="Node" parent="."]
 script = ExtResource("9_4ecwn")
-
-[node name="PauseHandler" type="Node" parent="."]
-process_mode = 3
-script = ExtResource("14_n03u8")
 
 [connection signal="setup_complete" from="LayoutCreator" to="." method="_on_layout_creator_setup_complete"]

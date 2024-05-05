@@ -7,7 +7,7 @@ func _ready():
 
 
 func _on_start_button_pressed():
-	GameStateStore.start_game.emit()
+	GameStateStore.start_game()
 
 
 func _on_quit_button_pressed():

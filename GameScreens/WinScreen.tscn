@@ -1,0 +1,155 @@
+[gd_scene load_steps=8 format=3 uid="uid://diiwal5uxq182"]
+
+[ext_resource type="Script" path="res://GameScreens/WinScreen.gd" id="1_jaeoj"]
+[ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_tawm1"]
+[ext_resource type="Script" path="res://GameScreens/Button.gd" id="3_0nx6w"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_568lh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cfq08"]
+
+[sub_resource type="Animation" id="Animation_m7sdn"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_svtrw"]
+_data = {
+"show": SubResource("Animation_m7sdn")
+}
+
+[node name="WinScreen" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jaeoj")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 528.0
+color = Color(1, 1, 1, 0.784314)
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -82.0
+offset_top = -20.0
+offset_right = 82.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartButton" type="Button" parent="VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.74902, 0.105882, 0.321569, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tawm1")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxEmpty_568lh")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_568lh")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_568lh")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_568lh")
+text = "Start again"
+flat = true
+script = ExtResource("3_0nx6w")
+
+[node name="TimeLabel" type="Label" parent="VBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.74902, 0.105882, 0.321569, 1)
+theme_override_fonts/font = ExtResource("2_tawm1")
+text = "Time elapsed: 01:02:03"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -50.0
+offset_right = 40.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.74902, 0.105882, 0.321569, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tawm1")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_cfq08")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_cfq08")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_cfq08")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_cfq08")
+text = "Return to main menu"
+flat = true
+script = ExtResource("3_0nx6w")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -235.0
+offset_top = 100.0
+offset_right = 235.0
+offset_bottom = 193.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.74902, 0.105882, 0.321569, 1)
+theme_override_colors/font_shadow_color = Color(0.619608, 0.0196078, 0.388235, 1)
+theme_override_fonts/font = ExtResource("2_tawm1")
+theme_override_font_sizes/font_size = 48
+text = "Darkness defeated You win"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_svtrw")
+}
+
+[connection signal="mouse_entered" from="VBoxContainer2/StartButton" to="VBoxContainer2/StartButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer2/StartButton" to="VBoxContainer2/StartButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="VBoxContainer2/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/QuitButton" to="VBoxContainer/QuitButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/QuitButton" to="VBoxContainer/QuitButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

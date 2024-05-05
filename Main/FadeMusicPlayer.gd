@@ -3,7 +3,8 @@ class_name FadeMusicPlayer extends Node
 enum PlayableTracks {
 	TrackTitle,
 	TrackDeath,
-	TrackLevel1
+	TrackLevel1,
+	TrackVictory,
 }
 var _next_track: PlayableTracks
 var death_track = preload("res://Resources/music/death_music.tres")
@@ -38,6 +39,8 @@ func _get_title_track(track: PlayableTracks) -> String:
 		return "res://Resources/music/death_music.tres"
 	elif track == PlayableTracks.TrackLevel1:
 		return "res://Resources/music/level_1_music.tres"
+	elif track == PlayableTracks.TrackVictory:
+		return "res://Resources/music/victory_music.tres"
 	else:
 		return ""
 

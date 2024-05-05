@@ -1,12 +1,23 @@
 extends Node
 
-signal start_game()
+signal game_started()
 signal show_title_screen()
 signal show_game_over_screen()
 signal toggle_pause_screen()
 signal show_win_screen()
 
 var _current_level: Level
+var _start_time: int
+
+
+func start_game():
+	_start_time = Time.get_ticks_msec()
+	game_started.emit()
+	
+
+func get_start_time() -> int:
+	return _start_time
+
 
 func set_level(level: Level):
 	_current_level = level

@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://cgh0bx0ywd8gd"]
+[gd_scene load_steps=65 format=3 uid="uid://cgh0bx0ywd8gd"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_cte7x"]
 [ext_resource type="PackedScene" uid="uid://cgm0rtxp764ux" path="res://Weapons/pistol/pistol.tscn" id="2_xv2d8"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cxbb0ldw5brde" path="res://Resources/character_single.png" id="7_ifgia"]
 [ext_resource type="PackedScene" uid="uid://umsvnyu32sng" path="res://Player/PlayerDeathParticle.tscn" id="9_he3dn"]
 [ext_resource type="PackedScene" uid="uid://bbpab1rj0viwd" path="res://Player/PlayerHitbox.tscn" id="10_5tmny"]
+[ext_resource type="Script" path="res://Levels/PauseHandler.gd" id="11_aqhya"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dkms4"]
 size = Vector2(27, 10)
@@ -458,5 +459,9 @@ host_object = NodePath("..")
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_h104g")
 debug_color = Color(0.913725, 0, 0.72549, 0.419608)
+
+[node name="PauseHandler" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("11_aqhya")
 
 [connection signal="player_hit" from="PlayerHitbox" to="PlayerHealthManager" method="process_hit"]

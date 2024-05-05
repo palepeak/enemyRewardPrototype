@@ -13,10 +13,11 @@ var fade_music_player: FadeMusicPlayer
 func _ready():
 	ResourceLoader.load_threaded_request(MUSIC_PLAYER_PATH)
 	
-	GameStateStore.start_game.connect(start_game)
+	GameStateStore.game_started.connect(start_game)
 	GameStateStore.show_title_screen.connect(show_title_screen)
 	GameStateStore.show_game_over_screen.connect(show_game_over_screen)
 	GameStateStore.toggle_pause_screen.connect(toggle_pause_screen)
+	GameStateStore.show_win_screen.connect(show_win_screen)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -54,6 +55,8 @@ func start_game():
 	
 	$CanvasLayer/TitleScreen.visible = false
 	$CanvasLayer/PauseScreen.visible = false
+	$CanvasLayer/GameOverScreen.visible = false
+	$CanvasLayer/WinScreen.visible = false
 	level_loading = true
 	level_loaded = false
 	start_loading_screen()
@@ -69,6 +72,7 @@ func show_title_screen():
 	$CanvasLayer/Interface.visible = false
 	$CanvasLayer/GameOverScreen.visible = false
 	$CanvasLayer/PauseScreen.visible = false
+	$CanvasLayer/WinScreen.visible = false
 
 
 func show_game_over_screen():
@@ -76,6 +80,12 @@ func show_game_over_screen():
 	$CanvasLayer/GameOverScreen.show_screen()
 	$CanvasLayer/Interface.visible = false
 
+
+func show_win_screen():
+	PlayerStore.clear_players()
+	fade_music_player.fade_into_track(FadeMusicPlayer.PlayableTracks.TrackVictory)
+	$CanvasLayer/WinScreen.show_screen()
+	$CanvasLayer/Interface.visible = false
 
 func toggle_pause_screen():
 	get_tree().paused = !get_tree().paused

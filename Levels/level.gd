@@ -83,6 +83,10 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	PlayerStore.add_player_ref_as_primary(player)
 	world_color_store.post_draw_color_line(player.global_position, player.global_position)
 	add_child(player)
+	
+	# level map set, disable updates to save performance 
+	($LevelMapContainer/SubViewport as SubViewport).render_target_update_mode = SubViewport.UPDATE_ONCE
+
 
 
 func get_floor_tileset(floor_arg) -> TileSet:
