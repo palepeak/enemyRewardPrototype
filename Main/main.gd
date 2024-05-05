@@ -5,6 +5,8 @@ var level_loading = false
 var level_loaded = false
 var current_level: Level
 
+@onready var fade_music_player: FadeMusicPlayer = $FadeMusicPlayer
+
 
 func _ready():
 	GameStateStore.start_game.connect(start_game)
@@ -25,6 +27,7 @@ func _process(_delta):
 			current_level.setup_complete.connect(stop_loading_screen)
 			current_level.set_floor(1)
 			GameStateStore.set_level(current_level)
+			fade_music_player.fade_into_track(FadeMusicPlayer.PlayableTracks.TrackLevel1)
 			add_child(current_level)
 			$CanvasLayer/Interface.show_hud()
 			level_loading = false
@@ -46,6 +49,7 @@ func start_game():
 func show_title_screen():
 	GameStateStore.remove_level()
 	PlayerStore.clear_players()
+	fade_music_player.fade_into_track(FadeMusicPlayer.PlayableTracks.TrackTitle)
 	
 	$CanvasLayer/TitleScreen.visible = true
 	$CanvasLayer/Interface.visible = false
@@ -54,6 +58,7 @@ func show_title_screen():
 
 
 func show_game_over_screen():
+	fade_music_player.fade_into_track(FadeMusicPlayer.PlayableTracks.TrackDeath)
 	$CanvasLayer/GameOverScreen.show_screen()
 	$CanvasLayer/Interface.visible = false
 

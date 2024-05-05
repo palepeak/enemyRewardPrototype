@@ -79,7 +79,7 @@ shader_parameter/color_value = Color(1, 1, 1, 1)
 shader_parameter/gravity = Vector3(0, 1, 0)
 shader_parameter/color_ramp = SubResource("GradientTexture1D_yd75n")
 
-[node name="Main" type="Node2D"]
+[node name="Level" type="Node2D"]
 process_priority = 1
 script = ExtResource("1_1c74q")
 

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://vdimmwl3n0s4"
+path="res://.godot/imported/07 Unholy Illusions (LOOP).wav-70d709292a4e8bc2bbf7337389fa90ec.sample"
+
+[deps]
+
+source_file="res://Resources/music/07 Unholy Illusions (LOOP).wav"
+dest_files=["res://.godot/imported/07 Unholy Illusions (LOOP).wav-70d709292a4e8bc2bbf7337389fa90ec.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

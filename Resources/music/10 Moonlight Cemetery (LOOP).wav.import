@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://b3gawos6uatgd"
+path="res://.godot/imported/10 Moonlight Cemetery (LOOP).wav-b5f496ed33a1859346bc0b3573d69668.sample"
+
+[deps]
+
+source_file="res://Resources/music/10 Moonlight Cemetery (LOOP).wav"
+dest_files=["res://.godot/imported/10 Moonlight Cemetery (LOOP).wav-b5f496ed33a1859346bc0b3573d69668.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
