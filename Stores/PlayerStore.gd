@@ -21,6 +21,16 @@ func remove_player_ref(player: Player):
 	_player_refs.erase(player)
 	if _primary_player == player:
 		_primary_player = null
+	
+	player.queue_free()
+
+
+func clear_players():
+	for player_ref in _player_refs:
+		player_ref.queue_free()
+	
+	_player_refs = []
+	_primary_player = null
 
 
 func get_players() -> Array:

@@ -18,7 +18,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_pressed("launch_color") && can_launch:
 		_fire()
 		
@@ -38,7 +38,7 @@ func _process(delta):
 		target_launch_position = target_launch_position.normalized() * max_range
 	elif position.distance_to(target_launch_position) < minimum_range:
 		target_launch_position = target_launch_position.normalized() * minimum_range
-	print(target_launch_position.length())
+		
 	var point_in_x = (target_launch_position - $Path2D.curve.get_point_position(0)).x * -400/1152
 	var point_in_y = min(-200, (target_launch_position - $Path2D.curve.get_point_position(0)).y)
 	# $Sprite2D2.global_position = $Sprite2D2.get_global_mouse_position()

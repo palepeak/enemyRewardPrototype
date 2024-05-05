@@ -18,4 +18,3 @@ func process_death():
 	(death_node.process_material as ShaderMaterial).set_shader_parameter("sprite", death_sprite)
 	death_node.global_position = player_instance.global_position
 	get_tree().root.add_child(death_node)
-	player_instance.queue_free()

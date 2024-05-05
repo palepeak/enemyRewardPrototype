@@ -6,17 +6,15 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ipwxg"]
 
-[node name="TitleScreen" type="Node2D"]
-script = ExtResource("1_c6a65")
-
-[node name="Control" type="Control" parent="."]
+[node name="TitleScreen" type="Control"]
 custom_minimum_size = Vector2(960, 528)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 960.0
 offset_bottom = 528.0
+script = ExtResource("1_c6a65")
 
-[node name="Label" type="Label" parent="Control"]
+[node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -33,7 +31,7 @@ theme_override_font_sizes/font_size = 48
 text = "Tower of Darkness"
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="Control"]
+[node name="StartButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -61,7 +59,7 @@ text = "Start"
 flat = true
 script = ExtResource("2_ofu33")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -74,7 +72,7 @@ offset_right = 40.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="OptionsButton" type="Button" parent="Control/VBoxContainer"]
+[node name="OptionsButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.74902, 0.105882, 0.321569, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
@@ -91,7 +89,7 @@ text = "Options"
 flat = true
 script = ExtResource("2_ofu33")
 
-[node name="QuitButton" type="Button" parent="Control/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.74902, 0.105882, 0.321569, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
@@ -108,11 +106,11 @@ text = "Exit"
 flat = true
 script = ExtResource("2_ofu33")
 
-[connection signal="mouse_entered" from="Control/StartButton" to="Control/StartButton" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="Control/StartButton" to="Control/StartButton" method="_on_mouse_exited"]
-[connection signal="pressed" from="Control/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/OptionsButton" to="Control/VBoxContainer/OptionsButton" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="Control/VBoxContainer/OptionsButton" to="Control/VBoxContainer/OptionsButton" method="_on_mouse_exited"]
-[connection signal="mouse_entered" from="Control/VBoxContainer/QuitButton" to="Control/VBoxContainer/QuitButton" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="Control/VBoxContainer/QuitButton" to="Control/VBoxContainer/QuitButton" method="_on_mouse_exited"]
-[connection signal="pressed" from="Control/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="mouse_entered" from="StartButton" to="StartButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="StartButton" to="StartButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/OptionsButton" to="VBoxContainer/OptionsButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/OptionsButton" to="VBoxContainer/OptionsButton" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="VBoxContainer/QuitButton" to="VBoxContainer/QuitButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/QuitButton" to="VBoxContainer/QuitButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

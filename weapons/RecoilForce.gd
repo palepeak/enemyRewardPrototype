@@ -3,7 +3,6 @@ class_name RecoilForce extends Node2D
 @export var recoil_duration_seconds: float
 @export var recoil_force_initial: int
 
-var current_duration = 0.0
 var current_forces = []
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -30,4 +29,3 @@ func start_recoil():
 		Vector2(cos(global_rotation), sin(global_rotation)).normalized(), 
 		recoil_duration_seconds
 	])
-	current_duration = recoil_duration_seconds

@@ -1,0 +1,116 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1lnu3ka2xyco"]
+
+[ext_resource type="Script" path="res://GameScreens/PauseScreen.gd" id="1_i5tep"]
+[ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_tmnin"]
+[ext_resource type="Script" path="res://GameScreens/Button.gd" id="3_50tya"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oe4kt"]
+
+[node name="PauseScreen" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 0
+offset_right = 960.0
+offset_bottom = 528.0
+script = ExtResource("1_i5tep")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 528.0
+color = Color(0, 0, 0, 1)
+
+[node name="PauseMenu" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -27.0
+offset_top = -20.0
+offset_right = 27.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResumeButton" type="Button" parent="PauseMenu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.74902, 0.105882, 0.321569, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tmnin")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_oe4kt")
+text = "Resume"
+flat = true
+script = ExtResource("3_50tya")
+
+[node name="OptionsButton" type="Button" parent="PauseMenu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.74902, 0.105882, 0.321569, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tmnin")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_oe4kt")
+text = "Options"
+flat = true
+script = ExtResource("3_50tya")
+
+[node name="RestartButton" type="Button" parent="PauseMenu"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.74902, 0.105882, 0.321569, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tmnin")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_oe4kt")
+text = "Quick Restart"
+flat = true
+script = ExtResource("3_50tya")
+
+[node name="ReturnButton" type="Button" parent="PauseMenu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.74902, 0.105882, 0.321569, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_tmnin")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_oe4kt")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_oe4kt")
+text = "Return to title"
+flat = true
+script = ExtResource("3_50tya")
+
+[connection signal="mouse_entered" from="PauseMenu/ResumeButton" to="PauseMenu/ResumeButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/ResumeButton" to="PauseMenu/ResumeButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="PauseMenu/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="mouse_entered" from="PauseMenu/OptionsButton" to="PauseMenu/OptionsButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/OptionsButton" to="PauseMenu/OptionsButton" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="PauseMenu/RestartButton" to="PauseMenu/RestartButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/RestartButton" to="PauseMenu/RestartButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="PauseMenu/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="mouse_entered" from="PauseMenu/ReturnButton" to="PauseMenu/ReturnButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/ReturnButton" to="PauseMenu/ReturnButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="PauseMenu/ReturnButton" to="." method="_on_return_button_pressed"]

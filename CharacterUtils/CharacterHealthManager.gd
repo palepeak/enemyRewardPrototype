@@ -7,7 +7,7 @@ class_name CharacterHealthManager extends Node
 @onready var current_health = max_health
 
 
-func process_hit(area: Area2D):
+func process_hit(_area: Area2D):
 	var children = host_object.get_children()
 	for child in children:
 		if child is HitFlashSprite:

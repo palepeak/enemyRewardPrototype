@@ -10,7 +10,7 @@ class_name EnemyMover extends Node
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _physics_process(_delta):
 	if !active || pathFinder.is_navigation_finished():
 		return
 	
@@ -22,4 +22,3 @@ func _physics_process(delta):
 	enemy_object.velocity = axis * speed
 	
 	enemy_object.move_and_slide()
-

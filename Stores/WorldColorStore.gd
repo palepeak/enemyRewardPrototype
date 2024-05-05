@@ -79,7 +79,12 @@ func _process(_delta):
 				null)
 
 
-func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, thread_ref):
+func _thread_draw_color_function(
+	start: Vector2i, 
+	end: Vector2i, 
+	radius_compressed: int, 
+	thread_ref,
+):
 	var visited = {}
 	var to_visit = [end, start]
 	while !to_visit.is_empty():
@@ -105,7 +110,7 @@ func _thread_draw_color_function(start: Vector2i, end: Vector2i, radius: int, th
 		# checking distance
 		var distance = _distance_to(current_pixel, closest_point)
 		# point too far, ignore
-		if distance > radius:
+		if distance > radius_compressed:
 			continue
 		
 		if THREADED:

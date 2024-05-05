@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cj2jvej3dn5hd"]
+[gd_scene load_steps=21 format=3 uid="uid://cj2jvej3dn5hd"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_1c74q"]
 [ext_resource type="TileSet" uid="uid://cq5gbuw7llxcs" path="res://Levels/Rooms/Floor2.tres" id="2_dgrop"]
@@ -12,7 +12,8 @@
 [ext_resource type="Script" path="res://Stores/WorldColorStore.gd" id="9_4ecwn"]
 [ext_resource type="Shader" path="res://Levels/LevelShadow.gdshader" id="9_ucyfx"]
 [ext_resource type="Texture2D" uid="uid://7cafgqgj3tkf" path="res://Resources/smoke.png" id="10_3iaqs"]
-[ext_resource type="Script" path="res://Levels/GPUParticles2D.gd" id="10_chu0m"]
+[ext_resource type="Script" path="res://Levels/DarknessParticle2D.gd" id="10_chu0m"]
+[ext_resource type="Script" path="res://Levels/PauseHandler.gd" id="14_n03u8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rge26"]
 shader = ExtResource("2_p4isx")
@@ -93,7 +94,6 @@ color = Color(0.439216, 0.439216, 0.439216, 1)
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
 rotation = -0.827286
-color = Color(1, 1, 0.941176, 1)
 energy = 0.1
 range_item_cull_mask = 0
 shadow_color = Color(0.290196, 0.290196, 0.290196, 0)
@@ -142,6 +142,8 @@ lifetime = 5.0
 visibility_rect = Rect2(-100, -100, 100000, 100000)
 script = ExtResource("10_chu0m")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="LevelMapContainer/DarknessParticles"]
+
 [node name="SubViewport" type="SubViewport" parent="LevelMapContainer"]
 transparent_bg = true
 handle_input_locally = false
@@ -154,5 +156,9 @@ format = 2
 
 [node name="WorldColorStore" type="Node" parent="."]
 script = ExtResource("9_4ecwn")
+
+[node name="PauseHandler" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("14_n03u8")
 
 [connection signal="setup_complete" from="LayoutCreator" to="." method="_on_layout_creator_setup_complete"]

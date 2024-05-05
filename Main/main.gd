@@ -10,6 +10,7 @@ func _ready():
 	GameStateStore.start_game.connect(start_game)
 	GameStateStore.show_title_screen.connect(show_title_screen)
 	GameStateStore.show_game_over_screen.connect(show_game_over_screen)
+	GameStateStore.toggle_pause_screen.connect(toggle_pause_screen)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -31,7 +32,11 @@ func _process(_delta):
 
 
 func start_game():
+	PlayerStore.clear_players()
+	GameStateStore.remove_level()
+	
 	$CanvasLayer/TitleScreen.visible = false
+	$CanvasLayer/PauseScreen.visible = false
 	level_loading = true
 	level_loaded = false
 	start_loading_screen()
@@ -39,20 +44,28 @@ func start_game():
 
 
 func show_title_screen():
-	for child in get_children():
-		if child is Level:
-			remove_child(child)
+	GameStateStore.remove_level()
+	PlayerStore.clear_players()
+	
 	$CanvasLayer/TitleScreen.visible = true
 	$CanvasLayer/Interface.visible = false
 	$CanvasLayer/GameOverScreen.visible = false
+	$CanvasLayer/PauseScreen.visible = false
 
 
 func show_game_over_screen():
 	$CanvasLayer/GameOverScreen.show_screen()
 	$CanvasLayer/Interface.visible = false
-	
+
+
+func toggle_pause_screen():
+	get_tree().paused = !get_tree().paused
+	$CanvasLayer/PauseScreen.visible = get_tree().paused
+
 
 func stop_loading_screen():
 	$CanvasLayer/AnimationPlayer.play("fade_in")
+
+
 func start_loading_screen():
 	$CanvasLayer/AnimationPlayer.play("fade_out")

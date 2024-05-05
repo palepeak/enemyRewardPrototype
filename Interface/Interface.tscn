@@ -54,7 +54,6 @@ theme_override_fonts/font = ExtResource("2_6eq1f")
 theme_override_styles/background = SubResource("StyleBoxFlat_j46oq")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ftq0s")
 step = 1.0
-value = 95.0
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0

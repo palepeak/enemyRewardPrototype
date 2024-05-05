@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 
 func show_screen():
