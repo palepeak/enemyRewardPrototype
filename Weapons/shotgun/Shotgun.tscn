@@ -1,0 +1,77 @@
+[gd_scene load_steps=14 format=3 uid="uid://bg0id55o0vv1c"]
+
+[ext_resource type="Script" path="res://Weapons/shotgun/Shotgun.gd" id="1_ixoca"]
+[ext_resource type="Texture2D" uid="uid://btj47kdm0qvm2" path="res://Weapons/shotgun/shotgun.png" id="2_ej0mk"]
+[ext_resource type="PackedScene" uid="uid://b5py88y4mvx8x" path="res://Weapons/bullets/basicbullet/bullet.tscn" id="2_pq01j"]
+[ext_resource type="Script" path="res://Weapons/BasicShootable.gd" id="3_5gkfv"]
+[ext_resource type="PackedScene" uid="uid://dqbme1fmb8wfh" path="res://Weapons/Hand.tscn" id="4_0sclk"]
+[ext_resource type="AudioStream" uid="uid://cs1gf5oq26d6j" path="res://Weapons/pistol/mixkit-game-gun-shot-1662.mp3" id="4_aefbm"]
+[ext_resource type="AudioStream" uid="uid://t2nyc3a70s2y" path="res://Weapons/pistol/1911-reload-6248.mp3" id="5_7xhfi"]
+[ext_resource type="PackedScene" uid="uid://negnbqdjwjn6" path="res://Weapons/effects/GunFireHeavy.tscn" id="7_ofras"]
+[ext_resource type="PackedScene" uid="uid://cq0og86h1ruwr" path="res://Weapons/effects/shell.tscn" id="8_jqsp3"]
+[ext_resource type="Script" path="res://Weapons/RecoilForce.gd" id="9_kita3"]
+[ext_resource type="Script" path="res://Weapons/GunPositioner.gd" id="11_kb5my"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sqa6h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ej0mk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_85ay5"]
+radius = 1.0
+
+[node name="Shotgun" type="Node2D"]
+script = ExtResource("1_ixoca")
+bullet_scene = ExtResource("2_pq01j")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -8)
+sprite_frames = SubResource("SpriteFrames_sqa6h")
+
+[node name="ChamberPoint" type="Node2D" parent="."]
+position = Vector2(-7, -2)
+
+[node name="BasicShootable" type="Area2D" parent="." node_paths=PackedStringArray("fire_point", "chamber_point", "recoil_force_handler")]
+position = Vector2(-7, 1)
+collision_layer = 0
+collision_mask = 10
+script = ExtResource("3_5gkfv")
+max_ammo = 12
+clip_size = 6
+shoot_speed = 0.5
+reload_time = 2.0
+fire_point = NodePath("FirePoint")
+chamber_point = NodePath("../ChamberPoint")
+on_shoot_sfx = ExtResource("4_aefbm")
+on_reload_sfx = ExtResource("5_7xhfi")
+fire_effect = ExtResource("7_ofras")
+shell_scene = ExtResource("8_jqsp3")
+recoil_force_handler = NodePath("../RecoilForce")
+
+[node name="FirePoint" type="CollisionShape2D" parent="BasicShootable"]
+position = Vector2(25, -3)
+shape = SubResource("CircleShape2D_85ay5")
+
+[node name="Hand2" parent="." instance=ExtResource("4_0sclk")]
+position = Vector2(-7, 1)
+
+[node name="Hand" parent="." instance=ExtResource("4_0sclk")]
+z_index = -1
+position = Vector2(5, -2)
+
+[node name="RecoilForce" type="Node2D" parent="."]
+script = ExtResource("9_kita3")
+recoil_duration_seconds = 0.5
+recoil_force_initial = 300
+
+[node name="GunPositioner" type="Node" parent="."]
+script = ExtResource("11_kb5my")
+position = 0.3
+
+[connection signal="successful_shoot" from="BasicShootable" to="." method="_on_basic_shootable_successful_shoot"]

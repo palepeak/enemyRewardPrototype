@@ -1,0 +1,61 @@
+[gd_scene load_steps=11 format=3 uid="uid://cgm0rtxp764ux"]
+
+[ext_resource type="Script" path="res://Weapons/pistol/pistol.gd" id="1_4cu8x"]
+[ext_resource type="PackedScene" uid="uid://b5py88y4mvx8x" path="res://Weapons/bullets/basicbullet/bullet.tscn" id="2_8bc7t"]
+[ext_resource type="Texture2D" uid="uid://cusfvukpbnflg" path="res://Weapons/pistol/pistol1.png" id="2_onvpo"]
+[ext_resource type="PackedScene" uid="uid://dqbme1fmb8wfh" path="res://Weapons/Hand.tscn" id="6_6ecje"]
+[ext_resource type="AudioStream" uid="uid://cs1gf5oq26d6j" path="res://Weapons/pistol/mixkit-game-gun-shot-1662.mp3" id="7_4bmlr"]
+[ext_resource type="PackedScene" uid="uid://c3qbv2i4yfwjr" path="res://Weapons/effects/GunFire.tscn" id="8_ikphd"]
+[ext_resource type="Script" path="res://Weapons/BasicShootable.gd" id="8_k46dr"]
+[ext_resource type="AudioStream" uid="uid://t2nyc3a70s2y" path="res://Weapons/pistol/1911-reload-6248.mp3" id="9_b4wjn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yet06"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_onvpo")
+}],
+"loop": false,
+"name": &"default",
+"speed": 9.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cxfy7"]
+radius = 1.0
+
+[node name="Pistol" type="Node2D"]
+z_index = 10
+z_as_relative = false
+script = ExtResource("1_4cu8x")
+bullet_scene = ExtResource("2_8bc7t")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(9, -2)
+sprite_frames = SubResource("SpriteFrames_yet06")
+frame_progress = 0.37483
+
+[node name="Hand" parent="." instance=ExtResource("6_6ecje")]
+
+[node name="ChamberPoint" type="Node2D" parent="."]
+position = Vector2(0, -10)
+
+[node name="BasicShootable" type="Area2D" parent="." node_paths=PackedStringArray("fire_point", "chamber_point")]
+collision_layer = 16
+collision_mask = 8
+script = ExtResource("8_k46dr")
+max_ammo = -1
+clip_size = 6
+shoot_speed = 0.2
+reload_time = 1.0
+fire_point = NodePath("FirePoint")
+chamber_point = NodePath("../ChamberPoint")
+on_shoot_sfx = ExtResource("7_4bmlr")
+on_reload_sfx = ExtResource("9_b4wjn")
+fire_effect = ExtResource("8_ikphd")
+
+[node name="FirePoint" type="CollisionShape2D" parent="BasicShootable"]
+position = Vector2(26, -10)
+shape = SubResource("CircleShape2D_cxfy7")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[connection signal="successful_shoot" from="BasicShootable" to="." method="_on_shootable_successful_shoot"]

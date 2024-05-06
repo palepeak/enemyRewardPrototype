@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://cq0og86h1ruwr"]
+
+[ext_resource type="Script" path="res://Weapons/effects/shell.gd" id="1_2fbl6"]
+[ext_resource type="Texture2D" uid="uid://coi60fhjeipi4" path="res://Weapons/effects/shell.png" id="2_3swr1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0tf0p"]
+size = Vector2(5.5, 3.5)
+
+[node name="shell" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 0
+mass = 0.1
+script = ExtResource("1_2fbl6")
+
+[node name="shellSprite" type="Sprite2D" parent="."]
+position = Vector2(8, -27)
+scale = Vector2(2, 2)
+texture = ExtResource("2_3swr1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0tf0p")
+
+[node name="DespawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="DespawnTimer" to="." method="_on_despawn_timer_timeout"]
