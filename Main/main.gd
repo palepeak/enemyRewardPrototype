@@ -67,7 +67,7 @@ func show_title_screen():
 	PlayerStore.clear_players()
 	fade_music_player.fade_into_track(FadeMusicPlayer.PlayableTracks.TrackTitle)
 	
-	$CanvasLayer/TitleScreen.visible = true
+	$CanvasLayer/TitleScreen.show_screen()
 	$CanvasLayer/Interface.visible = false
 	$CanvasLayer/GameOverScreen.visible = false
 	$CanvasLayer/PauseScreen.visible = false
@@ -88,7 +88,7 @@ func show_win_screen():
 
 func toggle_pause_screen():
 	get_tree().paused = !get_tree().paused
-	$CanvasLayer/PauseScreen.visible = get_tree().paused
+	$CanvasLayer/PauseScreen.handle_paused()
 
 
 func stop_loading_screen():

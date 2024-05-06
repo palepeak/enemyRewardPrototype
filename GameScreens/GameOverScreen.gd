@@ -1,7 +1,7 @@
 extends Control
 
-
 func show_screen():
+	$StartButton.grab_focus()
 	visible = true
 	($AnimationPlayer as AnimationPlayer).play("show")
 

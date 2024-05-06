@@ -3,6 +3,11 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	show_screen()
+
+
+func show_screen():
+	visible = true
 	$StartButton.grab_focus()
 
 
