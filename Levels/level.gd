@@ -33,8 +33,10 @@ func _process(_delta):
 	var player = PlayerStore.get_primary_player()
 	if player != null:
 		if ControlsManager.using_mouse:
+			($Camera2D as Camera2D).position_smoothing_speed = 20
 			$Player/Crosshair.visible = false
 		if !ControlsManager.using_mouse:
+			($Camera2D as Camera2D).position_smoothing_speed = 5
 			$Player/Crosshair.visible = true
 			$Player/Crosshair.position = (ControlsManager.get_aim_target_local(self, 300))
 	$LevelMapContainer/Sprite2D.material.set_shader_parameter(
