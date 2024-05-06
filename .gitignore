@@ -4,3 +4,5 @@
 *.tpz
 *.tmp
 .idea/
+export
+*.aseprite
