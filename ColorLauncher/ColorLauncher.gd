@@ -19,20 +19,29 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if Input.is_action_pressed("launch_color") && can_launch:
+	if Input.is_action_just_released("launch_color") && can_launch:
+		$Line2D.visible = true
 		_fire()
+	if Input.is_action_pressed("launch_color"):
+		$Line2D.visible = true
+	elif Input.is_action_just_pressed("shoot") || Input.get_action_strength("shoot") >= 0.5:
+		$Line2D.visible = false
 		
 	var bar = $ReloadBar as TextureProgressBar
 	var value = (reload_timer.wait_time - reload_timer.time_left)/reload_timer.wait_time
 	bar.value = value * 100	
 	
-	var local_mouse_position = to_local(get_global_mouse_position())
-	raycast.target_position = local_mouse_position
-	raycast.force_raycast_update()
-	
-	var target_launch_position = local_mouse_position
-	if (raycast.is_colliding()):
-		target_launch_position = to_local(raycast.get_collision_point())
+	var target_launch_position = ControlsManager.get_aim_target_local(self, max_range)
+	if target_launch_position != Vector2.ZERO:
+		raycast.target_position = target_launch_position
+		raycast.force_raycast_update()
+		
+		if (raycast.is_colliding()):
+			target_launch_position = to_local(raycast.get_collision_point())
+	else: 
+		# same start and end point path not supported, add in slight offset
+		# a delta that is too small causes the same issue
+		target_launch_position = Vector2(0, 10)
 	
 	if position.distance_to(target_launch_position) > max_range:
 		target_launch_position = target_launch_position.normalized() * max_range
@@ -41,7 +50,6 @@ func _process(_delta):
 		
 	var point_in_x = (target_launch_position - $Path2D.curve.get_point_position(0)).x * -400/1152
 	var point_in_y = min(-200, (target_launch_position - $Path2D.curve.get_point_position(0)).y)
-	# $Sprite2D2.global_position = $Sprite2D2.get_global_mouse_position()
 	$Path2D.curve.set_point_position(1, target_launch_position)
 	$Path2D.curve.set_point_in(1, Vector2(point_in_x, point_in_y))
 	$Path2D.curve.set_point_out(0, Vector2(-point_in_x, point_in_y))

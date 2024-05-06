@@ -30,6 +30,13 @@ func _ready():
 
 
 func _process(_delta):
+	var player = PlayerStore.get_primary_player()
+	if player != null:
+		if ControlsManager.using_mouse:
+			$Player/Crosshair.visible = false
+		if !ControlsManager.using_mouse:
+			$Player/Crosshair.visible = true
+			$Player/Crosshair.position = (ControlsManager.get_aim_target_local(self, 300))
 	$LevelMapContainer/Sprite2D.material.set_shader_parameter(
 		"color_map", 
 		world_color_store.get_color_texture(),
@@ -38,13 +45,9 @@ func _process(_delta):
 		"color_map", 
 		world_color_store.get_color_texture(),
 	)
-	var mouse_position = get_viewport().get_mouse_position()
-	var viewport = get_viewport_rect().size
-	var bound_mouse_position = Vector2(
-		max(0, min(mouse_position.x, viewport.x)),
-		max(0, min(mouse_position.y, viewport.y))
-	)
-	var camera_adjustment = (bound_mouse_position - viewport/2)/3
+	
+	var aim_position = ControlsManager.get_aim_target_viewport(self)
+	var camera_adjustment = aim_position
 	if has_node("Player"):
 		$Camera2D.global_position = $Player.global_position + camera_adjustment
 

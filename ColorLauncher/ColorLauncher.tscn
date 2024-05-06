@@ -20,7 +20,7 @@ gradient = SubResource("Gradient_m4vp3")
 
 [sub_resource type="Curve2D" id="Curve2D_f0nq2"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+"points": PackedVector2Array(0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 1, 0)
 }
 point_count = 2
 

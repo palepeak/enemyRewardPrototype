@@ -3,12 +3,12 @@ class_name Player extends CharacterBody2D
 # Exports
 @export var gun_scene: PackedScene
 @export var dead: bool = false
+@export var speed = 400
 
 # Global
 
 # Local
 @onready var sprite: HitFlashSprite = $HitFlashSprite
-var speed = 400
 var gun: Node2D
 var is_left_hand = false
 var gun_one_handed = true
@@ -29,7 +29,7 @@ func _process(_delta):
 	if dead:
 		return
 	
-	var direction = get_mouse_position_rotation()
+	var direction = get_aim_position_rotation()
 	$PositionLabel.text = str(global_position)
 	if not is_left_hand and (direction > 2 * PI/3 or direction < -2 * PI/3):
 		# switch to left hand
@@ -50,15 +50,7 @@ func _process(_delta):
 		gun.rotation = get_gun_rotation(is_left_hand)
 		gun.z_index = z_index+1
 	
-	velocity = Vector2.ZERO # The player's movement vector.
-	if Input.is_action_pressed("move_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("move_left"):
-		velocity.x -= 1
-	if Input.is_action_pressed("move_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("move_up"):
-		velocity.y -= 1
+	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 
 	var moving = false
 	if velocity.length() > 0:
@@ -123,14 +115,14 @@ func remove_gun():
 		remove_child(gun)
 		gun = null
 	
-func get_mouse_position_rotation() -> float:
-	return (ControlsManager.get_aim_position(self) - global_position).normalized().angle()
+func get_aim_position_rotation() -> float:
+	return (ControlsManager.get_aim_target_local(self, 1)).normalized().angle()
 
 
 func get_gun_rotation(is_flipped) -> float:
 	var opposite = gun.opposite
-	var hypotnuse = ControlsManager.get_aim_position(self).distance_to(gun.global_position)
-	var base_rotation = (ControlsManager.get_aim_position(self) - gun.global_position).normalized().angle()
+	var hypotnuse = ControlsManager.get_aim_target_global(self, 100).distance_to(gun.global_position)
+	var base_rotation = (ControlsManager.get_aim_target_global(self, 100) - gun.global_position).normalized().angle()
 	if is_flipped:
 		return base_rotation - asin(opposite/hypotnuse) + PI
 	return base_rotation + asin(opposite/hypotnuse)

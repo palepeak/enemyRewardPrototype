@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cj2jvej3dn5hd"]
+[gd_scene load_steps=27 format=3 uid="uid://cj2jvej3dn5hd"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_1c74q"]
 [ext_resource type="TileSet" uid="uid://cq5gbuw7llxcs" path="res://Levels/Rooms/Floor2.tres" id="2_dgrop"]
@@ -8,12 +8,16 @@
 [ext_resource type="Script" path="res://Levels/Rooms/RoomCreator.gd" id="6_i3txd"]
 [ext_resource type="PackedScene" uid="uid://bnj1hmykfok1i" path="res://EnemyUtils/CameraEnemySpawner.tscn" id="6_or3tf"]
 [ext_resource type="PackedScene" uid="uid://c1beqhdh73cbk" path="res://ColorLauncher/ColorLauncher.tscn" id="6_ydeno"]
+[ext_resource type="Texture2D" uid="uid://ctnhnpl1gnvm0" path="res://Resources/crosshair_large.png" id="7_q8lgi"]
 [ext_resource type="Script" path="res://Levels/Layouts/LayoutCreator.gd" id="7_vn5su"]
 [ext_resource type="Script" path="res://Stores/WorldColorStore.gd" id="9_4ecwn"]
 [ext_resource type="Shader" path="res://Levels/LevelShadow.gdshader" id="9_ucyfx"]
 [ext_resource type="Texture2D" uid="uid://7cafgqgj3tkf" path="res://Resources/smoke.png" id="10_3iaqs"]
 [ext_resource type="Script" path="res://Levels/DarknessParticle2D.gd" id="10_chu0m"]
 [ext_resource type="PackedScene" uid="uid://be5xe1ejj8plo" path="res://Levels/FunctionalRooms/BossRoom.tscn" id="16_qv37e"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_a65kv"]
+light_mode = 1
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rge26"]
 shader = ExtResource("2_p4isx")
@@ -79,21 +83,6 @@ shader_parameter/color_value = Color(1, 1, 1, 1)
 shader_parameter/gravity = Vector3(0, 1, 0)
 shader_parameter/color_ramp = SubResource("GradientTexture1D_yd75n")
 
-[sub_resource type="Animation" id="Animation_qv6nq"]
-resource_name = "fade_out"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_pc3kg"]
 resource_name = "fade_in"
 tracks/0/type = "value"
@@ -107,6 +96,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_qv6nq"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_3jgmy"]
@@ -180,6 +184,13 @@ height = 4000.0
 
 [node name="ColorLauncher" parent="Player" node_paths=PackedStringArray("worldColorStore") instance=ExtResource("6_ydeno")]
 worldColorStore = NodePath("../../WorldColorStore")
+
+[node name="Crosshair" type="Sprite2D" parent="Player"]
+z_index = 2000
+z_as_relative = false
+material = SubResource("CanvasItemMaterial_a65kv")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_q8lgi")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(400, 439)

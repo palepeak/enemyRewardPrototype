@@ -47,7 +47,7 @@ func _ready():
 	add_child(audio_stream_player_reload)
 
 func _input(event):
-	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+	if Input.is_action_just_pressed("shoot"):
 		# No ammo left, nothing to do
 		if current_ammo == 0 and current_clip_ammo <= 0:
 			return

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cj7p86h4ojskm"]
+[gd_scene load_steps=8 format=3 uid="uid://cj7p86h4ojskm"]
 
 [ext_resource type="Script" path="res://Interface/Interface.gd" id="1_7dwbl"]
 [ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_6eq1f"]
 [ext_resource type="PackedScene" uid="uid://cdsetlk7430dq" path="res://Interface/HealthLantern.tscn" id="3_ypn5q"]
 [ext_resource type="PackedScene" uid="uid://brh810ofxocq5" path="res://Interface/DebugMenu.tscn" id="4_1we2d"]
+[ext_resource type="Texture2D" uid="uid://blbodk68nkmyp" path="res://Resources/key.png" id="5_ya6of"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j46oq"]
 bg_color = Color(0, 0, 0, 0.65098)
@@ -66,3 +67,7 @@ color = Color(0.917647, 0.988235, 0.435294, 1)
 [node name="DebugMenu" parent="." instance=ExtResource("4_1we2d")]
 visible = false
 layout_mode = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(822, 490)
+texture = ExtResource("5_ya6of")
