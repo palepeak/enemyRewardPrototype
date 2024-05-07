@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://cgh0bx0ywd8gd"]
+[gd_scene load_steps=71 format=3 uid="uid://cgh0bx0ywd8gd"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_cte7x"]
 [ext_resource type="PackedScene" uid="uid://cgm0rtxp764ux" path="res://Weapons/pistol/pistol.tscn" id="2_xv2d8"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://umsvnyu32sng" path="res://Player/PlayerDeathParticle.tscn" id="9_he3dn"]
 [ext_resource type="PackedScene" uid="uid://bbpab1rj0viwd" path="res://Player/PlayerHitbox.tscn" id="10_5tmny"]
 [ext_resource type="Script" path="res://Levels/PauseHandler.gd" id="11_aqhya"]
+[ext_resource type="Script" path="res://Player/ReloadBar.gd" id="12_ekd6h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dkms4"]
 size = Vector2(27, 10)
@@ -409,6 +410,47 @@ point_count = 2
 radius = 14.0
 height = 42.0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pbly2"]
+light_mode = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_winop"]
+bg_color = Color(0.325441, 0.325441, 0.325441, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xgcut"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_b6cnq"]
+resource_name = "reload"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 100.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ug43w"]
+_data = {
+"reload": SubResource("Animation_b6cnq")
+}
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 3
 collision_mask = 2
@@ -464,5 +506,23 @@ debug_color = Color(0.913725, 0, 0.72549, 0.419608)
 [node name="PauseHandler" type="Node" parent="."]
 process_mode = 3
 script = ExtResource("11_aqhya")
+
+[node name="ReloadBar" type="ProgressBar" parent="."]
+visible = false
+z_index = 3000
+material = SubResource("CanvasItemMaterial_pbly2")
+offset_left = -16.0
+offset_top = -31.0
+offset_right = 16.0
+offset_bottom = -29.0
+theme_override_styles/background = SubResource("StyleBoxFlat_winop")
+theme_override_styles/fill = SubResource("StyleBoxFlat_xgcut")
+show_percentage = false
+script = ExtResource("12_ekd6h")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ReloadBar"]
+libraries = {
+"": SubResource("AnimationLibrary_ug43w")
+}
 
 [connection signal="player_hit" from="PlayerHitbox" to="PlayerHealthManager" method="process_hit"]

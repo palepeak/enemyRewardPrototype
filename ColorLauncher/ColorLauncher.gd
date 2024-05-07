@@ -9,6 +9,7 @@ class_name ColorLauncher extends Node2D
 
 @onready var reload_timer: Timer = $Timer
 @onready var raycast: RayCast2D = $RayCast2D
+@onready var reload_bar: ProgressBar = $ReloadBar
 var can_launch = true
 
 
@@ -27,9 +28,8 @@ func _process(_delta):
 	elif Input.is_action_just_pressed("shoot") || Input.get_action_strength("shoot") >= 0.5:
 		$Line2D.visible = false
 		
-	var bar = $ReloadBar as TextureProgressBar
 	var value = (reload_timer.wait_time - reload_timer.time_left)/reload_timer.wait_time
-	bar.value = value * 100	
+	reload_bar.value = value * 100	
 	
 	var player = null
 	if get_parent() is Player:

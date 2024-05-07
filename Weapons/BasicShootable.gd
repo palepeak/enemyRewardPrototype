@@ -9,7 +9,8 @@ signal successful_shoot()
 @onready var current_clip_ammo = clip_size
 @export var shoot_speed: float
 @onready var shoot_timer = Timer.new()
-var can_shoot = true
+var in_shoot_cooldown = false
+var reloading = false
 @export var reload_time: float
 @onready var reload_timer = Timer.new()
 @export var fire_point: CollisionShape2D
@@ -66,7 +67,7 @@ func _process(_delta):
 	
 		
 func try_shoot():
-	if can_shoot && current_clip_ammo > 0 && not in_wall:
+	if !in_shoot_cooldown && !reloading && current_clip_ammo > 0 && not in_wall:
 		if fire_effect != null:
 			var fire = fire_effect.instantiate()
 			fire.global_position = fire_point.global_position
@@ -80,26 +81,29 @@ func try_shoot():
 			shell.global_rotation = global_rotation
 			get_tree().root.add_child(shell)
 			
-		can_shoot = false
+		in_shoot_cooldown = true
 		shoot_timer.start(shoot_speed)
 		current_clip_ammo -= 1
 		HudUiStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
 		successful_shoot.emit()
 		audio_stream_player_shoot.play()
 
+
 func on_shoot_ready():
-	can_shoot = true
-	
+	in_shoot_cooldown = false
+
+
 func start_reload():
 	if !reload_timer.is_stopped():
 		return
 	if !audio_stream_player_reload.playing:
 		audio_stream_player_reload.play()
-	can_shoot = false
+	reloading = true
+	HudUiStore.reload_started.emit(reload_time)
 	reload_timer.start(reload_time)
 
 func on_reload_ready():
-	can_shoot = true
+	reloading = false
 	# No max ammo, processing differently
 	if current_ammo == -1:
 		current_clip_ammo = clip_size

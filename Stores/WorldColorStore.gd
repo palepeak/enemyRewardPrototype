@@ -163,6 +163,9 @@ func _update_progress_percent(progress):
 func _coord_on_tilemap_contains_scoring_tile(position) -> bool:
 	var tilemap_position = position
 	tilemap_position *= image_compression_factor
+	# Not offsetting since the offset only affects top of walls
+	# which is not counted for scoring anyways
+	# tilemap_position += Vector2i(0, image_compression_factor)
 	tilemap_position /= 32
 	return level_tile_map.get_cell_source_id(0, tilemap_position) != -1
 
@@ -170,6 +173,9 @@ func _coord_on_tilemap_contains_scoring_tile(position) -> bool:
 func _coord_on_tilemap_contains_tile(position) -> bool:
 	var tilemap_position = position
 	tilemap_position *= image_compression_factor
+	# adjusting by the image_compression_factor since int division
+	# trims the decimal. Not doing this might result in off by 1.
+	tilemap_position += Vector2i(0, image_compression_factor)
 	tilemap_position /= 32
 	
 	var boss_map_position = position

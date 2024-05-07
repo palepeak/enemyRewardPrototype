@@ -1,22 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://c1beqhdh73cbk"]
+[gd_scene load_steps=11 format=3 uid="uid://c1beqhdh73cbk"]
 
 [ext_resource type="Script" path="res://ColorLauncher/ColorLauncher.gd" id="1_0yvia"]
 [ext_resource type="PackedScene" uid="uid://bbqtvmlr8aflb" path="res://ColorLauncher/ColorBomb.tscn" id="2_edipv"]
 [ext_resource type="PackedScene" uid="uid://dx413vrlj5dkt" path="res://ColorLauncher/ColorBombResidual.tscn" id="3_rbfr7"]
 [ext_resource type="AudioStream" uid="uid://2bt8l0j7j23f" path="res://Resources/throw_woosh.wav" id="4_pyab2"]
-
-[sub_resource type="Gradient" id="Gradient_0d8vc"]
-colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_55osv"]
-gradient = SubResource("Gradient_0d8vc")
-
-[sub_resource type="Gradient" id="Gradient_m4vp3"]
-offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
-colors = PackedColorArray(0.619608, 0.0196078, 0.388235, 1, 0.74902, 0.105882, 0.321569, 1, 0.929412, 0.466667, 0.25098, 1, 0.917647, 0.988235, 0.435294, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_bx2vj"]
-gradient = SubResource("Gradient_m4vp3")
 
 [sub_resource type="Curve2D" id="Curve2D_f0nq2"]
 _data = {
@@ -24,29 +11,26 @@ _data = {
 }
 point_count = 2
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_fobs4"]
+light_mode = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pa1lv"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_m4vp3"]
+offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
+colors = PackedColorArray(0.619608, 0.0196078, 0.388235, 1, 0.74902, 0.105882, 0.321569, 1, 0.929412, 0.466667, 0.25098, 1, 0.917647, 0.988235, 0.435294, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_eam0l"]
+gradient = SubResource("Gradient_m4vp3")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mff3n"]
+texture = SubResource("GradientTexture1D_eam0l")
+
 [node name="ColorLauncher" type="Node2D"]
 script = ExtResource("1_0yvia")
 bomb = ExtResource("2_edipv")
 bomb_residual = ExtResource("3_rbfr7")
-
-[node name="ReloadBar" type="TextureProgressBar" parent="."]
-z_index = 4000
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -40.0
-offset_right = 224.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.25, 4)
-value = 100.0
-allow_greater = true
-allow_lesser = true
-texture_under = SubResource("GradientTexture1D_55osv")
-texture_progress = SubResource("GradientTexture1D_bx2vj")
 
 [node name="Path2D" type="Path2D" parent="."]
 curve = SubResource("Curve2D_f0nq2")
@@ -66,5 +50,25 @@ collide_with_areas = true
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_pyab2")
 max_polyphony = 5
+
+[node name="ReloadBar" type="ProgressBar" parent="."]
+z_index = 4000
+material = SubResource("CanvasItemMaterial_fobs4")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -40.0
+offset_right = 16.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_pa1lv")
+theme_override_styles/fill = SubResource("StyleBoxTexture_mff3n")
+allow_greater = true
+allow_lesser = true
+show_percentage = false
 
 [connection signal="timeout" from="Timer" to="." method="_on_reload_timer_timeout"]
