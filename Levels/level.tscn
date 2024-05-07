@@ -159,7 +159,7 @@ script = ExtResource("7_vn5su")
 script = ExtResource("6_i3txd")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.439216, 0.439216, 0.439216, 1)
+color = Color(0.687215, 0.687215, 0.687215, 1)
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
 rotation = -0.827286
@@ -207,6 +207,7 @@ spawn_frequency = 4.0
 [node name="LevelMapContainer" type="Node" parent="."]
 
 [node name="BossRoom" parent="LevelMapContainer" node_paths=PackedStringArray("world_color_store") instance=ExtResource("16_qv37e")]
+target_progress = 5
 world_color_store = NodePath("../../WorldColorStore")
 
 [node name="Sprite2D" type="Sprite2D" parent="LevelMapContainer"]

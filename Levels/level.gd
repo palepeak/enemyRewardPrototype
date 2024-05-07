@@ -16,7 +16,9 @@ signal setup_complete
 
 func set_floor(floor_arg: int):
 	init_setup.emit()
-	$LevelMapContainer/SubViewport/LevelMap.tile_set = get_floor_tileset(floor_arg)
+	var tileset = get_floor_tileset(floor_arg)
+	$LevelMapContainer/SubViewport/LevelMap.tile_set = tileset
+	$LevelMapContainer/BossRoom.tile_set = tileset
 	room_creator = $RoomCreator as RoomCreator
 	layout_creator = $LayoutCreator as LayoutCreator
 	layout_creator.get_layout(floor_arg)
@@ -57,8 +59,10 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	# debug rooms
 	var room1 = RoomState.new(0, 0, 20, 20, 3)
 	var room2 = RoomState.new(60, 0, 20, 20, 3)
+	var room3 = RoomState.new(90, 0, 15, 30, 3)
 	room_creator.create_room(room1, level_map, self)
 	room_creator.create_room(room2, level_map, self)
+	room_creator.create_room(room3, level_map, self)
 	
 	var room1_exit = room1.get_exits(RoomState.RoomDirection.RIGHT)[0]
 	var room2_exit = room2.get_exits(RoomState.RoomDirection.LEFT)[0]
@@ -66,6 +70,9 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	var room1_exit2 = room1.get_exits(RoomState.RoomDirection.RIGHT)[1]
 	var room2_exit2 = room2.get_exits(RoomState.RoomDirection.LEFT)[1]
 	room_creator.create_hall(HallState.new(room1_exit2, room2_exit2, 3), level_map)
+	var room2_exit3 = room2.get_exits(RoomState.RoomDirection.RIGHT)[0]
+	var room3_exit1 = room3.get_exits(RoomState.RoomDirection.LEFT)[0]
+	room_creator.create_hall(HallState.new(room2_exit3, room3_exit1, 3), level_map)
 	room_creator.place_boss_room(
 		room2.get_exits(RoomState.RoomDirection.TOP)[1], 
 		level_map, 
