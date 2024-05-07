@@ -116,13 +116,13 @@ func remove_gun():
 		gun = null
 	
 func get_aim_position_rotation() -> float:
-	return (ControlsManager.get_aim_target_local(self, 1)).normalized().angle()
+	return (ControlsManager.get_aim_target_local(self, 300)).normalized().angle()
 
 
 func get_gun_rotation(is_flipped) -> float:
 	var opposite = gun.opposite
-	var hypotnuse = ControlsManager.get_aim_target_global(self, 100).distance_to(gun.global_position)
-	var base_rotation = (ControlsManager.get_aim_target_global(self, 100) - gun.global_position).normalized().angle()
+	var hypotnuse = ControlsManager.get_aim_target_global(self, 300).distance_to(gun.global_position)
+	var base_rotation = (ControlsManager.get_aim_target_global(self, 300) - gun.global_position).normalized().angle()
 	if is_flipped:
 		return base_rotation - asin(opposite/hypotnuse) + PI
 	return base_rotation + asin(opposite/hypotnuse)

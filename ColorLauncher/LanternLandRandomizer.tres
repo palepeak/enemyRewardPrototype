@@ -1,0 +1,17 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=5 format=3 uid="uid://dlpl06fxhfakp"]
+
+[ext_resource type="AudioStream" uid="uid://gtjtyk5negjw" path="res://Resources/lantern_land1.wav" id="1_v071u"]
+[ext_resource type="AudioStream" uid="uid://b14t6eqdv373l" path="res://Resources/lantern_land2.wav" id="2_mblhs"]
+[ext_resource type="AudioStream" uid="uid://7h4bpbo63shp" path="res://Resources/lantern_land3.wav" id="3_5pciw"]
+[ext_resource type="AudioStream" uid="uid://c2vwc8ntg637w" path="res://Resources/lantern_land4.wav" id="4_5j0yb"]
+
+[resource]
+streams_count = 4
+stream_0/stream = ExtResource("1_v071u")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_mblhs")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("3_5pciw")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("4_5j0yb")
+stream_3/weight = 1.0

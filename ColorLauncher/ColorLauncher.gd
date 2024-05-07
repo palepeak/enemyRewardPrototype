@@ -31,7 +31,10 @@ func _process(_delta):
 	var value = (reload_timer.wait_time - reload_timer.time_left)/reload_timer.wait_time
 	bar.value = value * 100	
 	
-	var target_launch_position = ControlsManager.get_aim_target_local(self, max_range)
+	var player = null
+	if get_parent() is Player:
+		player = get_parent()
+	var target_launch_position = ControlsManager.get_aim_target_local(player, max_range)
 	if target_launch_position != Vector2.ZERO:
 		raycast.target_position = target_launch_position
 		raycast.force_raycast_update()

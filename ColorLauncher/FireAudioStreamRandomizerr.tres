@@ -1,0 +1,10 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=2 format=3 uid="uid://dn577opaywpjm"]
+
+[ext_resource type="AudioStream" uid="uid://bsd0ebh5onqkb" path="res://Resources/fire_whoosh.wav" id="1_3ukwv"]
+
+[resource]
+playback_mode = 1
+random_pitch = 1.2
+streams_count = 1
+stream_0/stream = ExtResource("1_3ukwv")
+stream_0/weight = 1.0

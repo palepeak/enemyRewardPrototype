@@ -2,8 +2,7 @@ class_name WinScreen extends Control
 
 @onready var time_label: Label = $VBoxContainer2/TimeLabel
 
-func _ready():
-	show_screen()
+
 func show_screen():
 	$VBoxContainer2/StartButton.grab_focus()
 	($AnimationPlayer as AnimationPlayer).play("show")

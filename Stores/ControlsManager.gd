@@ -17,16 +17,16 @@ func _process(_delta):
 		using_mouse = true
 
 
-func get_aim_target_local(parent: Node2D, max_range: int = 1) -> Vector2:
+func get_aim_target_local(player: Player, max_range: int = 1) -> Vector2:
+	return player.to_local(get_aim_target_global(player, max_range))
+
+
+func get_aim_target_global(player: Player, max_range: int = 1) -> Vector2:
 	if using_mouse:
-		return parent.to_local(parent.get_global_mouse_position())
+		return player.get_global_mouse_position()
 	else:
 		var joy_stick_aim = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
-		return joy_stick_aim * max_range
-
-
-func get_aim_target_global(parent: Node2D, max_range: int = 1) -> Vector2:
-	return parent.to_global(get_aim_target_local(parent, max_range))
+		return player.to_global(joy_stick_aim * max_range)
 
 func get_aim_target_viewport(parent: Node2D) -> Vector2:
 	if using_mouse:

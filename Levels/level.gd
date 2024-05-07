@@ -38,7 +38,7 @@ func _process(_delta):
 		if !ControlsManager.using_mouse:
 			($Camera2D as Camera2D).position_smoothing_speed = 5
 			$Player/Crosshair.visible = true
-			$Player/Crosshair.position = (ControlsManager.get_aim_target_local(self, 300))
+			$Player/Crosshair.position = (ControlsManager.get_aim_target_local(player, 300))
 	$LevelMapContainer/Sprite2D.material.set_shader_parameter(
 		"color_map", 
 		world_color_store.get_color_texture(),
