@@ -8,6 +8,7 @@ var gun_range = 300
 @onready var opposite = $ChamberPoint.global_position.distance_to(global_position)
 @export var bullet_scene: PackedScene
 
+
 func _on_basic_shootable_successful_shoot():
 	for n in gun_bullet_count:
 		var random_spread = randf_range(-gun_spread, gun_spread)

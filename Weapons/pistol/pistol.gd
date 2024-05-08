@@ -5,6 +5,7 @@ var bullet_speed = 1000
 @export var bullet_scene: PackedScene
 var gun_range = 3000
 
+
 func _on_shootable_successful_shoot():
 	var bullet = bullet_scene.instantiate()
 	bullet.global_rotation = global_rotation

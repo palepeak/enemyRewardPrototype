@@ -1,51 +1,24 @@
 extends Node2D
 
+@onready var loading_screen_loader: LoadingScreenLoader = $CanvasLayer/LoadingScreenLoader
 const LEVEL_PATH = "res://Levels/level.tscn"
-var level_loading = false
-var level_loaded = false
+var level_ready = false
 const MUSIC_PLAYER_PATH = "res://Main/FadeMusicPlayer.tscn"
-var music_loaded = false
-var current_level: Level
 
 var fade_music_player: FadeMusicPlayer
 
 
 func _ready():
-	ResourceLoader.load_threaded_request(MUSIC_PLAYER_PATH)
+	var on_music_loaded = func (res):
+		fade_music_player = res.instantiate() as FadeMusicPlayer
+		add_child(fade_music_player)
+	loading_screen_loader.load(MUSIC_PLAYER_PATH, on_music_loaded)
 	
 	GameStateStore.game_started.connect(start_game)
 	GameStateStore.show_title_screen.connect(show_title_screen)
 	GameStateStore.show_game_over_screen.connect(show_game_over_screen)
 	GameStateStore.toggle_pause_screen.connect(toggle_pause_screen)
 	GameStateStore.show_win_screen.connect(show_win_screen)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	# Loading level using a separate thread, with responsive loading screen 
-	if level_loading && not level_loaded:
-		var progress_array = []
-		var load_progress = ResourceLoader.load_threaded_get_status(LEVEL_PATH, progress_array)
-		if load_progress == ResourceLoader.THREAD_LOAD_LOADED:
-			current_level = ResourceLoader.load_threaded_get(LEVEL_PATH).instantiate() as Level
-			current_level.setup_complete.connect(stop_loading_screen)
-			current_level.set_floor(1)
-			GameStateStore.set_level(current_level)
-			fade_music_player.fade_into_track(FadeMusicPlayer.PlayableTracks.TrackLevel1)
-			add_child(current_level)
-			$CanvasLayer/Interface.show_hud()
-			level_loading = false
-			level_loaded = true
-	
-	
-	if not music_loaded:
-		var progress_array = []
-		var load_progress = ResourceLoader.load_threaded_get_status(MUSIC_PLAYER_PATH, progress_array)
-		if load_progress == ResourceLoader.THREAD_LOAD_LOADED:
-			fade_music_player = ResourceLoader.load_threaded_get(MUSIC_PLAYER_PATH).instantiate() as FadeMusicPlayer
-			add_child(fade_music_player)
-			music_loaded = true
-			stop_loading_screen()
 
 
 func start_game():
@@ -56,10 +29,22 @@ func start_game():
 	$CanvasLayer/PauseScreen.visible = false
 	$CanvasLayer/GameOverScreen.visible = false
 	$CanvasLayer/WinScreen.visible = false
-	level_loading = true
-	level_loaded = false
-	start_loading_screen()
-	ResourceLoader.load_threaded_request(LEVEL_PATH)
+	
+	level_ready = false
+	var on_loaded = func (level_res):
+		var current_level = level_res.instantiate() as Level
+		current_level.setup_complete.connect(func(): level_ready = true)
+		current_level.set_floor(1)
+		GameStateStore.set_level(current_level)
+		fade_music_player.fade_into_track(FadeMusicPlayer.PlayableTracks.TrackLevel1)
+		add_child(current_level)
+		$CanvasLayer/Interface.show_hud()
+	
+	var stop_load_override = func() -> bool: return level_ready
+	
+		
+	loading_screen_loader.load(LEVEL_PATH, on_loaded, stop_load_override)
+		
 
 
 func show_title_screen():
@@ -89,11 +74,3 @@ func show_win_screen():
 func toggle_pause_screen():
 	get_tree().paused = !get_tree().paused
 	$CanvasLayer/PauseScreen.handle_paused()
-
-
-func stop_loading_screen():
-	$CanvasLayer/AnimationPlayer.play("fade_in")
-
-
-func start_loading_screen():
-	$CanvasLayer/AnimationPlayer.play("fade_out")
