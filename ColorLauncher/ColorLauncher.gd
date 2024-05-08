@@ -68,7 +68,7 @@ func _fire():
 	bomb_instance.global_position = global_position
 	bomb_instance.worldColorStore = worldColorStore
 	bomb_instance.residual = bomb_residual
-	get_tree().root.add_child(bomb_instance)
+	GameStateStore.get_level().add_child(bomb_instance)
 
 
 func _on_reload_timer_timeout():

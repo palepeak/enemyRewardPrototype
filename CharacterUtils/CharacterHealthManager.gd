@@ -23,5 +23,5 @@ func process_death():
 	death_node.global_position = get_parent().global_position
 	if host_object.velocity.x > 0:
 		death_node.scale = Vector2(-1,1)
-	get_tree().root.add_child(death_node)
+	GameStateStore.get_level().add_child(death_node)
 	get_parent().queue_free()
