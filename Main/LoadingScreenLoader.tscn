@@ -183,7 +183,9 @@ _data = {
 "stop_load": SubResource("Animation_1a10r")
 }
 
-[node name="LoadingScreenLoader" type="Node2D"]
+[node name="LoadingScreenLoader" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_433k6")
 
 [node name="LoadingOverlay" type="ColorRect" parent="."]
@@ -195,7 +197,7 @@ color = Color(0, 0, 0, 1)
 position = Vector2(480, 184)
 sprite_frames = SubResource("SpriteFrames_2412h")
 autoplay = "default"
-frame_progress = 0.528463
+frame_progress = 0.155053
 
 [node name="ProgressBar" type="ProgressBar" parent="LoadingOverlay"]
 layout_mode = 1

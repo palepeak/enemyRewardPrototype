@@ -1,4 +1,4 @@
-class_name LoadingScreenLoader extends Node2D
+class_name LoadingScreenLoader extends Control
 # Design decisions:
 #	- Resources loaded from here shouldn't be needed immediately, because of the
 #	  Loading screen transitions

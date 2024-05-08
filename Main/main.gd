@@ -39,12 +39,9 @@ func start_game():
 		fade_music_player.fade_into_track(FadeMusicPlayer.PlayableTracks.TrackLevel1)
 		add_child(current_level)
 		$CanvasLayer/Interface.show_hud()
-	
 	var stop_load_override = func() -> bool: return level_ready
 	
-		
 	loading_screen_loader.load(LEVEL_PATH, on_loaded, stop_load_override)
-		
 
 
 func show_title_screen():
