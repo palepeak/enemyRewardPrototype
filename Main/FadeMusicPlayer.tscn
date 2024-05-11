@@ -84,11 +84,13 @@ script = ExtResource("1_ntyhe")
 
 [node name="LevelAudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -10.0
+bus = &"Music"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_me7ia")
 volume_db = -10.0
 autoplay = true
+bus = &"Music"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

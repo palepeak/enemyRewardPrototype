@@ -20,11 +20,11 @@ func process_hit(_area: Area2D):
 
 func process_death():
 	var death_node = death_particle.instantiate() as GPUParticles2D
-	death_audio.reparent(death_node)
 	(death_node.process_material as ShaderMaterial).set_shader_parameter("sprite", death_sprite)
 	death_node.global_position = get_parent().global_position
 	if host_object.velocity.x > 0:
 		death_node.scale = Vector2(-1,1)
 	GameStateStore.get_level().add_child(death_node)
+	death_audio.reparent(death_node)
 	death_audio.play()
 	get_parent().queue_free()
