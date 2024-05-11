@@ -9,6 +9,7 @@ class_name Player extends CharacterBody2D
 
 # Local
 @onready var sprite: HitFlashSprite = $HitFlashSprite
+@onready var footstep_audio_player: AudioStreamPlayer = $FootstepAudioPlayer
 var gun: Node2D
 var is_left_hand = false
 var gun_one_handed = true
@@ -51,7 +52,11 @@ func _process(_delta):
 		gun.z_index = z_index+1
 	
 	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-
+	if velocity != Vector2.ZERO && !footstep_audio_player.playing:
+		footstep_audio_player.play()
+	elif velocity == Vector2.ZERO && footstep_audio_player.playing:
+		footstep_audio_player.stop()
+	
 	var moving = false
 	if velocity.length() > 0:
 		moving = true

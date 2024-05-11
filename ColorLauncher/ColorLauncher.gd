@@ -9,7 +9,6 @@ class_name ColorLauncher extends Node2D
 
 @onready var reload_timer: Timer = $Timer
 @onready var raycast: RayCast2D = $RayCast2D
-@onready var reload_bar: ProgressBar = $ReloadBar
 var can_launch = true
 
 
@@ -22,14 +21,11 @@ func _ready():
 func _process(_delta):
 	if Input.is_action_just_released("launch_color") && can_launch:
 		$Line2D.visible = true
-		_fire()
+		$ColorLauncherHeatManager.try_shoot()
 	if Input.is_action_pressed("launch_color"):
 		$Line2D.visible = true
 	elif Input.is_action_just_pressed("shoot") || Input.get_action_strength("shoot") >= 0.5:
 		$Line2D.visible = false
-		
-	var value = (reload_timer.wait_time - reload_timer.time_left)/reload_timer.wait_time
-	reload_bar.value = value * 100	
 	
 	var player = null
 	if get_parent() is Player:
@@ -57,11 +53,14 @@ func _process(_delta):
 	$Path2D.curve.set_point_in(1, Vector2(point_in_x, point_in_y))
 	$Path2D.curve.set_point_out(0, Vector2(-point_in_x, point_in_y))
 	$Line2D.points = $Path2D.curve.get_baked_points()
-	
-func _fire():
+
+
+func _on_reload_timer_timeout():
+	can_launch = true
+
+
+func _on_color_launcher_heat_manager_shot_successful():
 	$AudioStreamPlayer.play()
-	can_launch = false
-	reload_timer.start()
 	
 	var bomb_instance = bomb.instantiate() as ColorBomb
 	bomb_instance.curve = ($Path2D as Path2D).curve.duplicate()
@@ -69,7 +68,3 @@ func _fire():
 	bomb_instance.worldColorStore = worldColorStore
 	bomb_instance.residual = bomb_residual
 	GameStateStore.get_level().add_child(bomb_instance)
-
-
-func _on_reload_timer_timeout():
-	can_launch = true

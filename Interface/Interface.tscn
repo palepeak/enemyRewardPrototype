@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://cj7p86h4ojskm"]
+[gd_scene load_steps=13 format=3 uid="uid://cj7p86h4ojskm"]
 
 [ext_resource type="Script" path="res://Interface/Interface.gd" id="1_7dwbl"]
 [ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_6eq1f"]
 [ext_resource type="PackedScene" uid="uid://cdsetlk7430dq" path="res://Interface/HealthLantern.tscn" id="3_ypn5q"]
 [ext_resource type="PackedScene" uid="uid://brh810ofxocq5" path="res://Interface/DebugMenu.tscn" id="4_1we2d"]
+[ext_resource type="Shader" path="res://Interface/FlashingShader.gdshader" id="4_upeh6"]
 [ext_resource type="Texture2D" uid="uid://blbodk68nkmyp" path="res://Resources/key.png" id="5_ya6of"]
+[ext_resource type="PackedScene" uid="uid://ca12t3apc885e" path="res://ColorLauncher/HeatBar.tscn" id="6_0gixd"]
+[ext_resource type="Texture2D" uid="uid://drifurwwrnt85" path="res://icon.svg" id="7_rwlbs"]
+[ext_resource type="Script" path="res://Interface/MinimapTexture.gd" id="8_hgkkn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j46oq"]
 bg_color = Color(0, 0, 0, 0.65098)
@@ -12,62 +16,105 @@ bg_color = Color(0, 0, 0, 0.65098)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ftq0s"]
 bg_color = Color(0.74902, 0.105882, 0.321569, 1)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qo3qn"]
+shader = ExtResource("4_upeh6")
+shader_parameter/enabled = false
+shader_parameter/default_show = true
+shader_parameter/speed = 10.0
+
 [node name="Control" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 960.0
+offset_bottom = 528.0
 script = ExtResource("1_7dwbl")
 health_sprite = ExtResource("3_ypn5q")
 
 [node name="AmmoCount" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_left = 40.0
-offset_top = 71.0
-offset_right = 129.0
-offset_bottom = 111.0
+offset_left = 8.0
+offset_top = 88.0
+offset_right = 97.0
+offset_bottom = 120.0
 theme_override_fonts/normal_font = ExtResource("2_6eq1f")
 text = "6"
 
-[node name="AmmoMax" type="RichTextLabel" parent="."]
+[node name="AmmoMax" type="RichTextLabel" parent="AmmoCount"]
 layout_mode = 0
-offset_left = 40.0
-offset_top = 71.0
-offset_right = 129.0
-offset_bottom = 111.0
+offset_right = 89.0
+offset_bottom = 40.0
 theme_override_fonts/normal_font = ExtResource("2_6eq1f")
 text = "  /6"
 
 [node name="HealthBar" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 35.0
-offset_top = 25.0
-offset_right = 190.0
-offset_bottom = 65.0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 163.0
+offset_bottom = 80.0
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 layout_mode = 0
-offset_left = 100.0
-offset_top = 476.0
-offset_right = 860.0
-offset_bottom = 503.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 816.0
+offset_bottom = 40.0
 theme_override_fonts/font = ExtResource("2_6eq1f")
 theme_override_styles/background = SubResource("StyleBoxFlat_j46oq")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ftq0s")
 step = 1.0
+value = 95.0
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="ProgressBar"]
 layout_mode = 0
-offset_left = 821.0
-offset_top = 476.0
-offset_right = 823.0
-offset_bottom = 503.0
+offset_left = 768.0
+offset_top = 1.0
+offset_right = 770.0
+offset_bottom = 33.0
 color = Color(0.917647, 0.988235, 0.435294, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="ProgressBar/ColorRect"]
+material = SubResource("ShaderMaterial_qo3qn")
+position = Vector2(1, 15)
+texture = ExtResource("5_ya6of")
 
 [node name="DebugMenu" parent="." instance=ExtResource("4_1we2d")]
 visible = false
 layout_mode = 0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(822, 490)
-texture = ExtResource("5_ya6of")
+[node name="HeatBar" parent="." instance=ExtResource("6_0gixd")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -20.0
+offset_right = 88.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Minimap" type="SubViewportContainer" parent="."]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -135.0
+offset_top = 8.0
+offset_right = -7.0
+offset_bottom = 136.0
+grow_horizontal = 0
+
+[node name="SubViewport" type="SubViewport" parent="Minimap"]
+handle_input_locally = false
+size = Vector2i(128, 128)
+render_target_update_mode = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="Minimap/SubViewport"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_rwlbs")
+centered = false
+script = ExtResource("8_hgkkn")

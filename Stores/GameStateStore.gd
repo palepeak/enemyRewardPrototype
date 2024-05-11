@@ -9,6 +9,8 @@ signal show_win_screen()
 var _current_level: Level
 var _start_time: int
 
+var _clear_target: int = 999
+
 
 func start_game():
 	_start_time = Time.get_ticks_msec()
@@ -27,7 +29,11 @@ func remove_level():
 	if _current_level != null:
 		_current_level.queue_free()
 	_current_level = null
+	_clear_target = 999
 
 
 func get_level() -> Level:
 	return _current_level
+	
+func set_clear_percent(target): _clear_target = target
+func get_clear_percent() -> int: return _clear_target

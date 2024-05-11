@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://bbqtvmlr8aflb" path="res://ColorLauncher/ColorBomb.tscn" id="2_edipv"]
 [ext_resource type="PackedScene" uid="uid://dx413vrlj5dkt" path="res://ColorLauncher/ColorBombResidual.tscn" id="3_rbfr7"]
 [ext_resource type="AudioStream" uid="uid://2bt8l0j7j23f" path="res://Resources/throw_woosh.wav" id="4_pyab2"]
+[ext_resource type="Script" path="res://ColorLauncher/ColorLauncherMiniReloadBar.gd" id="5_y16mp"]
+[ext_resource type="PackedScene" uid="uid://b5n3ayidmox0q" path="res://ColorLauncherHeatManager.tscn" id="6_03m50"]
 
 [sub_resource type="Curve2D" id="Curve2D_f0nq2"]
 _data = {
@@ -15,17 +17,10 @@ point_count = 2
 light_mode = 1
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pa1lv"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(1, 1, 1, 0.568627)
 
-[sub_resource type="Gradient" id="Gradient_m4vp3"]
-offsets = PackedFloat32Array(0, 0.25, 0.5, 0.75, 1)
-colors = PackedColorArray(0.619608, 0.0196078, 0.388235, 1, 0.74902, 0.105882, 0.321569, 1, 0.929412, 0.466667, 0.25098, 1, 0.917647, 0.988235, 0.435294, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_eam0l"]
-gradient = SubResource("Gradient_m4vp3")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mff3n"]
-texture = SubResource("GradientTexture1D_eam0l")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35sfh"]
+bg_color = Color(0.929412, 0.466667, 0.25098, 1)
 
 [node name="ColorLauncher" type="Node2D"]
 script = ExtResource("1_0yvia")
@@ -66,9 +61,13 @@ offset_bottom = -38.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_pa1lv")
-theme_override_styles/fill = SubResource("StyleBoxTexture_mff3n")
+theme_override_styles/fill = SubResource("StyleBoxFlat_35sfh")
 allow_greater = true
 allow_lesser = true
 show_percentage = false
+script = ExtResource("5_y16mp")
+
+[node name="ColorLauncherHeatManager" parent="." instance=ExtResource("6_03m50")]
 
 [connection signal="timeout" from="Timer" to="." method="_on_reload_timer_timeout"]
+[connection signal="shot_successful" from="ColorLauncherHeatManager" to="." method="_on_color_launcher_heat_manager_shot_successful"]

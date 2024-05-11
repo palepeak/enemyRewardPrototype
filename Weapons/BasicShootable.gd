@@ -16,6 +16,7 @@ var reloading = false
 @export var fire_point: CollisionShape2D
 @export var chamber_point: Node2D
 var in_wall = false
+var _buffered_shot
 
 # Audio
 @onready var audio_stream_player_shoot = AudioStreamPlayer.new()
@@ -49,12 +50,6 @@ func _ready():
 
 func _input(event):
 	if Input.is_action_just_pressed("shoot"):
-		# No ammo left, nothing to do
-		if current_ammo == 0 and current_clip_ammo <= 0:
-			return
-		# Clip empty, need to reload
-		if current_clip_ammo <= 0:
-			start_reload()
 		try_shoot()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -67,30 +62,46 @@ func _process(_delta):
 	
 		
 func try_shoot():
-	if !in_shoot_cooldown && !reloading && current_clip_ammo > 0 && not in_wall:
-		if fire_effect != null:
-			var fire = fire_effect.instantiate()
-			fire.global_position = fire_point.global_position
-			fire.rotation = global_rotation
-			GameStateStore.get_level().add_child(fire)
-		if recoil_force_handler != null:
-			recoil_force_handler.start_recoil()
-		if shell_scene != null:
-			var shell = shell_scene.instantiate() as Node2D
-			shell.global_position = chamber_point.global_position
-			shell.global_rotation = global_rotation
-			GameStateStore.get_level().add_child(shell)
-			
-		in_shoot_cooldown = true
-		shoot_timer.start(shoot_speed)
-		current_clip_ammo -= 1
-		HudUiStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
-		successful_shoot.emit()
-		audio_stream_player_shoot.play()
+	
+	# No ammo left, nothing to do
+	if current_ammo == 0 and current_clip_ammo <= 0:
+		return
+	# Clip empty, need to reload
+	if current_clip_ammo <= 0:
+		start_reload()
+	if in_shoot_cooldown || reloading:
+		_buffered_shot = Time.get_ticks_msec()
+		return
+	if in_wall:
+		return
+	
+	# can fire, do so now
+	_buffered_shot = null
+	if fire_effect != null:
+		var fire = fire_effect.instantiate()
+		fire.global_position = fire_point.global_position
+		fire.rotation = global_rotation
+		GameStateStore.get_level().add_child(fire)
+	if recoil_force_handler != null:
+		recoil_force_handler.start_recoil()
+	if shell_scene != null:
+		var shell = shell_scene.instantiate() as Node2D
+		shell.global_position = chamber_point.global_position
+		shell.global_rotation = global_rotation
+		GameStateStore.get_level().add_child(shell)
+		
+	in_shoot_cooldown = true
+	shoot_timer.start(shoot_speed)
+	current_clip_ammo -= 1
+	HudUiStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
+	successful_shoot.emit()
+	audio_stream_player_shoot.play()
 
 
 func on_shoot_ready():
 	in_shoot_cooldown = false
+	if _buffered_shot && Time.get_ticks_msec() - _buffered_shot <= 200:
+		try_shoot()
 
 
 func start_reload():
@@ -108,6 +119,8 @@ func on_reload_ready():
 	if current_ammo == -1:
 		current_clip_ammo = clip_size
 		HudUiStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
+		if _buffered_shot && Time.get_ticks_msec() - _buffered_shot <= 200:
+			try_shoot()
 		return
 		
 	# Find how many ammo is needed
@@ -115,4 +128,6 @@ func on_reload_ready():
 	# Set the clip size to max clip or ammo left
 	current_clip_ammo = min(current_ammo + current_clip_ammo, clip_size)
 	HudUiStore.on_current_clip_ammo_changed.emit(current_clip_ammo)
+	if _buffered_shot && Time.get_ticks_msec() - _buffered_shot <= 200:
+		try_shoot()
 	current_ammo = max(0, current_ammo - ammo_needed)

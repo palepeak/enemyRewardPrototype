@@ -14,8 +14,8 @@ var radius = 100
 
 var total_size = 0
 var progress_pixel = 0
-var progress_percent = 0
-var emitted_progress = 0
+var progress_percent: float = 0.0
+var emitted_progress: float = 0.0
 
 var threads = []
 var requests = []
@@ -46,9 +46,9 @@ func set_world_state(level_map: TileMap, boss_map: TileMap):
 	
 	var scoring_tiles = level_map.get_used_cells(0)
 	total_size = scoring_tiles.size()*32*32
-	HudUiStore.world_progress_update.emit(0)
 			
 	color_texture = ImageTexture.create_from_image(color_image_map)
+	HudUiStore.world_progress_update.emit(0.0, color_texture)
 
 
 func get_color_texture() -> Texture2D:
@@ -126,7 +126,7 @@ func _thread_draw_color_function(
 			color_image_map.set_pixelv(current_pixel, color_bit)
 			if _coord_on_tilemap_contains_scoring_tile(current_pixel):
 				progress_pixel += image_compression_factor * image_compression_factor
-			progress_percent = progress_pixel*100/total_size
+			progress_percent = progress_pixel*100.0/total_size
 			
 			if THREADED:
 				image_mutex.unlock()
@@ -155,7 +155,7 @@ func _thread_draw_color_function(
 
 func _update_progress_percent(progress):
 	if progress >= emitted_progress:
-		HudUiStore.world_progress_update.emit(progress)
+		HudUiStore.world_progress_update.emit(progress, color_texture)
 		world_color_progress_update.emit(progress)
 
 

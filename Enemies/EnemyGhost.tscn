@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b6wbreupq0v3m"]
+[gd_scene load_steps=19 format=3 uid="uid://b6wbreupq0v3m"]
 
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="1_71u8p"]
 [ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="1_q8qrk"]
@@ -9,6 +9,8 @@
 [ext_resource type="Script" path="res://CharacterUtils/CharacterHealthManager.gd" id="5_xt14a"]
 [ext_resource type="Texture2D" uid="uid://u51ofhsr1nca" path="res://Resources/ghost_single1.png" id="6_rt6a2"]
 [ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://EnemyUtils/EnemyDeathParticle.tscn" id="9_d6cxv"]
+[ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="10_ya16m"]
+[ext_resource type="AudioStream" uid="uid://busqh3v1xmrjb" path="res://Resources/enemy_death/ghost_death.wav" id="11_l8paj"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xr0o3"]
 radius = 15.0
@@ -88,18 +90,23 @@ recalculate_path_interval = 0.2
 [node name="PlayerTracker" type="Node" parent="NoCollisionPathFinder"]
 script = ExtResource("2_8geq2")
 
-[node name="EnemyHealthManager" type="Node" parent="." node_paths=PackedStringArray("host_object")]
+[node name="EnemyHealthManager" type="Node" parent="." node_paths=PackedStringArray("host_object", "death_audio", "hit_flash_sprite")]
 script = ExtResource("5_xt14a")
 max_health = 3
 death_sprite = ExtResource("6_rt6a2")
 death_particle = ExtResource("9_d6cxv")
 host_object = NodePath("..")
+death_audio = NodePath("../AudioStreamPlayer2D")
+hit_flash_sprite = NodePath("../HitFlashAnimatedSprite2d")
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 32
-collision_mask = 4
+[node name="Area2D" parent="." node_paths=PackedStringArray("health_manager") instance=ExtResource("10_ya16m")]
+health_manager = NodePath("../EnemyHealthManager")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CapsuleShape2D_xr0o3")
 
-[connection signal="area_entered" from="Area2D" to="EnemyHealthManager" method="process_hit"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_l8paj")
+volume_db = -10.0
+attenuation = 0.153893
+max_polyphony = 5

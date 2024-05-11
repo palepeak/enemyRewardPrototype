@@ -1,0 +1,104 @@
+[gd_scene load_steps=12 format=3 uid="uid://ca12t3apc885e"]
+
+[ext_resource type="Script" path="res://ColorLauncher/HeatBar.gd" id="1_i1qbp"]
+[ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_e4vds"]
+[ext_resource type="Shader" path="res://Interface/WarningStripes.gdshader" id="3_15m23"]
+[ext_resource type="Shader" path="res://Interface/FlashingShader.gdshader" id="4_oxgdp"]
+[ext_resource type="Texture2D" uid="uid://b0fa2avbp7lxa" path="res://Resources/warning_icon.png" id="5_m2dwg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l640p"]
+bg_color = Color(0, 0, 0, 0.705882)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.619608, 0.0196078, 0.388235, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lwvnw"]
+bg_color = Color(0.929412, 0.466667, 0.25098, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.619608, 0.0196078, 0.388235, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ju58h"]
+shader = ExtResource("3_15m23")
+shader_parameter/color_gap = Color(0.25, 0.25, 0.25, 0.25)
+shader_parameter/color_stripe = Color(0.917647, 0.988235, 0.435294, 1)
+shader_parameter/divisions = 3.0
+shader_parameter/stripe_bias = 1.5
+shader_parameter/speed = 0.1
+shader_parameter/angle = 0.7854
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a88xa"]
+shader = ExtResource("4_oxgdp")
+shader_parameter/enabled = false
+shader_parameter/default_show = false
+shader_parameter/speed = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7mcf"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.74902, 0.105882, 0.321569, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3xoit"]
+bg_color = Color(0.74902, 0.105882, 0.321569, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.74902, 0.105882, 0.321569, 1)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_i1qbp")
+
+[node name="HeatBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 32.0
+rotation = -1.5708
+theme_override_styles/background = SubResource("StyleBoxFlat_l640p")
+theme_override_styles/fill = SubResource("StyleBoxFlat_lwvnw")
+show_percentage = false
+
+[node name="HeatLAbel" type="Label" parent="."]
+layout_mode = 0
+offset_left = -2.99999
+offset_top = 2.00001
+offset_right = 37.0
+offset_bottom = 25.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_e4vds")
+text = "HEAT"
+
+[node name="WarningArea" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ju58h")
+layout_mode = 0
+offset_left = 1.99963
+offset_top = -103.0
+offset_right = 25.9996
+offset_bottom = -73.0
+rotation = -1.5708
+
+[node name="WarningAreaLabel" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_a88xa")
+position = Vector2(15.9996, -116)
+texture = ExtResource("5_m2dwg")
+
+[node name="OverheatedBar" type="ProgressBar" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 128.0
+offset_bottom = 32.0
+rotation = -1.5708
+theme_override_styles/background = SubResource("StyleBoxFlat_i7mcf")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3xoit")
+value = 50.0
+show_percentage = false

@@ -6,12 +6,12 @@ var bullet_speed = 0
 var bullet_direction = Vector2(0,0)
 var bullet_range = 0
 var bullet_start_pos: Vector2
-
+var bullet_pierce = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	contact_monitor = true
-	max_contacts_reported = 5
+	max_contacts_reported = 1
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,14 +39,20 @@ func _process(delta):
 			queue_free()
 		pass
 		
-func fire(start_pos, direction: Vector2, speed, range_arg):
+func fire(start_pos, direction: Vector2, speed, range_arg, pierce = 0):
 	rotation = direction.angle()
 	self.global_position = start_pos
 	self.bullet_start_pos = start_pos
 	self.bullet_speed = speed
 	self.bullet_direction = direction
 	self.bullet_range = range_arg
+	self.bullet_pierce = pierce
 
 
 func _on_enemy_hit(_area):
-	queue_free()
+	if _area is EnemyHitbox && bullet_pierce >= 0:
+		bullet_pierce -= 1
+		_area.process_hit($DetectionArea)
+		queue_free()
+	else:
+		queue_free()

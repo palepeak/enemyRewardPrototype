@@ -8,10 +8,12 @@ func _ready():
 	HudUiStore.player_health_changed.connect(update_health)
 	DebugStore.debug_mode_changed.connect(toggle_debug_visiblity)
 
+
 func show_hud():
 	update_max_health(3)
 	update_health(3)
 	update_ammo(6)
+	$HeatBar.update_heat(0, false)
 	visible = true
 
 
@@ -23,8 +25,14 @@ func update_max_health(new_max_health):
 		$HealthBar.remove_child($HealthBar.get_children().back())
 
 
-func update_progress(progress):
+func update_progress(progress, map: Texture2D):
 	$ProgressBar.set_value(progress)
+	$Minimap/SubViewport/Sprite2D.texture = map
+	$ProgressBar/ColorRect/Sprite2D.material.set_shader_parameter(
+		"enabled",
+		progress >= GameStateStore.get_clear_percent(),
+	)
+		
 	
 
 func update_health(new_health: int):
@@ -40,7 +48,7 @@ func update_health(new_health: int):
 
 func update_ammo(ammo_count):
 	$AmmoCount.text = str(ammo_count % 7)
-	
+
 
 func toggle_debug_visiblity(debug_visible: bool):
 	($DebugMenu as VBoxContainer).visible = debug_visible

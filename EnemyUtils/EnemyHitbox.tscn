@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bndxkdjgj3au6"]
+
+[ext_resource type="Script" path="res://EnemyUtils/EnemyHitbox.gd" id="1_jt1m3"]
+
+[node name="Area2D" type="Area2D"]
+collision_layer = 32
+collision_mask = 4
+script = ExtResource("1_jt1m3")

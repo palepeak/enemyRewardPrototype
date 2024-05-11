@@ -95,34 +95,6 @@ gradient = SubResource("Gradient_m4vp3")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jjl7c"]
 texture = SubResource("GradientTexture1D_eam0l")
 
-[sub_resource type="Animation" id="Animation_1a10r"]
-resource_name = "stop_load"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("LoadingOverlay:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
 [sub_resource type="Animation" id="Animation_k542q"]
 resource_name = "start_load"
 length = 0.5
@@ -177,6 +149,34 @@ tracks/3/keys = {
 "values": [0.0]
 }
 
+[sub_resource type="Animation" id="Animation_1a10r"]
+resource_name = "stop_load"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LoadingOverlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_sqk5q"]
 _data = {
 "start_load": SubResource("Animation_k542q"),
@@ -189,6 +189,7 @@ anchors_preset = 0
 script = ExtResource("1_433k6")
 
 [node name="LoadingOverlay" type="ColorRect" parent="."]
+layout_mode = 0
 offset_right = 960.0
 offset_bottom = 528.0
 color = Color(0, 0, 0, 1)

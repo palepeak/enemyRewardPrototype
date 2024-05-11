@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://be5xe1ejj8plo"]
+[gd_scene load_steps=6 format=3 uid="uid://be5xe1ejj8plo"]
 
 [ext_resource type="TileSet" uid="uid://b26xocwdkhvvs" path="res://Levels/Rooms/Floor1.tres" id="1_4b2xn"]
 [ext_resource type="PackedScene" uid="uid://biet0vjlr3djd" path="res://Levels/FunctionalRooms/ProgressLockedDoor.tscn" id="2_mla25"]
 [ext_resource type="Script" path="res://Levels/FunctionalRooms/BossRoom.gd" id="2_u1bp8"]
+[ext_resource type="AudioStream" uid="uid://ccu1op72wfcsj" path="res://Resources/level_clear.wav" id="4_xbkcn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ms5u0"]
 size = Vector2(80, 20)
@@ -42,6 +43,11 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WinArea2D"]
 position = Vector2(0, -618)
 shape = SubResource("RectangleShape2D_ms5u0")
+
+[node name="ClearAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_xbkcn")
+volume_db = -10.0
+max_distance = 1e+08
 
 [connection signal="area_entered" from="BossRoomArea2D" to="." method="_on_boss_room_area_2d_area_entered"]
 [connection signal="area_exited" from="BossRoomArea2D" to="." method="_on_boss_room_area_2d_area_exited"]

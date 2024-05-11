@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://b5n3ayidmox0q"]
+
+[ext_resource type="Script" path="res://ColorLauncher/ColorLauncherHeatManager.gd" id="1_5jn55"]
+[ext_resource type="AudioStream" uid="uid://hu40fhca6q7k" path="res://Resources/overheat_start.wav" id="2_f4cni"]
+[ext_resource type="AudioStream" uid="uid://dvq2vxbhmdlr" path="res://Resources/overheat_main.wav" id="3_xkflc"]
+[ext_resource type="AudioStream" uid="uid://6a6osbprp8af" path="res://Resources/overheat_end.wav" id="4_2icc0"]
+
+[sub_resource type="Curve" id="Curve_w7x21"]
+_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(1, 1.5), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[node name="ColorLauncherHeatManager" type="Node"]
+script = ExtResource("1_5jn55")
+heat_recovery = SubResource("Curve_w7x21")
+
+[node name="StartSfxPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_f4cni")
+volume_db = -10.0
+
+[node name="MainSfxPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_xkflc")
+volume_db = -20.0
+
+[node name="EndSfxPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_2icc0")
+volume_db = -15.0

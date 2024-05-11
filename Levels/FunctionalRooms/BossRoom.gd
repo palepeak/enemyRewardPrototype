@@ -8,12 +8,15 @@ signal boss_room_exited(area: Area2D)
 
 
 func _ready():
+	GameStateStore.set_clear_percent(target_progress)
 	$ProgressLockedDoorLeft.target_progress = target_progress
 	$ProgressLockedDoorRight.target_progress = target_progress
 	world_color_store.world_color_progress_update.connect(_world_color_progress_update)
 
 
 func _world_color_progress_update(progress: int):
+	if $ProgressLockedDoorLeft.locked && progress >= target_progress:
+		$ClearAudio.play()
 	$ProgressLockedDoorRight.set_progress(progress)
 	$ProgressLockedDoorLeft.set_progress(progress)
 
