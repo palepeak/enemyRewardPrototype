@@ -26,7 +26,7 @@ func _process(delta):
 			_emitted_heat_value = _current_heat_value
 			HudUiStore.on_player_heat_updated.emit(_current_heat_value, _is_overheated)
 	elif _current_heat_value > 0.0:
-		var dec = delta * heat_recovery.sample_baked(_current_heat_value/100.0) * overheated_recovery_duration
+		var dec = delta * heat_recovery.sample(_current_heat_value/100.0) * (100/overheated_recovery_duration)
 		_current_heat_value -= dec
 		if _current_heat_value != _emitted_heat_value:
 			_emitted_heat_value = _current_heat_value

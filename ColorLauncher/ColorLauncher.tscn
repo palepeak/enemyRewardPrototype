@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c1beqhdh73cbk"]
+[gd_scene load_steps=12 format=3 uid="uid://c1beqhdh73cbk"]
 
 [ext_resource type="Script" path="res://ColorLauncher/ColorLauncher.gd" id="1_0yvia"]
 [ext_resource type="PackedScene" uid="uid://bbqtvmlr8aflb" path="res://ColorLauncher/ColorBomb.tscn" id="2_edipv"]
@@ -21,6 +21,12 @@ bg_color = Color(1, 1, 1, 0.568627)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35sfh"]
 bg_color = Color(0.929412, 0.466667, 0.25098, 1)
+
+[sub_resource type="Curve" id="Curve_x8pu3"]
+max_value = 2.0
+_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(1, 1.5), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
 
 [node name="ColorLauncher" type="Node2D"]
 script = ExtResource("1_0yvia")
@@ -68,6 +74,8 @@ show_percentage = false
 script = ExtResource("5_y16mp")
 
 [node name="ColorLauncherHeatManager" parent="." instance=ExtResource("6_03m50")]
+overheated_recovery_duration = 20.0
+heat_recovery = SubResource("Curve_x8pu3")
 
 [connection signal="timeout" from="Timer" to="." method="_on_reload_timer_timeout"]
 [connection signal="shot_successful" from="ColorLauncherHeatManager" to="." method="_on_color_launcher_heat_manager_shot_successful"]
