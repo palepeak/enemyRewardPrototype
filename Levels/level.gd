@@ -127,3 +127,11 @@ func exited_boss_room(_area: Area2D):
 	if progress < 95:
 		$Camera2D/CameraEnemySpawner.enabled = true
 	$LevelMapContainer/DarknessParticles/AnimationPlayer.play("fade_in")
+
+
+func global_coords_on_colored_tile(coords: Vector2) -> bool:
+	return world_color_store.global_coords_on_colored_tile(coords)
+
+
+func get_world_color_store() -> WorldColorStore:
+	return world_color_store

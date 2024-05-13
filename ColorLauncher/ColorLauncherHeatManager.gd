@@ -9,19 +9,18 @@ signal shot_successful()
 var _current_heat_value = 0.0
 var _emitted_heat_value = -1.0
 var _is_overheated = false
-var _current_recovery = 0.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if _is_overheated:
-		_current_recovery -= delta
-		_current_recovery = max(0.0, _current_recovery)
-		if _current_recovery <= 0.0:
+		var recover_amount = delta * 100 / overheated_recovery_duration
+		_current_heat_value -= recover_amount
+		_current_heat_value = max(0.0, _current_heat_value)
+		if _current_heat_value <= 0.0:
 			_is_overheated = false
 			$EndSfxPlayer.play()
 			$StartSfxPlayer.stop()
 			$MainSfxPlayer.stop()
-		_current_heat_value = _current_recovery * 100 / overheated_recovery_duration
 		if _current_heat_value != _emitted_heat_value:
 			_emitted_heat_value = _current_heat_value
 			HudUiStore.on_player_heat_updated.emit(_current_heat_value, _is_overheated)
@@ -44,7 +43,11 @@ func try_shoot():
 		$StartSfxPlayer.play()
 		$MainSfxPlayer.play()
 		$EndSfxPlayer.stop()
-		_current_recovery = overheated_recovery_duration
 	_emitted_heat_value = _current_heat_value
 	HudUiStore.on_player_heat_updated.emit(_current_heat_value, _is_overheated)
 	shot_successful.emit()
+
+
+func reduce_heat(amount: float):
+	_current_heat_value -= amount
+	_current_heat_value = max(0.0, _current_heat_value)

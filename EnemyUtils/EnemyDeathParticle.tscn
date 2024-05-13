@@ -89,7 +89,8 @@ _data = {
 }
 
 [node name="EnemyDeathParticle" type="GPUParticles2D"]
-z_index = 1000
+z_index = 4
+z_as_relative = false
 amount = 1000
 process_material = SubResource("ShaderMaterial_hkjog")
 texture = ExtResource("3_g15df")

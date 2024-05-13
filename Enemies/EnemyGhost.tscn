@@ -1,16 +1,19 @@
-[gd_scene load_steps=19 format=3 uid="uid://b6wbreupq0v3m"]
+[gd_scene load_steps=22 format=3 uid="uid://b6wbreupq0v3m"]
 
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="1_71u8p"]
+[ext_resource type="Script" path="res://Enemies/EnemyGhost.gd" id="1_g42gy"]
 [ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="1_q8qrk"]
 [ext_resource type="Texture2D" uid="uid://c2a3wli23ovd5" path="res://Resources/ghost.png" id="1_qn8fi"]
 [ext_resource type="Script" path="res://EnemyUtils/PlayerTracker.gd" id="2_8geq2"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyMover.gd" id="3_oro6a"]
 [ext_resource type="Script" path="res://EnemyUtils/PathFinders/NoCollisionPathFinder.gd" id="3_qiu7j"]
-[ext_resource type="Script" path="res://CharacterUtils/CharacterHealthManager.gd" id="5_xt14a"]
 [ext_resource type="Texture2D" uid="uid://u51ofhsr1nca" path="res://Resources/ghost_single1.png" id="6_rt6a2"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyHealthManager.gd" id="8_4epax"]
 [ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://EnemyUtils/EnemyDeathParticle.tscn" id="9_d6cxv"]
 [ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="10_ya16m"]
 [ext_resource type="AudioStream" uid="uid://busqh3v1xmrjb" path="res://Resources/enemy_death/ghost_death.wav" id="11_l8paj"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyDropManager.gd" id="12_2vvvt"]
+[ext_resource type="PackedScene" uid="uid://b20k2pbefecex" path="res://EnemyUtils/EnemyDrop.tscn" id="13_wupkl"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xr0o3"]
 radius = 15.0
@@ -20,6 +23,8 @@ height = 50.0
 resource_local_to_scene = true
 shader = ExtResource("1_71u8p")
 shader_parameter/frame = 0
+shader_parameter/outlined = false
+shader_parameter/line_color = Color(0.929412, 0.466667, 0.25098, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_536wr"]
 atlas = ExtResource("1_qn8fi")
@@ -58,9 +63,11 @@ animations = [{
 }]
 
 [node name="EnemyGhost" type="CharacterBody2D" groups=["Enemy"]]
-z_index = 10
+z_index = 4
+z_as_relative = false
 collision_layer = 32
-collision_mask = 0
+collision_mask = 32
+script = ExtResource("1_g42gy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_xr0o3")
@@ -91,7 +98,7 @@ recalculate_path_interval = 0.2
 script = ExtResource("2_8geq2")
 
 [node name="EnemyHealthManager" type="Node" parent="." node_paths=PackedStringArray("host_object", "death_audio", "hit_flash_sprite")]
-script = ExtResource("5_xt14a")
+script = ExtResource("8_4epax")
 max_health = 3
 death_sprite = ExtResource("6_rt6a2")
 death_particle = ExtResource("9_d6cxv")
@@ -99,10 +106,11 @@ host_object = NodePath("..")
 death_audio = NodePath("../AudioStreamPlayer2D")
 hit_flash_sprite = NodePath("../HitFlashAnimatedSprite2d")
 
-[node name="Area2D" parent="." node_paths=PackedStringArray("health_manager") instance=ExtResource("10_ya16m")]
+[node name="Hitbox" parent="." node_paths=PackedStringArray("health_manager", "enemy_mover") instance=ExtResource("10_ya16m")]
 health_manager = NodePath("../EnemyHealthManager")
+enemy_mover = NodePath("../EnemyMover")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CapsuleShape2D_xr0o3")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
@@ -110,3 +118,8 @@ stream = ExtResource("11_l8paj")
 volume_db = -10.0
 attenuation = 0.153893
 max_polyphony = 5
+
+[node name="EnemyDropManager" type="Node2D" parent="."]
+script = ExtResource("12_2vvvt")
+drop_chance = 0.5
+drop_scene = ExtResource("13_wupkl")

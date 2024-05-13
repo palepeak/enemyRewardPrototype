@@ -3,7 +3,8 @@
 [ext_resource type="Script" path="res://Levels/Rooms/RoomArea2D.gd" id="1_rpmrr"]
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_0yjnm"]
-points = PackedVector2Array(0, 0, 0, 100, 100, 100, 100, 0)
+resource_local_to_scene = true
+points = PackedVector2Array(0, 0, 0, 10, 5, 10, 5, 0)
 
 [node name="RoomArea2d" type="Area2D"]
 collision_layer = 0

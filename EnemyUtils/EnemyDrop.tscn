@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://b20k2pbefecex"]
+
+[ext_resource type="Texture2D" uid="uid://ct2i5bc3f1cv7" path="res://Resources/enemy_drop.png" id="1_akepx"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyDrop.gd" id="1_kotg0"]
+[ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://Resources/2d_lights_and_shadows_neutral_point_light.webp" id="3_yjgum"]
+
+[sub_resource type="Curve2D" id="Curve2D_07fdo"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0)
+}
+point_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e3tb2"]
+radius = 145.0
+
+[node name="EnemyRange" type="Path2D"]
+z_index = 5
+z_as_relative = false
+curve = SubResource("Curve2D_07fdo")
+script = ExtResource("1_kotg0")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+
+[node name="EnemyDrop" type="Sprite2D" parent="PathFollow2D"]
+texture = ExtResource("1_akepx")
+
+[node name="PointLight2D" type="PointLight2D" parent="PathFollow2D/EnemyDrop"]
+texture = ExtResource("3_yjgum")
+texture_scale = 0.1
+
+[node name="PickupRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRange"]
+shape = SubResource("CircleShape2D_e3tb2")
+
+[connection signal="area_entered" from="PickupRange" to="." method="_on_pickup_range_area_entered"]

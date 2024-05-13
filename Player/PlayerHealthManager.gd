@@ -3,8 +3,8 @@ class_name PlayerHealthManager extends CharacterHealthManager
 @onready var player_instance: Player = get_parent()
 
 
-func process_hit(area: Area2D):
-	super.process_hit(area)
+func process_hit(area: Area2D, _damage: float = 1):
+	super.process_hit(area, _damage)
 	DebugStore.debug_print("player_hit")
 	HudUiStore.player_health_changed.emit(current_health)
 

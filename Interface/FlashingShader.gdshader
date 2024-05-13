@@ -1,7 +1,7 @@
 shader_type canvas_item;
 uniform bool enabled = false;
 uniform bool default_show = false;
-uniform float speed = 3;
+uniform float speed = 10;
 
 void fragment() {
 	if (enabled) {

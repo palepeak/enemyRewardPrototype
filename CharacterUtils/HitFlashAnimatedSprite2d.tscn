@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b2us8yigpf5a3"]
+[gd_scene load_steps=7 format=3 uid="uid://b2us8yigpf5a3"]
 
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="1_b8t4d"]
 [ext_resource type="Script" path="res://CharacterUtils/HitFlashAnimatedSprite2d.gd" id="2_wyvrp"]
@@ -8,50 +8,31 @@
 resource_local_to_scene = true
 shader = ExtResource("1_b8t4d")
 shader_parameter/frame = 1
-
-[sub_resource type="Shader" id="Shader_igmsp"]
-code = "shader_type canvas_item;
-
-uniform int frame = 0;
-
-void fragment() {
-	vec4 previous_color = texture(TEXTURE, UV);
-	vec4 white_color = vec4(1.0, 1.0, 1.0, previous_color.a);
-	vec4 red_color = vec4(1.0, 0.25, 0.25, previous_color.a);
-	vec4 new_color = previous_color;
-	if (frame == 1) {
-		new_color = white_color;
-	} else if (frame == 2) {
-		new_color = red_color;
-	}
-	COLOR = new_color;
-}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_m15p4"]
-resource_local_to_scene = true
-shader = SubResource("Shader_igmsp")
-shader_parameter/frame = 2
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rafdi"]
-resource_local_to_scene = true
-shader = SubResource("Shader_igmsp")
-shader_parameter/frame = 0
+shader_parameter/outlined = false
+shader_parameter/line_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_0pa6k"]
 resource_name = "hit"
 length = 0.075
-tracks/0/type = "value"
+tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:material")
+tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.05, 0.075),
 "transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [SubResource("ShaderMaterial_q2w4k"), SubResource("ShaderMaterial_m15p4"), SubResource("ShaderMaterial_rafdi")]
+"values": [{
+"args": [],
+"method": &"_advance_shader_hit_frame"
+}, {
+"args": [],
+"method": &"_advance_shader_hit_frame"
+}, {
+"args": [],
+"method": &"_advance_shader_hit_frame"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rv21g"]

@@ -1,6 +1,7 @@
 class_name PlayerHitbox extends Area2D
 
 signal player_hit(area: Area2D)
+signal drop_collected()
 
 @onready var player_instance: Player = get_parent()
 @export var invulnerability_time: float = 2.0

@@ -68,3 +68,7 @@ func _on_color_launcher_heat_manager_shot_successful():
 	bomb_instance.worldColorStore = worldColorStore
 	bomb_instance.residual = bomb_residual
 	GameStateStore.get_level().add_child(bomb_instance)
+
+
+func reduce_heat(amount: float):
+	$ColorLauncherHeatManager.reduce_heat(amount)

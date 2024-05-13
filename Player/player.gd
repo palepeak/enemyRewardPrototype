@@ -31,7 +31,8 @@ func _process(_delta):
 		return
 	
 	var direction = get_aim_position_rotation()
-	$PositionLabel.text = str(global_position)
+	$DebugLabel.text = "on colored"
+	$DebugLabel.visible = GameStateStore.get_level().global_coords_on_colored_tile(global_position)
 	if not is_left_hand and (direction > 2 * PI/3 or direction < -2 * PI/3):
 		# switch to left hand
 		is_left_hand = true
@@ -131,3 +132,7 @@ func get_gun_rotation(is_flipped) -> float:
 	if is_flipped:
 		return base_rotation - asin(opposite/hypotnuse) + PI
 	return base_rotation + asin(opposite/hypotnuse)
+
+
+func _on_drop_collected():
+	$ColorLauncher.reduce_heat(randf_range(5, 20))

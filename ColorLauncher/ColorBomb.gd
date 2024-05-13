@@ -2,8 +2,8 @@ class_name ColorBomb extends Path2D
 
 var done = false
 var elapsed = 0.0
-var worldColorStore: WorldColorStore
 var residual: PackedScene = null
+@onready var worldColorStore: WorldColorStore = GameStateStore.get_level().get_world_color_store()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):

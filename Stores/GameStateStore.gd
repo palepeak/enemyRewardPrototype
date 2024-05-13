@@ -10,7 +10,7 @@ var _current_level: Level
 var _start_time: int
 
 var _clear_target: int = 999
-
+var _dropped_drops = {}
 
 func start_game():
 	_start_time = Time.get_ticks_msec()
@@ -37,3 +37,10 @@ func get_level() -> Level:
 	
 func set_clear_percent(target): _clear_target = target
 func get_clear_percent() -> int: return _clear_target
+
+
+func get_first_drop(path: String) -> bool:
+	if _dropped_drops.has(path) && _dropped_drops[path]:
+		return false
+	_dropped_drops[path] = true
+	return true
