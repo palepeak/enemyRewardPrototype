@@ -31,13 +31,14 @@ func _process(_delta):
 	if get_parent() is Player:
 		player = get_parent()
 	var target_launch_position = ControlsManager.get_aim_target_local(player, max_range)
-	if target_launch_position != Vector2.ZERO:
-		raycast.target_position = target_launch_position
-		raycast.force_raycast_update()
-		
-		if (raycast.is_colliding()):
-			target_launch_position = to_local(raycast.get_collision_point())
-	else: 
+
+	raycast.target_position = target_launch_position
+	raycast.force_raycast_update()
+	
+	if (raycast.is_colliding()):
+		target_launch_position = to_local(raycast.get_collision_point())
+	
+	if target_launch_position.length() < 10: 
 		# same start and end point path not supported, add in slight offset
 		# a delta that is too small causes the same issue
 		target_launch_position = Vector2(0, 10)
