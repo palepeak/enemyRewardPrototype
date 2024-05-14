@@ -198,7 +198,7 @@ drag_right_margin = 0.0
 drag_bottom_margin = 0.0
 
 [node name="CameraEnemySpawner" parent="Camera2D" instance=ExtResource("6_or3tf")]
-spawn_frequency = 4.0
+spawn_frequency = 7.0
 spawn_amount_max = 3
 
 [node name="LevelMapContainer" type="Node" parent="."]
