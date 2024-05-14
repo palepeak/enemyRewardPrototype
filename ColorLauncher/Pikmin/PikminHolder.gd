@@ -1,4 +1,4 @@
-class_name PikminHolder extends CharacterBody2D
+class_name PikminHolder extends Node2D
 
 @export var _player: Player
 enum PartyMovement {IDLE, LEFT, RIGHT}
@@ -22,19 +22,28 @@ func _process(delta):
 		return
 	_elapsed = 0.0
 	
-	for i in _pikmins.size():
-		var adjust_position = Vector2(
-			-sin(rotation) * (10*(i%10)-50) - cos(rotation) * (10*(i/10)), 
-			-sin(rotation) * (10*(i/10)) + cos(rotation) * (10*(i%10)-50)
-		)
-		_pikmins[i].set_party_target_pos(global_position + adjust_position)
+	var in_hallway = !GameStateStore.in_room()
+	if in_hallway:
+		for i in _pikmins.size():
+			var adjust_position = Vector2(
+				-cos(rotation) * (10*(i/10)), 
+				-sin(rotation) * (10*(i/10))
+			)
+			_pikmins[i].set_party_target_pos(global_position + adjust_position)
+	else:
+		for i in _pikmins.size():
+			var adjust_position = Vector2(
+				-sin(rotation) * (10*(i%10)-50) - cos(rotation) * (10*(i/10)), 
+				-sin(rotation) * (10*(i/10)) + cos(rotation) * (10*(i%10)-50)
+			)
+			_pikmins[i].set_party_target_pos(global_position + adjust_position)
 	
 	$Sprite2D.visible = DebugStore.debug_mode
 	
 	var target = _player.global_position
 	var distance = target - global_position
 	rotation = distance.angle()
-	global_position = target + distance.normalized() * -50
+	global_position = target + distance.normalized() * -25
 	
 	if _player.velocity == Vector2.ZERO:
 		_group_movement = PartyMovement.IDLE
@@ -55,3 +64,4 @@ func can_collect_pikmin() -> bool:
 
 func collect_pikmin(pikmin: Pikmin):
 	_pikmins.append(pikmin)
+	$PointLight2D.energy = _pikmins.size()/100.0

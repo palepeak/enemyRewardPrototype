@@ -30,6 +30,9 @@ texture = ExtResource("3_yjgum")
 texture_scale = 0.1
 
 [node name="PickupRange" type="Area2D" parent="."]
+collision_layer = 0
+input_pickable = false
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickupRange"]
 shape = SubResource("CircleShape2D_e3tb2")

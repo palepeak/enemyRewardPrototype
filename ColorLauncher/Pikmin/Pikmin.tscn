@@ -136,14 +136,15 @@ radius = 5.0
 [node name="CharacterBody2D" type="CharacterBody2D"]
 z_index = 5
 z_as_relative = false
-collision_layer = 128
+collision_layer = 0
 collision_mask = 10
+motion_mode = 1
 script = ExtResource("1_nc0pl")
 
 [node name="Pikmin" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_thpgh")
 autoplay = "default"
-frame_progress = 0.612651
+frame_progress = 0.559299
 
 [node name="PlayerTracker" type="Node" parent="."]
 script = ExtResource("4_6r3db")
@@ -152,7 +153,8 @@ script = ExtResource("4_6r3db")
 shape = SubResource("CircleShape2D_amqna")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 128
+collision_layer = 0
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_amqna")

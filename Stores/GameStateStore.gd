@@ -11,6 +11,7 @@ var _start_time: int
 
 var _clear_target: int = 999
 var _dropped_drops = {}
+var _current_room: RoomArea2D = null
 
 func start_game():
 	_start_time = Time.get_ticks_msec()
@@ -44,3 +45,10 @@ func get_first_drop(path: String) -> bool:
 		return false
 	_dropped_drops[path] = true
 	return true
+
+
+func set_room(area: RoomArea2D):
+	_current_room = area
+
+
+func in_room() -> bool: return _current_room != null

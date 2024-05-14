@@ -15,8 +15,10 @@ func set_room_state(width: int, height: int):
 
 
 func _on_area_entered(area):
+	GameStateStore.set_room(self)
 	DebugStore.debug_print("player in area" + str(self))
 
 
 func _on_area_exited(area):
+	GameStateStore.set_room(null)
 	DebugStore.debug_print("player left area" + str(self))

@@ -32,8 +32,6 @@ func _process(_delta):
 		return
 	
 	var direction = get_aim_position_rotation()
-	$DebugLabel.text = "on colored"
-	$DebugLabel.visible = GameStateStore.get_level().global_coords_on_colored_tile(global_position)
 	if not is_left_hand and (direction > 2 * PI/3 or direction < -2 * PI/3):
 		# switch to left hand
 		is_left_hand = true

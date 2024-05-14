@@ -8,6 +8,8 @@ points = PackedVector2Array(0, 0, 0, 10, 5, 10, 5, 0)
 
 [node name="RoomArea2d" type="Area2D"]
 collision_layer = 0
+input_pickable = false
+monitorable = false
 script = ExtResource("1_rpmrr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

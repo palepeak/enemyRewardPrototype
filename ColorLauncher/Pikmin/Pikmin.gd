@@ -32,6 +32,7 @@ func _on_area_2d_area_entered(area):
 		area.collect_pikmin(self)
 		velocity = Vector2.ZERO
 		in_party = true
+		$Area2D.set_deferred("monitoring", false)
 
 
 func set_party_velocity(movement: PikminHolder.PartyMovement):

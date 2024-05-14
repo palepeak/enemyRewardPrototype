@@ -1,12 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://7p4cmbu3uh4h"]
+[gd_scene load_steps=4 format=3 uid="uid://7p4cmbu3uh4h"]
 
 [ext_resource type="Script" path="res://ColorLauncher/Pikmin/PikminHolder.gd" id="1_yu3kf"]
 [ext_resource type="Texture2D" uid="uid://b0fa2avbp7lxa" path="res://Resources/warning_icon.png" id="2_3ownb"]
+[ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://Resources/2d_lights_and_shadows_neutral_point_light.webp" id="3_lcsch"]
 
-[node name="PikminHolder" type="CharacterBody2D"]
+[node name="PikminHolder" type="Node2D"]
 script = ExtResource("1_yu3kf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 1000
 z_as_relative = false
 texture = ExtResource("2_3ownb")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(-66, 0)
+color = Color(0.929412, 0.466667, 0.25098, 1)
+texture = ExtResource("3_lcsch")
