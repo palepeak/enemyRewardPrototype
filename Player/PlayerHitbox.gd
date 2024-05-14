@@ -37,3 +37,11 @@ func _physics_process(delta):
 
 func _on_timer_timeout():
 	_invulnerable = false
+
+
+func can_collect_pikmin() -> bool:
+	return player_instance.can_collect_pikmin()
+
+
+func collect_pikmin(pikmin: Pikmin):
+	player_instance.collect_pikmin(pikmin)

@@ -132,6 +132,7 @@ aim_right={
 2d_physics/layer_5="gun"
 2d_physics/layer_6="enemy"
 2d_physics/layer_7="drops"
+2d_physics/layer_8="Pikmin"
 
 [rendering]
 

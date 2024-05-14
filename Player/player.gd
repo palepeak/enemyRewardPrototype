@@ -14,6 +14,7 @@ var gun: Node2D
 var is_left_hand = false
 var gun_one_handed = true
 var gun_position = 0.0
+var pikmin_holder: PikminHolder
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -136,3 +137,15 @@ func get_gun_rotation(is_flipped) -> float:
 
 func _on_drop_collected():
 	$ColorLauncher.reduce_heat(randf_range(5, 20))
+
+
+func register_pikmin_holder(holder):
+	pikmin_holder = holder
+
+
+func can_collect_pikmin() -> bool:
+	return pikmin_holder.can_collect_pikmin()
+
+
+func collect_pikmin(pikmin: Pikmin):
+	pikmin_holder.collect_pikmin(pikmin)

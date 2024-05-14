@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cj2jvej3dn5hd"]
+[gd_scene load_steps=28 format=3 uid="uid://cj2jvej3dn5hd"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_1c74q"]
 [ext_resource type="TileSet" uid="uid://cq5gbuw7llxcs" path="res://Levels/Rooms/Floor2.tres" id="2_dgrop"]
@@ -13,6 +13,8 @@
 [ext_resource type="Shader" path="res://Levels/LevelShadow.gdshader" id="9_ucyfx"]
 [ext_resource type="Texture2D" uid="uid://7cafgqgj3tkf" path="res://Resources/smoke.png" id="10_3iaqs"]
 [ext_resource type="Script" path="res://Levels/DarknessParticle2D.gd" id="10_chu0m"]
+[ext_resource type="PackedScene" uid="uid://ux4eq21autwi" path="res://ColorLauncher/Pikmin/Pikmin.tscn" id="15_6h8if"]
+[ext_resource type="PackedScene" uid="uid://7p4cmbu3uh4h" path="res://ColorLauncher/Pikmin/PikminHolder.tscn" id="16_ojb83"]
 [ext_resource type="PackedScene" uid="uid://be5xe1ejj8plo" path="res://Levels/FunctionalRooms/BossRoom.tscn" id="16_qv37e"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_a65kv"]
@@ -240,5 +242,14 @@ format = 2
 
 [node name="WorldColorStore" type="Node" parent="."]
 script = ExtResource("9_4ecwn")
+
+[node name="Pikmin" parent="." instance=ExtResource("15_6h8if")]
+position = Vector2(200, 200)
+collision_layer = 0
+
+[node name="PikminHolder" parent="." node_paths=PackedStringArray("_player") instance=ExtResource("16_ojb83")]
+collision_layer = 0
+collision_mask = 0
+_player = NodePath("../Player")
 
 [connection signal="setup_complete" from="LayoutCreator" to="." method="_on_layout_creator_setup_complete"]

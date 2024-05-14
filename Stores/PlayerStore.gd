@@ -39,3 +39,27 @@ func get_players() -> Array:
 
 func get_primary_player() -> Player:
 	return _primary_player
+
+
+func get_nearest_player(position: Vector2) -> Player:
+	var players = get_players()
+	if players.is_empty():
+		return null
+	
+	var nearest_player = players[0]
+	var nearest_distance = position.distance_to(players[0].global_position)
+	for player in players:
+		var current_distance = position.distance_to(player.global_position)
+		if current_distance < nearest_distance:
+			nearest_player = player
+			nearest_distance = current_distance
+	
+	return nearest_player
+
+
+func get_nearest_player_gloabl_position(position: Vector2) -> Vector2:
+	var player = get_nearest_player(position)
+	if player == null:
+		return position
+	
+	return player.global_position
