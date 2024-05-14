@@ -57,6 +57,7 @@ func can_collect_pikmin() -> bool:
 
 
 func collect_pikmin(pikmin: Pikmin):
+	pikmin.phase_to(_player.global_position)
 	_set_pikmin(_cur_size, pikmin)
 	_cur_size += 1
 	$PointLight2D.energy = _cur_size/100.0

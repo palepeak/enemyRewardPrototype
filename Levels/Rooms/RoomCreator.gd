@@ -140,8 +140,8 @@ func create_area(
 	level_root: Node2D,
 ):
 	var area2d = room_area_scene.instantiate() as RoomArea2D
-	area2d.set_room_state(width+2, height+2)
-	area2d.position = Vector2(x*32, (y+wall_height-1) * 32)
+	area2d.set_room_state(width, height+2)
+	area2d.position = Vector2((x+1)*32, (y+wall_height-1) * 32)
 	level_root.add_child(area2d)
 
 func draw_floor(

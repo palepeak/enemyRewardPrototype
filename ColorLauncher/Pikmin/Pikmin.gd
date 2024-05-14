@@ -3,6 +3,8 @@ class_name Pikmin extends CharacterBody2D
 var active = true
 var in_party = false
 var _party_target_pos
+var _phasing = false
+var _phase_target: Vector2
 @onready var sprite: AnimatedSprite2D = $Sprite
 
 
@@ -26,6 +28,11 @@ func _physics_process(delta):
 			global_position += velocity * delta
 		else:
 			sprite.play("default")
+	elif _phasing:
+		velocity = (_phase_target - global_position).normalized() * 300
+		global_position += velocity * delta
+		if global_position.distance_to(_phase_target) <= 10:
+			_phasing = false
 	else:
 		if _party_target_pos != null && global_position.distance_to(_party_target_pos) > 10:
 			velocity = (_party_target_pos - global_position).normalized() * 300
@@ -37,8 +44,13 @@ func _on_area_2d_area_entered(area):
 		area.collect_pikmin(self)
 		velocity = Vector2.ZERO
 		in_party = true
+		
 		$Area2D.set_deferred("monitoring", false)
 
+
+func phase_to(target: Vector2):
+	_phasing = true
+	_phase_target = target
 
 func set_party_velocity(movement: PikminHolder.PartyMovement):
 	if movement == PikminHolder.PartyMovement.LEFT:

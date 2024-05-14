@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ux4eq21autwi"]
+[gd_scene load_steps=24 format=3 uid="uid://ux4eq21autwi"]
 
 [ext_resource type="Script" path="res://ColorLauncher/Pikmin/Pikmin.gd" id="1_nc0pl"]
 [ext_resource type="Texture2D" uid="uid://c5hlmp2uno3f8" path="res://Resources/pikmin_idle.png" id="2_v68p2"]
@@ -131,14 +131,16 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_amqna"]
-radius = 5.0
+radius = 4.47214
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_58nk4"]
+radius = 32.0
 
 [node name="Pikmin" type="CharacterBody2D"]
 z_index = 5
 z_as_relative = false
 collision_layer = 0
-collision_mask = 10
-motion_mode = 1
+collision_mask = 8
 script = ExtResource("1_nc0pl")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
@@ -157,6 +159,7 @@ collision_layer = 0
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_amqna")
+shape = SubResource("CircleShape2D_58nk4")
+debug_color = Color(0.984314, 0, 0.337255, 0.156863)
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
