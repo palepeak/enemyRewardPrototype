@@ -46,6 +46,7 @@ stream = ExtResource("4_pyab2")
 max_polyphony = 5
 
 [node name="ReloadBar" type="ProgressBar" parent="."]
+visible = false
 z_index = 4000
 material = SubResource("CanvasItemMaterial_fobs4")
 anchors_preset = 8
