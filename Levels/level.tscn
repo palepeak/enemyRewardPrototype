@@ -173,7 +173,6 @@ shadow_item_cull_mask = 2
 z_as_relative = false
 position = Vector2(400, 516)
 disable_mode = 2
-dead = false
 
 [node name="PointLight2D" type="PointLight2D" parent="Player"]
 position = Vector2(0, -1)
@@ -246,11 +245,8 @@ script = ExtResource("9_4ecwn")
 
 [node name="Pikmin" parent="." instance=ExtResource("15_6h8if")]
 position = Vector2(200, 200)
-collision_layer = 0
 
 [node name="PikminHolder" parent="." node_paths=PackedStringArray("_player") instance=ExtResource("16_ojb83")]
-collision_layer = 0
-collision_mask = 0
 _player = NodePath("../Player")
 
 [connection signal="setup_complete" from="LayoutCreator" to="." method="_on_layout_creator_setup_complete"]

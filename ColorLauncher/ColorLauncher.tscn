@@ -1,11 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://c1beqhdh73cbk"]
+[gd_scene load_steps=10 format=3 uid="uid://c1beqhdh73cbk"]
 
 [ext_resource type="Script" path="res://ColorLauncher/ColorLauncher.gd" id="1_0yvia"]
 [ext_resource type="PackedScene" uid="uid://bbqtvmlr8aflb" path="res://ColorLauncher/ColorBomb.tscn" id="2_edipv"]
 [ext_resource type="PackedScene" uid="uid://dx413vrlj5dkt" path="res://ColorLauncher/ColorBombResidual.tscn" id="3_rbfr7"]
 [ext_resource type="AudioStream" uid="uid://2bt8l0j7j23f" path="res://Resources/throw_woosh.wav" id="4_pyab2"]
 [ext_resource type="Script" path="res://ColorLauncher/ColorLauncherMiniReloadBar.gd" id="5_y16mp"]
-[ext_resource type="PackedScene" uid="uid://b5n3ayidmox0q" path="res://ColorLauncherHeatManager.tscn" id="6_03m50"]
 
 [sub_resource type="Curve2D" id="Curve2D_f0nq2"]
 _data = {
@@ -21,12 +20,6 @@ bg_color = Color(1, 1, 1, 0.568627)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_35sfh"]
 bg_color = Color(0.929412, 0.466667, 0.25098, 1)
-
-[sub_resource type="Curve" id="Curve_x8pu3"]
-max_value = 2.0
-_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(1, 1.75), 0.0, 0.0, 0, 0]
-point_count = 2
-metadata/_snap_enabled = true
 
 [node name="ColorLauncher" type="Node2D"]
 script = ExtResource("1_0yvia")
@@ -73,9 +66,4 @@ allow_lesser = true
 show_percentage = false
 script = ExtResource("5_y16mp")
 
-[node name="ColorLauncherHeatManager" parent="." instance=ExtResource("6_03m50")]
-overheated_recovery_duration = 20.0
-heat_recovery = SubResource("Curve_x8pu3")
-
 [connection signal="timeout" from="Timer" to="." method="_on_reload_timer_timeout"]
-[connection signal="shot_successful" from="ColorLauncherHeatManager" to="." method="_on_color_launcher_heat_manager_shot_successful"]

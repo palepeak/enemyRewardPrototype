@@ -25,12 +25,12 @@ func set_floor(floor_arg: int):
 
 
 func _ready():
-	for i in 10:
-		for y in 10:
-			var new_pikmin = $Pikmin.duplicate()
-			var adjust_pos = Vector2(i*10 + 10, y*10 + 10)
-			new_pikmin.global_position = $Pikmin.global_position + adjust_pos
-			add_child(new_pikmin)
+	#for i in 10:
+	#	for y in 10:
+	#		var new_pikmin = $Pikmin.duplicate()
+	#		var adjust_pos = Vector2(i*10 + 10, y*10 + 10)
+	#		new_pikmin.global_position = $Pikmin.global_position + adjust_pos
+	#		add_child(new_pikmin)
 	# remove the player instance until level setup is complete
 	player = $Player as CharacterBody2D
 	remove_child(player)

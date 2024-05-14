@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://dx413vrlj5dkt"]
+[gd_scene load_steps=19 format=3 uid="uid://dx413vrlj5dkt"]
 
 [ext_resource type="Texture2D" uid="uid://cbpyeh4gcrdrb" path="res://Resources/fire_lit-sheet.png" id="1_dt15t"]
 [ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://Resources/2d_lights_and_shadows_neutral_point_light.webp" id="2_fycx7"]
+[ext_resource type="Script" path="res://ColorLauncher/ColorBombResidual.gd" id="2_q62cw"]
 [ext_resource type="AudioStream" uid="uid://dlpl06fxhfakp" path="res://ColorLauncher/LanternLandRandomizer.tres" id="3_7rghe"]
 [ext_resource type="AudioStream" uid="uid://dn577opaywpjm" path="res://ColorLauncher/FireAudioStreamRandomizerr.tres" id="4_nqfcl"]
 
@@ -105,9 +106,12 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(10),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(5, 10),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [],
+"method": &"enable_pikmin"
+}, {
 "args": [],
 "method": &"queue_free"
 }]
@@ -148,6 +152,7 @@ z_as_relative = false
 sprite_frames = SubResource("SpriteFrames_ay7s4")
 autoplay = "default"
 frame_progress = 0.938015
+script = ExtResource("2_q62cw")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

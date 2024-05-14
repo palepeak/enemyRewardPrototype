@@ -134,11 +134,12 @@ func get_gun_rotation(is_flipped) -> float:
 
 
 func _on_drop_collected():
-	$ColorLauncher.reduce_heat(randf_range(5, 20))
+	$ColorLauncher.add_pikmin()
 
 
 func register_pikmin_holder(holder):
 	pikmin_holder = holder
+	$ColorLauncher.pikmin_holder = holder
 
 
 func can_collect_pikmin() -> bool:

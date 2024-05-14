@@ -10,6 +10,7 @@ class_name ColorLauncher extends Node2D
 @onready var reload_timer: Timer = $Timer
 @onready var raycast: RayCast2D = $RayCast2D
 var can_launch = true
+var pikmin_holder: PikminHolder = null
 
 
 # Called when the node enters the scene tree for the first time.
@@ -19,11 +20,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if Input.is_action_just_released("launch_color") && can_launch:
+	if Input.is_action_just_pressed("launch_color"):
 		$Line2D.visible = true
-		$ColorLauncherHeatManager.try_shoot()
-	if Input.is_action_pressed("launch_color"):
-		$Line2D.visible = true
+		_launch_pikmin()
 	elif Input.is_action_just_pressed("shoot") || Input.get_action_strength("shoot") >= 0.5:
 		$Line2D.visible = false
 	
@@ -60,16 +59,19 @@ func _on_reload_timer_timeout():
 	can_launch = true
 
 
-func _on_color_launcher_heat_manager_shot_successful():
-	$AudioStreamPlayer.play()
-	
-	var bomb_instance = bomb.instantiate() as ColorBomb
-	bomb_instance.curve = ($Path2D as Path2D).curve.duplicate()
-	bomb_instance.global_position = global_position
-	bomb_instance.worldColorStore = worldColorStore
-	bomb_instance.residual = bomb_residual
-	GameStateStore.get_level().add_child(bomb_instance)
+func _launch_pikmin():
+	var pikmin = pikmin_holder.pop_pikmin()
+	if pikmin != null:
+		$AudioStreamPlayer.play()
+		
+		var bomb_instance = bomb.instantiate() as ColorBomb
+		bomb_instance.curve = ($Path2D as Path2D).curve.duplicate()
+		bomb_instance.global_position = global_position
+		bomb_instance.worldColorStore = worldColorStore
+		bomb_instance.residual = bomb_residual
+		bomb_instance.pikmin = pikmin
+		GameStateStore.get_level().add_child(bomb_instance)
 
 
-func reduce_heat(amount: float):
-	$ColorLauncherHeatManager.reduce_heat(amount)
+func add_pikmin():
+	pikmin_holder.add_pikmin()

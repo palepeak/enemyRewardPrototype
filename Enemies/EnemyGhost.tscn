@@ -16,8 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://b20k2pbefecex" path="res://EnemyUtils/EnemyDrop.tscn" id="13_wupkl"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xr0o3"]
-radius = 15.0
-height = 50.0
+radius = 11.0
+height = 40.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4mts0"]
 resource_local_to_scene = true
