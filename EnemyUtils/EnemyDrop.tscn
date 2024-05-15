@@ -14,7 +14,7 @@ point_count = 2
 [sub_resource type="CircleShape2D" id="CircleShape2D_e3tb2"]
 radius = 145.0
 
-[node name="EnemyRange" type="Path2D"]
+[node name="EnemyDrop" type="Path2D"]
 z_index = 5
 z_as_relative = false
 curve = SubResource("Curve2D_07fdo")

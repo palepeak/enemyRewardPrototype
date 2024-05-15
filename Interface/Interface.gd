@@ -3,7 +3,6 @@ class_name UserInterface extends Control
 @export var health_sprite: PackedScene
 
 func _ready():
-	HudUiStore.on_current_clip_ammo_changed.connect(update_ammo)
 	HudUiStore.world_progress_update.connect(update_progress)
 	HudUiStore.player_health_changed.connect(update_health)
 	DebugStore.debug_mode_changed.connect(toggle_debug_visiblity)
@@ -12,7 +11,6 @@ func _ready():
 func show_hud():
 	update_max_health(3)
 	update_health(3)
-	update_ammo(6)
 	$HeatBar.update_heat(0, false)
 	visible = true
 
@@ -44,10 +42,6 @@ func update_health(new_health: int):
 		else:
 			if current_container.active:
 				current_container.stop()
-
-
-func update_ammo(ammo_count):
-	$AmmoCount.text = str(ammo_count % 7)
 
 
 func toggle_debug_visiblity(debug_visible: bool):

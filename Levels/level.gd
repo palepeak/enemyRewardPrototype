@@ -42,11 +42,11 @@ func _process(_delta):
 	if player != null:
 		if ControlsManager.using_mouse:
 			($Camera2D as Camera2D).position_smoothing_speed = 20
-			$Player/Crosshair.visible = false
+			$Player/ControllerCrosshair.visible = false
 		if !ControlsManager.using_mouse:
 			($Camera2D as Camera2D).position_smoothing_speed = 5
-			$Player/Crosshair.visible = true
-			$Player/Crosshair.position = (ControlsManager.get_aim_target_local(player, 300))
+			$Player/ControllerCrosshair.visible = true
+			$Player/ControllerCrosshair.position = (ControlsManager.get_aim_target_local(player, 300))
 	$LevelMapContainer/Sprite2D.material.set_shader_parameter(
 		"color_map", 
 		world_color_store.get_color_texture(),
@@ -57,7 +57,8 @@ func _process(_delta):
 	)
 	
 	var aim_position = ControlsManager.get_aim_target_viewport(self)
-	var camera_adjustment = aim_position
+	$CanvasLayer/AmmoCount.global_position = aim_position + Vector2(465, 274)
+	var camera_adjustment = aim_position/3
 	if has_node("Player"):
 		$Camera2D.global_position = $Player.global_position + camera_adjustment
 
@@ -99,7 +100,9 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	
 	setup_complete.emit()
 	PlayerStore.add_player_ref_as_primary(player)
-	world_color_store.post_draw_color_line(player.global_position, player.global_position)
+	var initial_spotlight = player.global_position + Vector2(0, -170)
+	world_color_store.post_draw_color_line(initial_spotlight, initial_spotlight)
+	$EnemyDrop.global_position = initial_spotlight
 	add_child(player)
 	
 	# level map set, disable updates to save performance 

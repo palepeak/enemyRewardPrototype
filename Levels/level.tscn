@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://cj2jvej3dn5hd"]
+[gd_scene load_steps=30 format=3 uid="uid://cj2jvej3dn5hd"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_1c74q"]
 [ext_resource type="TileSet" uid="uid://cq5gbuw7llxcs" path="res://Levels/Rooms/Floor2.tres" id="2_dgrop"]
@@ -8,14 +8,15 @@
 [ext_resource type="Script" path="res://Levels/Rooms/RoomCreator.gd" id="6_i3txd"]
 [ext_resource type="PackedScene" uid="uid://bnj1hmykfok1i" path="res://EnemyUtils/CameraEnemySpawner.tscn" id="6_or3tf"]
 [ext_resource type="Texture2D" uid="uid://ctnhnpl1gnvm0" path="res://Resources/crosshair_large.png" id="7_q8lgi"]
+[ext_resource type="PackedScene" uid="uid://5ddoqyy0oy56" path="res://Interface/AmmoCount.tscn" id="7_raeam"]
 [ext_resource type="Script" path="res://Levels/Layouts/LayoutCreator.gd" id="7_vn5su"]
 [ext_resource type="Script" path="res://Stores/WorldColorStore.gd" id="9_4ecwn"]
 [ext_resource type="Shader" path="res://Levels/LevelShadow.gdshader" id="9_ucyfx"]
 [ext_resource type="Texture2D" uid="uid://7cafgqgj3tkf" path="res://Resources/smoke.png" id="10_3iaqs"]
 [ext_resource type="Script" path="res://Levels/DarknessParticle2D.gd" id="10_chu0m"]
-[ext_resource type="PackedScene" uid="uid://ux4eq21autwi" path="res://ColorLauncher/Pikmin/Pikmin.tscn" id="15_6h8if"]
 [ext_resource type="PackedScene" uid="uid://7p4cmbu3uh4h" path="res://ColorLauncher/Pikmin/PikminHolder.tscn" id="16_ojb83"]
 [ext_resource type="PackedScene" uid="uid://be5xe1ejj8plo" path="res://Levels/FunctionalRooms/BossRoom.tscn" id="16_qv37e"]
+[ext_resource type="PackedScene" uid="uid://b20k2pbefecex" path="res://EnemyUtils/EnemyDrop.tscn" id="18_jvkbb"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_a65kv"]
 light_mode = 1
@@ -148,6 +149,13 @@ _data = {
 "fade_out_permanent": SubResource("Animation_3jgmy")
 }
 
+[sub_resource type="Curve2D" id="Curve2D_daq5v"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0)
+}
+point_count = 2
+
 [node name="Level" type="Node2D"]
 process_mode = 1
 process_priority = 1
@@ -183,12 +191,20 @@ shadow_item_cull_mask = 2
 texture = ExtResource("5_nir3k")
 height = 4000.0
 
-[node name="Crosshair" type="Sprite2D" parent="Player"]
+[node name="ControllerCrosshair" type="Sprite2D" parent="Player"]
 z_index = 2000
 z_as_relative = false
 material = SubResource("CanvasItemMaterial_a65kv")
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("7_q8lgi")
+
+[node name="ControllerAmmoCount" parent="Player/ControllerCrosshair" instance=ExtResource("7_raeam")]
+offset_left = -78.0
+offset_top = 28.0
+offset_right = 11.0
+offset_bottom = 60.0
+scale = Vector2(2, 2)
+for_controller = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(400, 439)
@@ -243,10 +259,14 @@ format = 2
 [node name="WorldColorStore" type="Node" parent="."]
 script = ExtResource("9_4ecwn")
 
-[node name="Pikmin" parent="." instance=ExtResource("15_6h8if")]
-position = Vector2(200, 200)
-
 [node name="PikminHolder" parent="." node_paths=PackedStringArray("_player") instance=ExtResource("16_ojb83")]
 _player = NodePath("../Player")
+
+[node name="EnemyDrop" parent="." instance=ExtResource("18_jvkbb")]
+curve = SubResource("Curve2D_daq5v")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="AmmoCount" parent="CanvasLayer" instance=ExtResource("7_raeam")]
 
 [connection signal="setup_complete" from="LayoutCreator" to="." method="_on_layout_creator_setup_complete"]

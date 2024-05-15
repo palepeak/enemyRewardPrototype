@@ -1,5 +1,8 @@
 extends Node
 
+signal on_using_mouse()
+signal on_using_controller()
+
 var using_mouse = true
 var _last_mouse_movement = null
 
@@ -13,14 +16,16 @@ var _controller_aim_sensitivity = 8.0
 func _ready():
 	Input.joy_connection_changed.connect(_on_joy_connection_changed)
 
+
 func _process(delta):
 	var joy_stick_aim = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
 	if using_mouse && joy_stick_aim != Vector2.ZERO:
 		using_mouse = false
+		on_using_controller.emit()
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	elif !using_mouse && Input.get_last_mouse_velocity() != _last_mouse_movement:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		print("using mouse")
+		on_using_mouse.emit()
 		_last_mouse_movement = Input.get_last_mouse_velocity()
 		using_mouse = true
 	
@@ -56,9 +61,9 @@ func get_aim_target_viewport(parent: Node2D) -> Vector2:
 			max(0, min(mouse_position.x, viewport.x)),
 			max(0, min(mouse_position.y, viewport.y))
 		)
-		return (bound_position - viewport/2)/3
+		return (bound_position - viewport/2)
 	else:
-		return _current_aim_target_local * parent.get_viewport_rect().size/6
+		return _current_aim_target_local * parent.get_viewport_rect().size/2
 
 
 func _on_joy_connection_changed(device_id, connected):
