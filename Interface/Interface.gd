@@ -5,12 +5,14 @@ class_name UserInterface extends Control
 func _ready():
 	HudUiStore.world_progress_update.connect(update_progress)
 	HudUiStore.player_health_changed.connect(update_health)
+	HudUiStore.on_ember_count_changed.connect(update_embers)
 	DebugStore.debug_mode_changed.connect(toggle_debug_visiblity)
 
 
 func show_hud():
 	update_max_health(3)
 	update_health(3)
+	update_embers(0)
 	$HeatBar.update_heat(0, false)
 	visible = true
 
@@ -42,6 +44,10 @@ func update_health(new_health: int):
 		else:
 			if current_container.active:
 				current_container.stop()
+
+
+func update_embers(ember_count: int):
+	$EmberCount.text = str(ember_count) + "/100 Embers"
 
 
 func toggle_debug_visiblity(debug_visible: bool):

@@ -248,6 +248,7 @@ script = ExtResource("1_yn4u5")
 [node name="LanternSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_qrelo")
 autoplay = "start"
+frame_progress = 0.209652
 centered = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

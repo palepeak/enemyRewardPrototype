@@ -21,7 +21,7 @@ func create_room(
 	level_root: Node2D,
 ):
 	set_up_layers(tilemap)
-	draw_boarder_and_back_wall(
+	draw_border_and_back_wall(
 		room_state.x, room_state.y, 
 		room_state.width, room_state.height, room_state.wall_height, 
 		tilemap
@@ -97,7 +97,7 @@ func set_up_layers(tilemap: TileMap):
 	tilemap.set_layer_z_index(WALLS_LAYER, 100)
 	tilemap.set_layer_z_index(DEBUG_LAYER, 1000)
 	
-func draw_boarder_and_back_wall(
+func draw_border_and_back_wall(
 	x: int,
 	y: int,
 	width: int,
@@ -105,7 +105,7 @@ func draw_boarder_and_back_wall(
 	wall_height: int,
 	tilemap: TileMap,
 ): 
-	# drawing left and wall
+	# drawing left and right wall
 	tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(0, 3))
 	tilemap.set_cell(WALLS_LAYER, Vector2(x+width+1, y), SOURCE_ID, Vector2(2, 3))
 	for i in height + wall_height - 1:

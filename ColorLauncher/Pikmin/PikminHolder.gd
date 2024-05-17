@@ -61,6 +61,7 @@ func collect_pikmin(pikmin: Pikmin):
 	_set_pikmin(_cur_size, pikmin)
 	_cur_size += 1
 	$PointLight2D.energy = _cur_size/100.0
+	HudUiStore.on_ember_count_changed.emit(_cur_size)
 
 
 func pop_pikmin() -> Pikmin:
@@ -71,6 +72,7 @@ func pop_pikmin() -> Pikmin:
 		_cur_front += 1
 		_cur_front = _cur_front % 100
 		_cur_size -= 1
+		HudUiStore.on_ember_count_changed.emit(_cur_size)
 	return popped_pikmin
 
 

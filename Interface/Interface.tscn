@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cj7p86h4ojskm"]
+[gd_scene load_steps=14 format=3 uid="uid://cj7p86h4ojskm"]
 
 [ext_resource type="Script" path="res://Interface/Interface.gd" id="1_7dwbl"]
 [ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_6eq1f"]
@@ -9,9 +9,15 @@
 [ext_resource type="PackedScene" uid="uid://ca12t3apc885e" path="res://ColorLauncher/HeatBar.tscn" id="6_0gixd"]
 [ext_resource type="Texture2D" uid="uid://drifurwwrnt85" path="res://icon.svg" id="7_rwlbs"]
 [ext_resource type="Script" path="res://Interface/MinimapTexture.gd" id="8_hgkkn"]
+[ext_resource type="Texture2D" uid="uid://ce3meubygmdox" path="res://Resources/character_icon.png" id="10_6mk86"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j46oq"]
 bg_color = Color(0, 0, 0, 0.65098)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.619608, 0.0196078, 0.388235, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ftq0s"]
 bg_color = Color(0.74902, 0.105882, 0.321569, 1)
@@ -102,3 +108,22 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("7_rwlbs")
 centered = false
 script = ExtResource("8_hgkkn")
+
+[node name="Border" type="ReferenceRect" parent="Minimap"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+border_color = Color(0.619608, 0.0196078, 0.388235, 1)
+editor_only = false
+
+[node name="TextureRect" type="Sprite2D" parent="Minimap"]
+position = Vector2(64, 64)
+texture = ExtResource("10_6mk86")
+
+[node name="EmberCount" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 88.0
+offset_right = 109.0
+offset_bottom = 111.0
+theme_override_fonts/font = ExtResource("2_6eq1f")
+text = "0/100 Embers"

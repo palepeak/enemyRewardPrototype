@@ -23,6 +23,7 @@ var requests = []
 @onready var threads_mutex: Mutex = Mutex.new()
 
 const color_bit: Color = Color.WHITE
+const colorable_bit: Color = Color.GRAY
 
 
 func set_world_state(level_map: TileMap, boss_map: TileMap):
@@ -43,6 +44,10 @@ func set_world_state(level_map: TileMap, boss_map: TileMap):
 		false,
 		Image.FORMAT_L8
 	)
+	for x in color_image_map.get_size().x:
+		for y in color_image_map.get_size().y:
+			if (_coord_on_tilemap_contains_tile(Vector2i(x, y))):
+				color_image_map.set_pixel(x, y, colorable_bit)
 	
 	var scoring_tiles = level_map.get_used_cells(0)
 	total_size = scoring_tiles.size()*32*32
@@ -170,7 +175,7 @@ func _coord_on_tilemap_contains_scoring_tile(position) -> bool:
 	return level_tile_map.get_cell_source_id(0, tilemap_position) != -1
 
 
-func _coord_on_tilemap_contains_tile(position) -> bool:
+func _coord_on_tilemap_contains_tile(position: Vector2i) -> bool:
 	var tilemap_position = position
 	tilemap_position *= image_compression_factor
 	# adjusting by the image_compression_factor since int division
