@@ -37,14 +37,18 @@ func _process(delta):
 		var distance_x = target_launch_position.x - _held_down_position.x
 		var distance_y = target_launch_position.y - _held_down_position.y
 		var _held_down_position_orig = _held_down_position
-		if distance_x > grid_size:
+		while distance_x > grid_size:
 			_held_down_position += Vector2(grid_size, 0)
-		elif distance_x < -grid_size:
+			distance_x = target_launch_position.x - _held_down_position.x
+		while distance_x < -grid_size:
 			_held_down_position -= Vector2(grid_size, 0)
-		if distance_y > grid_size:
+			distance_x = target_launch_position.x - _held_down_position.x
+		while distance_y > grid_size:
 			_held_down_position += Vector2(0, grid_size)
-		elif distance_y < -grid_size:
+			distance_y = target_launch_position.y - _held_down_position.y
+		while distance_y < -grid_size:
 			_held_down_position -= Vector2(0, grid_size)
+			distance_y = target_launch_position.y - _held_down_position.y
 		target_launch_position = _held_down_position
 		target_position_local = to_local(target_launch_position)
 		if _held_down_position != _held_down_position_orig:
@@ -84,7 +88,7 @@ func _process(delta):
 		_held_down_time_count = 0.0
 		_held_down_visited_positions = []
 	if _held_down_time_count > 0.5 && !_held_down:
-		_held_down_position = target_launch_position
+		_held_down_position = Vector2(0,0)
 		_held_down = true
 		_held_down_visited_positions = []
 
