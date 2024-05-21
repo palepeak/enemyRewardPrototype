@@ -4,6 +4,6 @@ extends CharacterBody2D
 
 
 func _process(_delta):
-	$HitFlashAnimatedSprite2d.set_light_shimmer(
-		world_color_store.global_coords_on_colored_tile(global_position)
-	)
+	var on_color = world_color_store.global_coords_on_colored_tile(global_position)
+	$HitFlashAnimatedSprite2d.set_light_shimmer(on_color)
+	$HitFlashAnimatedSprite2d.set_low_contrast(!on_color)

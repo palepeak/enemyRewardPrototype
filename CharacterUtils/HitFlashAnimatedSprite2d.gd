@@ -16,6 +16,10 @@ func set_light_shimmer(light_shimmer: bool):
 	material.set_shader_parameter("outlined", light_shimmer)
 
 
+func set_low_contrast(low_contrast: bool):
+	material.set_shader_parameter("low_contrast", low_contrast)
+
+
 func _advance_shader_hit_frame():
 	_frame = (_frame + 1) % 3
 	material.set_shader_parameter("frame", _frame)

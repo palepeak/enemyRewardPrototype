@@ -24,6 +24,7 @@ resource_local_to_scene = true
 shader = ExtResource("1_71u8p")
 shader_parameter/frame = 0
 shader_parameter/outlined = false
+shader_parameter/low_contrast = false
 shader_parameter/line_color = Color(0.929412, 0.466667, 0.25098, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_536wr"]

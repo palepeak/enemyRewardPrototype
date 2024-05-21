@@ -2,6 +2,7 @@ shader_type canvas_item;
 
 uniform int frame = 0;
 uniform bool outlined = false;
+uniform bool low_contrast = false;
 uniform vec4 line_color : source_color = vec4(1);
 
 void fragment() {
@@ -16,21 +17,23 @@ void fragment() {
 	} else if (frame == 2) {
 		new_color = red_color;
 	} else if (outlined) {
-		if (floor(mod(10, 2.5)) < 0.0001) {
-			vec2 size = TEXTURE_PIXEL_SIZE;
-		
-			float outline = texture(TEXTURE, UV + vec2(-size.x, 0)).a;
-			outline += texture(TEXTURE, UV + vec2(0, size.y)).a;
-			outline += texture(TEXTURE, UV + vec2(size.x, 0)).a;
-			outline += texture(TEXTURE, UV + vec2(0, -size.y)).a;
-			outline += texture(TEXTURE, UV + vec2(-size.x, size.y)).a;
-			outline += texture(TEXTURE, UV + vec2(size.x, size.y)).a;
-			outline += texture(TEXTURE, UV + vec2(-size.x, -size.y)).a;
-			outline += texture(TEXTURE, UV + vec2(size.x, -size.y)).a;
-			outline = min(outline, 1.0);
-		
-			new_color = mix(color, line_color, outline - color.a);
-		}
+		vec2 size = TEXTURE_PIXEL_SIZE;
+	
+		float outline = texture(TEXTURE, UV + vec2(-size.x, 0)).a;
+		outline += texture(TEXTURE, UV + vec2(0, size.y)).a;
+		outline += texture(TEXTURE, UV + vec2(size.x, 0)).a;
+		outline += texture(TEXTURE, UV + vec2(0, -size.y)).a;
+		outline += texture(TEXTURE, UV + vec2(-size.x, size.y)).a;
+		outline += texture(TEXTURE, UV + vec2(size.x, size.y)).a;
+		outline += texture(TEXTURE, UV + vec2(-size.x, -size.y)).a;
+		outline += texture(TEXTURE, UV + vec2(size.x, -size.y)).a;
+		outline = min(outline, 1.0);
+	
+		new_color = mix(color, line_color, outline - color.a);
+	} else if (low_contrast) {
+		float a = 0.4;
+		float b = 0.2;
+		new_color = COLOR * vec4(a, a, a, 1.0) + vec4(b, b, b, 0.0);
 	}
 	COLOR = new_color;
 }
