@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cj2jvej3dn5hd"]
+[gd_scene load_steps=28 format=3 uid="uid://cj2jvej3dn5hd"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_1c74q"]
 [ext_resource type="Shader" path="res://Levels/LevelColor.gdshader" id="2_p4isx"]
@@ -16,7 +16,6 @@
 [ext_resource type="TileSet" uid="uid://b26xocwdkhvvs" path="res://Levels/Rooms/Floor1.tres" id="14_xbdcr"]
 [ext_resource type="PackedScene" uid="uid://7p4cmbu3uh4h" path="res://ColorLauncher/Pikmin/PikminHolder.tscn" id="16_ojb83"]
 [ext_resource type="PackedScene" uid="uid://be5xe1ejj8plo" path="res://Levels/FunctionalRooms/BossRoom.tscn" id="16_qv37e"]
-[ext_resource type="PackedScene" uid="uid://b20k2pbefecex" path="res://EnemyUtils/EnemyDrop.tscn" id="18_jvkbb"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_a65kv"]
 light_mode = 1
@@ -149,13 +148,6 @@ _data = {
 "fade_out_permanent": SubResource("Animation_3jgmy")
 }
 
-[sub_resource type="Curve2D" id="Curve2D_daq5v"]
-resource_local_to_scene = true
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 100, 0)
-}
-point_count = 2
-
 [node name="Level" type="Node2D"]
 process_mode = 1
 process_priority = 1
@@ -216,6 +208,7 @@ drag_right_margin = 0.0
 drag_bottom_margin = 0.0
 
 [node name="CameraEnemySpawner" parent="Camera2D" instance=ExtResource("6_or3tf")]
+enabled = false
 spawn_frequency = 7.0
 spawn_amount_max = 3
 
@@ -261,9 +254,6 @@ script = ExtResource("9_4ecwn")
 
 [node name="PikminHolder" parent="." node_paths=PackedStringArray("_player") instance=ExtResource("16_ojb83")]
 _player = NodePath("../Player")
-
-[node name="EnemyDrop" parent="." instance=ExtResource("18_jvkbb")]
-curve = SubResource("Curve2D_daq5v")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

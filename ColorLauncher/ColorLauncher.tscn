@@ -5,12 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dx413vrlj5dkt" path="res://ColorLauncher/ColorBombResidual.tscn" id="3_rbfr7"]
 [ext_resource type="AudioStream" uid="uid://2bt8l0j7j23f" path="res://Resources/throw_woosh.wav" id="4_pyab2"]
 [ext_resource type="Script" path="res://ColorLauncher/ColorLauncherMiniReloadBar.gd" id="5_y16mp"]
-
-[sub_resource type="Curve2D" id="Curve2D_f0nq2"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 200, 0, 0, 0, 0, 0, 0, 1, 0)
-}
-point_count = 2
+[ext_resource type="PackedScene" uid="uid://dnxuw17ekmpey" path="res://ColorLauncher/AimAssist.tscn" id="6_2aerh"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_fobs4"]
 light_mode = 1
@@ -26,20 +21,8 @@ script = ExtResource("1_0yvia")
 bomb = ExtResource("2_edipv")
 bomb_residual = ExtResource("3_rbfr7")
 
-[node name="Path2D" type="Path2D" parent="."]
-curve = SubResource("Curve2D_f0nq2")
-
-[node name="Line2D" type="Line2D" parent="."]
-z_index = 4000
-width = 5.0
-default_color = Color(1, 1, 1, 0.254902)
-
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
-
-[node name="RayCast2D" type="RayCast2D" parent="."]
-collision_mask = 8
-collide_with_areas = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_pyab2")
@@ -67,4 +50,7 @@ allow_lesser = true
 show_percentage = false
 script = ExtResource("5_y16mp")
 
+[node name="AimAssist" parent="." instance=ExtResource("6_2aerh")]
+
 [connection signal="timeout" from="Timer" to="." method="_on_reload_timer_timeout"]
+[connection signal="grid_aim_changed" from="AimAssist" to="." method="_on_aim_assist_grid_aim_changed"]

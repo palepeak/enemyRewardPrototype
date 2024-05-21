@@ -101,8 +101,8 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	setup_complete.emit()
 	PlayerStore.add_player_ref_as_primary(player)
 	var initial_spotlight = player.global_position + Vector2(0, -170)
-	world_color_store.post_draw_color_line(initial_spotlight, initial_spotlight)
-	$EnemyDrop.global_position = initial_spotlight
+	# world_color_store.post_draw_color_line(initial_spotlight, initial_spotlight)
+	# $EnemyDrop.global_position = initial_spotlight
 	add_child(player)
 	
 	# level map set, disable updates to save performance 

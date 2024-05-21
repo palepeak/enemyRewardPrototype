@@ -4,7 +4,6 @@ class_name EnemyHealthManager extends CharacterHealthManager
 
 
 func process_hit(_area: Area2D, damage: float):
-	var world_color_store: WorldColorStore = GameStateStore.get_level().get_world_color_store()
 	var on_color = world_color_store.global_coords_on_colored_tile(host_object.global_position)
 	
 	if on_color:
