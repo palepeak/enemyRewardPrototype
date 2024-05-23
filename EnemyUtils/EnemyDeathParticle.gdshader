@@ -280,7 +280,7 @@ void process() {
 	vec2 particlePosition = TRANSFORM[3].xy;
 	vec2 textureS = vec2(textureSize(sprite, 0));
 	vec4 spriteColor = texture(sprite, particlePosition / textureS + vec2(0.5, 0.5));
-	if (particlePosition.y > 32.0 || particlePosition.x > 16.0 || particlePosition.x < -16.0) {
+	if (particlePosition.y > emission_box_extents.y || particlePosition.x > emission_box_extents.x || particlePosition.x < -emission_box_extents.x) {
 		spriteColor = vec4(0.0);
 	}
 	calculate_initial_display_params(params, alt_seed, spriteColor);

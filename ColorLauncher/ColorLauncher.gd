@@ -15,7 +15,8 @@ var pikmin_holder: PikminHolder = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	reload_timer.wait_time = reload_time
+	pass
+	# reload_timer.wait_time = reload_time
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -53,6 +54,7 @@ func _process(_delta):
 	$Path2D.curve.set_point_in(1, Vector2(point_in_x, point_in_y))
 	$Path2D.curve.set_point_out(0, Vector2(-point_in_x, point_in_y))
 	$Line2D.points = $Path2D.curve.get_baked_points()
+	$Line2D/ImpactRadius.global_position = to_global(target_launch_position)
 
 
 func _on_reload_timer_timeout():
@@ -75,3 +77,7 @@ func _launch_pikmin():
 
 func add_pikmin():
 	pikmin_holder.add_pikmin()
+
+
+func collect_fragment(fragment_value: float):
+	pikmin_holder.collect_fragment(fragment_value)

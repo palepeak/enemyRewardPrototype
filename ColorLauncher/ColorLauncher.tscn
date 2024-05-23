@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://c1beqhdh73cbk"]
+[gd_scene load_steps=11 format=3 uid="uid://c1beqhdh73cbk"]
 
 [ext_resource type="Script" path="res://ColorLauncher/ColorLauncher.gd" id="1_0yvia"]
 [ext_resource type="PackedScene" uid="uid://bbqtvmlr8aflb" path="res://ColorLauncher/ColorBomb.tscn" id="2_edipv"]
 [ext_resource type="PackedScene" uid="uid://dx413vrlj5dkt" path="res://ColorLauncher/ColorBombResidual.tscn" id="3_rbfr7"]
+[ext_resource type="PackedScene" uid="uid://xa7qq16alq6s" path="res://ImpactRadius.tscn" id="4_a2c8q"]
 [ext_resource type="AudioStream" uid="uid://2bt8l0j7j23f" path="res://Resources/throw_woosh.wav" id="4_pyab2"]
 [ext_resource type="Script" path="res://ColorLauncher/ColorLauncherMiniReloadBar.gd" id="5_y16mp"]
 
@@ -33,6 +34,10 @@ curve = SubResource("Curve2D_f0nq2")
 z_index = 4000
 width = 5.0
 default_color = Color(1, 1, 1, 0.254902)
+
+[node name="ImpactRadius" parent="Line2D" instance=ExtResource("4_a2c8q")]
+z_index = 3
+z_as_relative = false
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

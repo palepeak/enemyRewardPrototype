@@ -6,6 +6,7 @@ class_name BasePathFinder extends NavigationAgent2D
 @export var recalculate_path_interval: float = 0.5
 @export_enum("Nearest", "Primary") var tracking_method: String = "Nearest"
 
+
 func _ready():
 	var _refresh_timer = Timer.new()
 	_refresh_timer.wait_time = recalculate_path_interval

@@ -3,7 +3,7 @@ shader_type canvas_item;
 uniform int frame = 0;
 uniform bool outlined = false;
 uniform bool low_contrast = false;
-uniform vec4 line_color : source_color = vec4(1);
+uniform vec4 line_color : source_color = vec4(0.92, 0.46, 0.25, 1.0);
 
 void fragment() {
 	vec4 color = texture(TEXTURE, UV);

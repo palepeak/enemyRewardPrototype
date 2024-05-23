@@ -1,88 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://dx413vrlj5dkt"]
+[gd_scene load_steps=8 format=3 uid="uid://dx413vrlj5dkt"]
 
-[ext_resource type="Texture2D" uid="uid://cbpyeh4gcrdrb" path="res://Resources/fire_lit-sheet.png" id="1_dt15t"]
+[ext_resource type="SpriteFrames" uid="uid://2ua07pbc61cr" path="res://Resources/FireLitAnimation.tres" id="1_eh1vl"]
 [ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://Resources/2d_lights_and_shadows_neutral_point_light.webp" id="2_fycx7"]
 [ext_resource type="Script" path="res://ColorLauncher/ColorBombResidual.gd" id="2_q62cw"]
 [ext_resource type="AudioStream" uid="uid://dlpl06fxhfakp" path="res://ColorLauncher/LanternLandRandomizer.tres" id="3_7rghe"]
 [ext_resource type="AudioStream" uid="uid://dn577opaywpjm" path="res://ColorLauncher/FireAudioStreamRandomizerr.tres" id="4_nqfcl"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1hivc"]
-atlas = ExtResource("1_dt15t")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bwk0j"]
-atlas = ExtResource("1_dt15t")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6g31e"]
-atlas = ExtResource("1_dt15t")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kscrl"]
-atlas = ExtResource("1_dt15t")
-region = Rect2(96, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_525qb"]
-atlas = ExtResource("1_dt15t")
-region = Rect2(128, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6c0mu"]
-atlas = ExtResource("1_dt15t")
-region = Rect2(160, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sxtm2"]
-atlas = ExtResource("1_dt15t")
-region = Rect2(192, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hfcvx"]
-atlas = ExtResource("1_dt15t")
-region = Rect2(224, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_30j56"]
-atlas = ExtResource("1_dt15t")
-region = Rect2(256, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_121v7"]
-atlas = ExtResource("1_dt15t")
-region = Rect2(288, 0, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_ay7s4"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1hivc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bwk0j")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6g31e")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kscrl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_525qb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6c0mu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sxtm2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hfcvx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_30j56")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_121v7")
-}],
-"loop": true,
-"name": &"default",
-"speed": 20.0
-}]
 
 [sub_resource type="Animation" id="Animation_julu3"]
 resource_name = "fade_out"
@@ -149,9 +71,9 @@ _data = {
 [node name="ColorBombResidual" type="AnimatedSprite2D"]
 z_index = 4
 z_as_relative = false
-sprite_frames = SubResource("SpriteFrames_ay7s4")
+sprite_frames = ExtResource("1_eh1vl")
 autoplay = "default"
-frame_progress = 0.938015
+frame_progress = 0.873718
 script = ExtResource("2_q62cw")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

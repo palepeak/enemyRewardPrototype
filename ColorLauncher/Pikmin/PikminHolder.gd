@@ -5,6 +5,7 @@ enum PartyMovement {IDLE, LEFT, RIGHT}
 var _pikmins = []
 var _cur_size = 0
 var _cur_front = 0
+var _cur_fragment_progress = 0.0
 
 var _group_movement: PartyMovement = PartyMovement.IDLE
 var _group_movement_emitted: PartyMovement = PartyMovement.IDLE
@@ -83,6 +84,16 @@ func add_pikmin():
 		# TODO figure out a better place to add the pikmins to
 		# Pikmins currently can't persist between levels
 		GameStateStore.get_level().add_child(new_pikmin)
+
+
+func collect_fragment(fragment_value: float):
+	_cur_fragment_progress += fragment_value
+	_cur_fragment_progress = min(_cur_fragment_progress, 1.0)
+	if _cur_fragment_progress >= 1.0 && _cur_size < 100:
+		add_pikmin()
+		_cur_fragment_progress = 0.0
+	HudUiStore.on_ember_progress_changed.emit(_cur_fragment_progress)
+
 
 func _get_pikmin(index) -> Pikmin:
 	return _pikmins[(_cur_front + index) % 100]

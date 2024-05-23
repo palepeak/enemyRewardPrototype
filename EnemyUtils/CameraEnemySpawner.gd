@@ -1,6 +1,6 @@
 class_name CameraEnemySpawner extends Path2D
 
-@export var enabled: bool = true
+@export var enabled: bool = false
 @export var enemy_scene: PackedScene
 @export var spawn_frequency: float = 10.0
 @export var spawn_amount_min: int = 1
@@ -10,6 +10,10 @@ class_name CameraEnemySpawner extends Path2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	GameStateStore.skull_killed.connect(func(): 
+		enabled = true
+		spawn_timer.start()
+	)
 	spawn_timer.wait_time = spawn_frequency
 	if enabled: 
 		spawn_timer.start()

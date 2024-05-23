@@ -4,5 +4,6 @@ var pikmin: Pikmin
 
 
 func enable_pikmin():
-	pikmin.global_position = global_position
-	pikmin.active = true
+	pass
+	#pikmin.global_position = global_position
+	#pikmin.active = true

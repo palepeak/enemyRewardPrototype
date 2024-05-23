@@ -7,6 +7,7 @@ func _ready():
 	HudUiStore.player_health_changed.connect(update_health)
 	HudUiStore.on_ember_count_changed.connect(update_embers)
 	DebugStore.debug_mode_changed.connect(toggle_debug_visiblity)
+	HudUiStore.on_ember_progress_changed.connect(_update_ember_progress_ui)
 
 
 func show_hud():
@@ -14,6 +15,7 @@ func show_hud():
 	update_health(3)
 	update_embers(0)
 	$HeatBar.update_heat(0, false)
+	_update_ember_progress_ui(0.0)
 	visible = true
 
 
@@ -48,6 +50,11 @@ func update_health(new_health: int):
 
 func update_embers(ember_count: int):
 	$EmberCount.text = str(ember_count) + "/100 Embers"
+
+
+func _update_ember_progress_ui(progress: float):
+	$EmberProgress/EmberProgressTexture.material.set_shader_parameter("progress", progress)
+	$EmberProgress/EmberProgressTexture/EmberProgressLabel.text = str(int(progress*100)) + "%"
 
 
 func toggle_debug_visiblity(debug_visible: bool):

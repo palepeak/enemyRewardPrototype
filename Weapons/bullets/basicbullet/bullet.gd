@@ -52,7 +52,7 @@ func fire(start_pos, direction: Vector2, speed, range_arg, pierce = 0):
 
 
 func _on_enemy_hit(_area):
-	if _area is EnemyHitbox && bullet_pierce >= 0:
+	if _area is EnemyHurtbox && bullet_pierce >= 0:
 		bullet_pierce -= 1
 		_area.process_hit($DetectionArea, bullet_damage, bullet_force)
 		queue_free()

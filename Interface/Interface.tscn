@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cj7p86h4ojskm"]
+[gd_scene load_steps=17 format=3 uid="uid://cj7p86h4ojskm"]
 
 [ext_resource type="Script" path="res://Interface/Interface.gd" id="1_7dwbl"]
 [ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_6eq1f"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://drifurwwrnt85" path="res://icon.svg" id="7_rwlbs"]
 [ext_resource type="Script" path="res://Interface/MinimapTexture.gd" id="8_hgkkn"]
 [ext_resource type="Texture2D" uid="uid://ce3meubygmdox" path="res://Resources/character_icon.png" id="10_6mk86"]
+[ext_resource type="Shader" path="res://Interface/EmberProgress.gdshader" id="11_x3w3w"]
+[ext_resource type="SpriteFrames" uid="uid://2ua07pbc61cr" path="res://Resources/FireLitAnimation.tres" id="13_javmb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j46oq"]
 bg_color = Color(0, 0, 0, 0.65098)
@@ -27,6 +29,10 @@ shader = ExtResource("4_upeh6")
 shader_parameter/enabled = false
 shader_parameter/default_show = true
 shader_parameter/speed = 10.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r1ed4"]
+shader = ExtResource("11_x3w3w")
+shader_parameter/progress = 0.5
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -120,10 +126,61 @@ position = Vector2(64, 64)
 texture = ExtResource("10_6mk86")
 
 [node name="EmberCount" type="Label" parent="."]
-layout_mode = 0
-offset_left = 8.0
-offset_top = 88.0
-offset_right = 109.0
-offset_bottom = 111.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -116.0
+offset_top = -127.0
+offset_right = -15.0
+offset_bottom = -104.0
+grow_horizontal = 0
+grow_vertical = 0
 theme_override_fonts/font = ExtResource("2_6eq1f")
 text = "0/100 Embers"
+horizontal_alignment = 1
+
+[node name="EmberProgress" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -125.0
+offset_top = -31.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_6eq1f")
+text = "Ember Progress"
+
+[node name="EmberProgressTexture" type="AnimatedSprite2D" parent="EmberProgress"]
+material = SubResource("ShaderMaterial_r1ed4")
+position = Vector2(58, -41)
+scale = Vector2(3, 3)
+sprite_frames = ExtResource("13_javmb")
+autoplay = "default"
+frame_progress = 0.413461
+
+[node name="EmberProgressLabel" type="Label" parent="EmberProgress/EmberProgressTexture"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.3336
+offset_top = -7.6669
+offset_right = 17.6664
+offset_bottom = 15.3331
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.333, 0.333)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("2_6eq1f")
+text = "50%"
+horizontal_alignment = 1

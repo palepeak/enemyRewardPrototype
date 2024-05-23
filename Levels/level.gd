@@ -102,7 +102,7 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	PlayerStore.add_player_ref_as_primary(player)
 	var initial_spotlight = player.global_position + Vector2(0, -170)
 	world_color_store.post_draw_color_line(initial_spotlight, initial_spotlight)
-	$EnemyDrop.global_position = initial_spotlight
+	$Skull.global_position = initial_spotlight
 	add_child(player)
 	
 	# level map set, disable updates to save performance 
@@ -144,3 +144,7 @@ func global_coords_on_colored_tile(coords: Vector2) -> bool:
 
 func get_world_color_store() -> WorldColorStore:
 	return world_color_store
+
+
+func get_camera() -> Camera2D:
+	return $Camera2D

@@ -1,7 +1,8 @@
 class_name EnemyMover extends Node
 
-@export var active: bool = false
+@export var active: bool = true
 @export var speed: int = 100
+@export var player_min_distance: int = -1
 @export var pathFinder: BasePathFinder
 @export var enemy_object: CharacterBody2D
 @export var sprite: AnimatedSprite2D
@@ -13,9 +14,6 @@ var _active_forces = []
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	if !active || pathFinder.is_navigation_finished():
-		return
-	
 	var new_forces = []
 	var velocity_offset = Vector2.ZERO
 	for force in _active_forces:
@@ -27,15 +25,19 @@ func _physics_process(delta):
 			velocity_offset += cur_force
 		
 	_active_forces = new_forces
-		
-	var axis = enemy_object.to_local(pathFinder.get_next_path_position()).normalized()
-	if axis.x > 0:
-		sprite.flip_h = true
-	elif axis.x < 0:
-		sprite.flip_h = false
-		
-	enemy_object.velocity = axis * speed + velocity_offset
 	
+	var nearest_player = PlayerStore.get_nearest_player_gloabl_position(enemy_object.global_position)
+	var nearest_player_distance = nearest_player.distance_to(enemy_object.global_position)
+	if !active || pathFinder.is_target_reached() || nearest_player_distance < player_min_distance:
+		enemy_object.velocity = velocity_offset
+	else:
+		var axis = enemy_object.to_local(pathFinder.get_next_path_position()).normalized()
+		enemy_object.velocity = axis * speed + velocity_offset
+	
+	if nearest_player.x > enemy_object.global_position.x:
+		sprite.flip_h = true
+	else:
+		sprite.flip_h = false
 	enemy_object.move_and_slide()
 
 

@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqfyfhk0wux86"]
+
+[ext_resource type="Script" path="res://EnemyUtils/EnemyDropFragment.gd" id="1_5xvm5"]
+[ext_resource type="Texture2D" uid="uid://ct2i5bc3f1cv7" path="res://Resources/enemy_drop.png" id="2_yrwot"]
+[ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://Resources/2d_lights_and_shadows_neutral_point_light.webp" id="3_h8kqs"]
+
+[sub_resource type="Curve2D" id="Curve2D_fwxpd"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, -50, -50, 0, 0, 0, 0, 0, 0, 100, 100)
+}
+point_count = 2
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_j4ru3"]
+light_mode = 1
+
+[node name="EnemyDropFragment" type="Path2D"]
+z_index = 5
+z_as_relative = false
+curve = SubResource("Curve2D_fwxpd")
+script = ExtResource("1_5xvm5")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+rotation = -2.35619
+
+[node name="EnemyDrop" type="Sprite2D" parent="PathFollow2D"]
+material = SubResource("CanvasItemMaterial_j4ru3")
+texture = ExtResource("2_yrwot")
+
+[node name="PointLight2D" type="PointLight2D" parent="PathFollow2D/EnemyDrop"]
+texture = ExtResource("3_h8kqs")
+texture_scale = 0.1

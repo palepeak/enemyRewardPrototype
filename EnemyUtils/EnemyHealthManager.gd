@@ -15,11 +15,17 @@ func process_hit(_area: Area2D, damage: float):
 
 func process_death():
 	var death_node = death_particle.instantiate() as GPUParticles2D
-	(death_node.process_material as ShaderMaterial).set_shader_parameter("sprite", death_sprite)
+	death_node.process_material.set_shader_parameter("sprite", death_sprite)
+	var texture_size = death_sprite.get_size() / 2.0
+	death_node.process_material.set_shader_parameter("emission_box_extents", Vector3(
+		texture_size.x, texture_size.y, 0.0
+	))
+	
 	death_node.global_position = get_parent().global_position
-	if host_object.velocity.x > 0:
+	if hit_flash_sprite.flip_h:
 		death_node.scale = Vector2(-1,1)
 	GameStateStore.get_level().add_child(death_node)
-	death_audio.reparent(death_node)
-	death_audio.play()
+	if death_audio != null:
+		death_audio.reparent(death_node)
+		death_audio.play()
 	get_parent().queue_free()

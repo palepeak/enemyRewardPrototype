@@ -137,6 +137,10 @@ func _on_drop_collected():
 	$ColorLauncher.add_pikmin()
 
 
+func collect_fragment(fragment_value: float):
+	$ColorLauncher.collect_fragment(fragment_value)
+
+
 func register_pikmin_holder(holder):
 	pikmin_holder = holder
 	$ColorLauncher.pikmin_holder = holder

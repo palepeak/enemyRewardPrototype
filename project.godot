@@ -135,9 +135,10 @@ switch_controller_aim_mode={
 2d_physics/layer_4="wall height 1"
 2d_navigation/layer_4="wall_height_0"
 2d_physics/layer_5="gun"
-2d_physics/layer_6="enemy"
+2d_physics/layer_6="enemy_hitbox"
 2d_physics/layer_7="drops"
 2d_physics/layer_8="Pikmin"
+2d_physics/layer_9="enemy_hurtbox"
 
 [rendering]
 

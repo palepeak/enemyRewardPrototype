@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b2us8yigpf5a3"]
+[gd_scene load_steps=8 format=3 uid="uid://b2us8yigpf5a3"]
 
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="1_b8t4d"]
 [ext_resource type="Script" path="res://CharacterUtils/HitFlashAnimatedSprite2d.gd" id="2_wyvrp"]
 [ext_resource type="AudioStream" uid="uid://bs60pnubujxhn" path="res://Resources/hit_sound.wav" id="3_xy7w7"]
+[ext_resource type="AudioStream" uid="uid://bqj4phyec7foi" path="res://Resources/hit_sound_weak.wav" id="4_vuhgg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q2w4k"]
 resource_local_to_scene = true
@@ -51,7 +52,11 @@ libraries = {
 "": SubResource("AnimationLibrary_rv21g")
 }
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="StrongAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_xy7w7")
 volume_db = 15.0
+max_polyphony = 15
+
+[node name="WeakAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_vuhgg")
 max_polyphony = 15
