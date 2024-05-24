@@ -107,6 +107,7 @@ drop_chance_curve = SubResource("Curve_ra7oi")
 
 [node name="PlayerTracker" type="Node2D" parent="."]
 script = ExtResource("6_dwrfj")
+max_distance = 600
 
 [node name="EnemyMover" type="Node" parent="." node_paths=PackedStringArray("player_tracker", "pathFinder", "enemy_object", "sprite")]
 script = ExtResource("7_8p0er")

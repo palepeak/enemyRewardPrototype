@@ -1,7 +1,7 @@
 class_name PlayerTracker extends Node2D
 
 @export_enum("Nearest", "Primary") var tracking_method: String = "Nearest"
-@export var max_distance = 600
+@export var max_distance = 0
 var _path_ray: RayCast2D
 var _see_player
 
@@ -42,4 +42,6 @@ func can_see_player() -> bool:
 
 
 func _player_in_range(tracked_player: Player) -> bool:
+	if max_distance <= 0:
+		return true
 	return tracked_player != null && global_position.distance_to(tracked_player.global_position) < max_distance

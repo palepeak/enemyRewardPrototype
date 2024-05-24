@@ -75,6 +75,7 @@ sprite_frames = SubResource("SpriteFrames_s4ay3")
 
 [node name="PlayerTracker" type="Node2D" parent="."]
 script = ExtResource("4_y0dhi")
+max_distance = 600
 
 [node name="EnemyMover" type="Node" parent="." node_paths=PackedStringArray("player_tracker", "pathFinder", "enemy_object", "sprite")]
 script = ExtResource("5_a5yly")
