@@ -1,0 +1,161 @@
+[gd_scene load_steps=28 format=3 uid="uid://dcs5tngwc2f7m"]
+
+[ext_resource type="Script" path="res://Enemies/SleepingSkeleton.gd" id="1_nk5nq"]
+[ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="2_e78fh"]
+[ext_resource type="Texture2D" uid="uid://cebfssdxrth4i" path="res://Resources/skeleton_up.png" id="2_ergrr"]
+[ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="3_sbqsf"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyDropManager.gd" id="4_f30oe"]
+[ext_resource type="PackedScene" uid="uid://dqfyfhk0wux86" path="res://EnemyUtils/EnemyDropFragment.tscn" id="5_yc1rk"]
+[ext_resource type="Script" path="res://EnemyUtils/PlayerTracker.gd" id="6_dwrfj"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyMover.gd" id="7_8p0er"]
+[ext_resource type="Script" path="res://EnemyUtils/PathFinders/BasePathFinder.gd" id="8_0st4h"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyHealthManager.gd" id="9_jcecx"]
+[ext_resource type="Texture2D" uid="uid://dqixmbahnp33v" path="res://Resources/skeleton.png" id="10_lmcdo"]
+[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://EnemyUtils/EnemyDeathParticle.tscn" id="11_htsh2"]
+[ext_resource type="AudioStream" uid="uid://tf444rn6ehfd" path="res://Resources/skull_death.wav" id="12_kpiap"]
+[ext_resource type="PackedScene" uid="uid://ceghegyl7vgdn" path="res://EnemyUtils/EnemyHurtbox.tscn" id="13_yiduv"]
+[ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="14_tslpa"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyShotHandler.gd" id="15_nllhp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h0doa"]
+radius = 12.0416
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sy1rt"]
+resource_local_to_scene = true
+shader = ExtResource("3_sbqsf")
+shader_parameter/frame = 0
+shader_parameter/outlined = false
+shader_parameter/low_contrast = false
+shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkxdf"]
+atlas = ExtResource("2_ergrr")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yw8x6"]
+atlas = ExtResource("2_ergrr")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wj00f"]
+atlas = ExtResource("2_ergrr")
+region = Rect2(64, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ea7kq"]
+atlas = ExtResource("2_ergrr")
+region = Rect2(96, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hpnx1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hkxdf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yw8x6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wj00f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ea7kq")
+}],
+"loop": false,
+"name": &"start",
+"speed": 5.0
+}]
+
+[sub_resource type="Curve" id="Curve_ra7oi"]
+min_value = 3.0
+max_value = 8.0
+_data = [Vector2(0, 6), 0.0, 0.0, 0, 0, Vector2(1, 8), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f1rch"]
+radius = 21.0
+height = 64.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sjv8s"]
+
+[sub_resource type="Curve" id="Curve_q84jj"]
+min_value = 0.75
+max_value = 1.25
+_data = [Vector2(0, 0.75), 0.0, 0.5, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.25), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="SleepingSkeleton" type="CharacterBody2D"]
+z_index = 4
+z_as_relative = false
+collision_layer = 32
+collision_mask = 42
+script = ExtResource("1_nk5nq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_h0doa")
+
+[node name="HitFlashSprite" parent="." instance=ExtResource("2_e78fh")]
+material = SubResource("ShaderMaterial_sy1rt")
+sprite_frames = SubResource("SpriteFrames_hpnx1")
+animation = &"start"
+autoplay = ""
+
+[node name="EnemyDropManager" type="Node2D" parent="."]
+script = ExtResource("4_f30oe")
+type = 0
+drop_chance = 1.0
+drop_scene = ExtResource("5_yc1rk")
+drop_chance_curve = SubResource("Curve_ra7oi")
+
+[node name="PlayerTracker" type="Node2D" parent="."]
+script = ExtResource("6_dwrfj")
+
+[node name="EnemyMover" type="Node" parent="." node_paths=PackedStringArray("player_tracker", "pathFinder", "enemy_object", "sprite")]
+script = ExtResource("7_8p0er")
+active = false
+player_min_distance = 150
+player_tracker = NodePath("../PlayerTracker")
+pathFinder = NodePath("../BasePathFinder")
+enemy_object = NodePath("..")
+sprite = NodePath("../HitFlashSprite")
+
+[node name="BasePathFinder" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("player_tracker", "root_node")]
+navigation_layers = 13
+path_postprocessing = 1
+script = ExtResource("8_0st4h")
+player_tracker = NodePath("../PlayerTracker")
+root_node = NodePath("..")
+
+[node name="EnemyHealthManager" type="Node2D" parent="." node_paths=PackedStringArray("drop_manager", "host_object", "death_audio", "hit_flash_sprite")]
+script = ExtResource("9_jcecx")
+drop_manager = NodePath("../EnemyDropManager")
+max_health = 6
+invulnurable = true
+death_sprite = ExtResource("10_lmcdo")
+death_particle = ExtResource("11_htsh2")
+host_object = NodePath("..")
+death_audio = NodePath("../AudioStreamPlayer2D")
+hit_flash_sprite = NodePath("../HitFlashSprite")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_kpiap")
+max_polyphony = 15
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("health_manager", "enemy_mover") instance=ExtResource("13_yiduv")]
+health_manager = NodePath("../EnemyHealthManager")
+enemy_mover = NodePath("../EnemyMover")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CapsuleShape2D_f1rch")
+
+[node name="EnemyHitbox" parent="." instance=ExtResource("14_tslpa")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitbox"]
+shape = SubResource("CapsuleShape2D_sjv8s")
+
+[node name="EnemyShotManager" type="Node2D" parent="." node_paths=PackedStringArray("player_tracker")]
+script = ExtResource("15_nllhp")
+player_tracker = NodePath("../PlayerTracker")
+active = false
+_can_shoot = true
+shot_frequency_adjust = SubResource("Curve_q84jj")
+
+[connection signal="animation_finished" from="HitFlashSprite" to="." method="_on_hit_flash_sprite_animation_finished"]

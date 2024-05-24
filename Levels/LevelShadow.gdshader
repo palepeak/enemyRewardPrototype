@@ -44,7 +44,9 @@ uniform vec2 level_size;
 uniform vec4 color_value : source_color;
 uniform vec3 gravity;
 uniform sampler2D color_ramp : repeat_disable;
+
 uniform sampler2D color_map;
+uniform vec2 camera_position;
 
 
 vec4 rotate_hue(vec4 current_color, float hue_rot_angle){
@@ -269,7 +271,7 @@ void start() {
 		VELOCITY.z = 0.;
 		TRANSFORM[3].z = 0.;
 	
-	TRANSFORM[3].xy += vec2(emission_box_extents.x-screen_size.x, emission_box_extents.y-screen_size.y);
+	// TRANSFORM[3].xy += vec2(emission_box_extents.x-screen_size.x, emission_box_extents.y-screen_size.y);
 }
 
 void process() {
@@ -360,8 +362,9 @@ void process() {
 	CUSTOM.x = base_angle * degree_to_rad;
 	
 	vec2 particlePosition = TRANSFORM[3].xy;
+	vec2 particlePositionPixel =  particlePosition;
 	vec2 textureS = vec2(textureSize(color_map, 0));
-	vec4 spriteColor = texture(color_map, particlePosition / vec2(4, 4) / textureS);
+	vec4 spriteColor = texture(color_map, particlePositionPixel / vec2(4, 4) / textureS);
 	bool outOfBounds = particlePosition.x > level_size.x ||
 		particlePosition.x < 0.0 || 
 		particlePosition.y < 0.0 || 

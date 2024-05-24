@@ -1,9 +1,11 @@
-class_name CharacterHealthManager extends Node
+class_name CharacterHealthManager extends Node2D
 
 @export var max_health: int 
+@export var damage_on_shadow = true
+@export var invulnurable: bool = false
 @export var death_sprite: Texture2D
 @export var death_particle: PackedScene
-@export var host_object: CharacterBody2D
+@export var host_object: Node2D
 
 @export var death_audio: AudioStreamPlayer2D
 @export var hit_flash_sprite: HitFlashSprite

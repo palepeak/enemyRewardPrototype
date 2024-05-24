@@ -15,7 +15,7 @@ func _physics_process(delta):
 		return
 	
 	if !in_party:
-		var player = $PlayerTracker.get_nearest_player(global_position)
+		var player = $PlayerTracker.get_tracked_player()
 		if player != null && player.can_collect_pikmin():
 			var target_pos: Vector2 = player.global_position
 			velocity = (target_pos - global_position).normalized() * 100

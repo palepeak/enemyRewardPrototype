@@ -11,4 +11,4 @@ func _process(delta):
 	if player == null:
 		player = PlayerStore.get_primary_player()
 	else:
-		global_position = (player.global_position + Vector2(-960/2, -528))/-8
+		global_position = (player.global_position + Vector2(-960/2, -528) + Vector2(0, 32))/-8

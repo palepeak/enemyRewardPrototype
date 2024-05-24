@@ -2,8 +2,6 @@ class_name EnemyDropFragment extends Path2D
 
 var _elapsed = 0.0
 
-@onready var audio_stream_pickup = AudioStreamPlayer.new()
-var pickup_sfx = preload("res://Resources/reward_pickup.wav")
 @onready var target_player = PlayerStore.get_nearest_player(global_position)
 @onready var target_duration = randf_range(0.4, 0.6)
 @onready var camera = GameStateStore.get_level().get_camera() as Camera2D
@@ -25,10 +23,6 @@ func _process(delta):
 	curve.set_point_position(1, to_local(target_location))
 	$PathFollow2D.progress_ratio = ease(min(1,_elapsed/target_duration), 2)
 	if _elapsed >= target_duration:
-		audio_stream_pickup.volume_db = 5.0
-		audio_stream_pickup.stream = pickup_sfx
-		audio_stream_pickup.autoplay = true
-		target_player.add_child.call_deferred(audio_stream_pickup)
 		target_player.collect_fragment(randf_range(0.1, 0.2))
 		queue_free()
 

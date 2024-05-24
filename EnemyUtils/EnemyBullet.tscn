@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1wl5joitedkp"]
+
+[ext_resource type="Script" path="res://Weapons/bullets/basicbullet/bullet.gd" id="1_4xkk3"]
+[ext_resource type="PackedScene" uid="uid://cu5e6abnmsedj" path="res://Weapons/bullets/BulletSmoke.tscn" id="2_x2v35"]
+[ext_resource type="PackedScene" uid="uid://dk6qayn760err" path="res://Weapons/bullets/BulletFall.tscn" id="3_l7nfo"]
+[ext_resource type="Texture2D" uid="uid://kj54601g34pg" path="res://Resources/enemy_bullet.png" id="4_03q0a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ph41s"]
+radius = 13.0
+
+[node name="Bullet" type="RigidBody2D"]
+z_index = 4
+z_as_relative = false
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_4xkk3")
+smoke_scene = ExtResource("2_x2v35")
+fall_scene = ExtResource("3_l7nfo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ph41s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_03q0a")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ph41s")

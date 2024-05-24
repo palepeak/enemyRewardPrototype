@@ -6,6 +6,7 @@ class_name Level extends Node2D
 @onready var world_color_store: WorldColorStore = $WorldColorStore
 @onready var level_map = $LevelMapContainer/SubViewport/LevelMap
 @onready var boss_map: BossRoom = $LevelMapContainer/BossRoom
+@onready var darkness_particle: DarknessParticle = $LevelMapContainer/DarknessParticles
 var player: CharacterBody2D
 var room_creator: RoomCreator
 var layout_creator: LayoutCreator
@@ -51,7 +52,7 @@ func _process(_delta):
 		"color_map", 
 		world_color_store.get_color_texture(),
 	)
-	$LevelMapContainer/DarknessParticles.process_material.set_shader_parameter(
+	darkness_particle.process_material.set_shader_parameter(
 		"color_map", 
 		world_color_store.get_color_texture(),
 	)
@@ -61,16 +62,23 @@ func _process(_delta):
 	var camera_adjustment = aim_position/3
 	if has_node("Player"):
 		$Camera2D.global_position = $Player.global_position + camera_adjustment
+		darkness_particle.set_camera_position($Camera2D.global_position)
+		darkness_particle.global_position = $Camera2D.global_position
 
 func _on_layout_creator_setup_complete(node: LayoutNode):
 	# debug rooms
+	var tut_room = RoomState.new(0, 30, 20, 20, 3, true)
 	var room1 = RoomState.new(0, 0, 20, 20, 3)
 	var room2 = RoomState.new(60, 0, 20, 20, 3)
 	var room3 = RoomState.new(90, 0, 15, 30, 3)
+	room_creator.create_room(tut_room, level_map, self)
 	room_creator.create_room(room1, level_map, self)
 	room_creator.create_room(room2, level_map, self)
 	room_creator.create_room(room3, level_map, self)
 	
+	var tut1_exit = tut_room.get_exits(RoomState.RoomDirection.TOP)[0]
+	var room1_exit0 = room1.get_exits(RoomState.RoomDirection.BOTTOM)[0]
+	room_creator.create_hall(HallState.new(tut1_exit, room1_exit0, 3), level_map)
 	var room1_exit = room1.get_exits(RoomState.RoomDirection.RIGHT)[0]
 	var room2_exit = room2.get_exits(RoomState.RoomDirection.LEFT)[0]
 	room_creator.create_hall(HallState.new(room1_exit, room2_exit, 3), level_map)
@@ -90,7 +98,7 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	
 	$LevelMapContainer/SubViewport.size = (level_map.get_used_rect().size * 32)
 	world_color_store.set_world_state(level_map, boss_map)
-	$LevelMapContainer/DarknessParticles.start_darkness(level_map)
+	darkness_particle.start_darkness(level_map)
 	
 	# Level map is only used for visuals, so we need to duplicate it 
 	# for the other functionalities like collision and navigation
@@ -128,14 +136,14 @@ func on_world_color_progress_update(progress: int):
 func entered_boss_room(_area: Area2D):
 	var progress = world_color_store.emitted_progress
 	$Camera2D/CameraEnemySpawner.enabled = false
-	$LevelMapContainer/DarknessParticles/AnimationPlayer.play("fade_out")
+	darkness_particle.fade_out()
 
 
 func exited_boss_room(_area: Area2D):
 	var progress = world_color_store.emitted_progress
 	if progress < 95:
 		$Camera2D/CameraEnemySpawner.enabled = true
-	$LevelMapContainer/DarknessParticles/AnimationPlayer.play("fade_in")
+		darkness_particle.fade_in()
 
 
 func global_coords_on_colored_tile(coords: Vector2) -> bool:

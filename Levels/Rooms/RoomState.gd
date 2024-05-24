@@ -8,6 +8,7 @@ var y: int
 var width: int
 var height: int
 var wall_height: int
+var custom_room: bool
 
 enum RoomDirection {LEFT=0, RIGHT=1, TOP=2, BOTTOM=3}
 
@@ -16,13 +17,15 @@ func _init(
 	y_arg: int, 
 	width_arg: int,
 	height_arg: int, 
-	wall_height_arg: int
+	wall_height_arg: int,
+	custom_room_arg: bool = false,
 ):
 	x = x_arg
 	y = y_arg
 	width = width_arg
 	height = height_arg
 	wall_height = wall_height_arg
+	custom_room = custom_room_arg
 	
 func link_room_init(
 	link_room: RoomState,

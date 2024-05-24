@@ -1,17 +1,24 @@
 class_name EnemyHealthManager extends CharacterHealthManager
 
 @onready var world_color_store: WorldColorStore = GameStateStore.get_level().get_world_color_store()
+@export var drop_manager: EnemyDropManager
 
-
-func process_hit(_area: Area2D, damage: float):
+func process_hit(area: Area2D, damage: float):
 	var world_color_store: WorldColorStore = GameStateStore.get_level().get_world_color_store()
 	var on_color = world_color_store.global_coords_on_colored_tile(host_object.global_position)
 	
-	if on_color:
-		super.process_hit(_area, 2*damage)
+	if invulnurable:
+		hit_flash_sprite.play_hit_none_flash()
+	elif on_color:
+		super.process_hit(area, 2*damage)
+		if drop_manager != null:
+			drop_manager.process_hit(area, true)
+	elif damage_on_shadow:
+		super.process_hit(area, damage)
+		if drop_manager != null:
+			drop_manager.process_hit(area, false)
 	else:
-		super.process_hit(_area, damage)
-
+		hit_flash_sprite.play_hit_none_flash()
 
 func process_death():
 	var death_node = death_particle.instantiate() as GPUParticles2D

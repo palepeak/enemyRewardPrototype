@@ -148,7 +148,7 @@ sprite_frames = SubResource("SpriteFrames_thpgh")
 autoplay = "default"
 frame_progress = 0.559299
 
-[node name="PlayerTracker" type="Node" parent="."]
+[node name="PlayerTracker" type="Node2D" parent="."]
 script = ExtResource("4_6r3db")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

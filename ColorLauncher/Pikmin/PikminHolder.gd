@@ -87,11 +87,13 @@ func add_pikmin():
 
 
 func collect_fragment(fragment_value: float):
+	$FragmentPickup.play()
 	_cur_fragment_progress += fragment_value
 	_cur_fragment_progress = min(_cur_fragment_progress, 1.0)
 	if _cur_fragment_progress >= 1.0 && _cur_size < 100:
 		add_pikmin()
 		_cur_fragment_progress = 0.0
+		$NewEmberPlayer.play()
 	HudUiStore.on_ember_progress_changed.emit(_cur_fragment_progress)
 
 

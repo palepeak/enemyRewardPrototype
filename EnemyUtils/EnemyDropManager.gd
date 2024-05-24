@@ -6,19 +6,17 @@ enum DropType {HIT, DEATH}
 @export var requires_color: bool = true
 @export var guarentee_first_drop: bool = true
 @export_range(0, 1) var drop_chance: float
-@export var min_drop_amount: int = 1
-@export var max_drop_amount: int = 1
 @export var drop_scene: PackedScene
 @export var drop_chance_curve: Curve
 
 
-func process_hit(area2d: Area2D):
+func process_hit(area2d: Area2D, colored: bool):
 	if type != DropType.HIT:
 		return
 	var level: Level = GameStateStore.get_level()
 	if level == null:
 		return
-	if requires_color && !level.get_world_color_store().global_coords_on_colored_tile(global_position):
+	if requires_color && !colored:
 		return
 	if randf() > drop_chance:
 		return

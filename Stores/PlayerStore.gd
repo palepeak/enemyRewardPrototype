@@ -45,6 +45,8 @@ func get_nearest_player(position: Vector2) -> Player:
 	var players = get_players()
 	if players.is_empty():
 		return null
+	elif players.size() == 1:
+		return players[0]
 	
 	var nearest_player = players[0]
 	var nearest_distance = position.distance_to(players[0].global_position)

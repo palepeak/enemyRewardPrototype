@@ -46,7 +46,7 @@ func set_world_state(level_map: TileMap, boss_map: TileMap):
 	)
 	for x in color_image_map.get_size().x:
 		for y in color_image_map.get_size().y:
-			if (_coord_on_tilemap_contains_tile(Vector2i(x, y))):
+			if (_coord_on_tilemap_contains_scoring_tile(Vector2i(x, y))):
 				color_image_map.set_pixel(x, y, colorable_bit)
 	
 	var scoring_tiles = level_map.get_used_cells(0)

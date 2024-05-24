@@ -3,6 +3,7 @@ class_name EnemyMover extends Node
 @export var active: bool = true
 @export var speed: int = 100
 @export var player_min_distance: int = -1
+@export var player_tracker: PlayerTracker
 @export var pathFinder: BasePathFinder
 @export var enemy_object: CharacterBody2D
 @export var sprite: AnimatedSprite2D
@@ -10,10 +11,13 @@ class_name EnemyMover extends Node
 @onready var global_position: Vector2 = enemy_object.global_position
 
 var _active_forces = []
+@onready var _current_tracked_location = enemy_object.global_position
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	if !active:
+		return
 	var new_forces = []
 	var velocity_offset = Vector2.ZERO
 	for force in _active_forces:
@@ -26,15 +30,17 @@ func _physics_process(delta):
 		
 	_active_forces = new_forces
 	
-	var nearest_player = PlayerStore.get_nearest_player_gloabl_position(enemy_object.global_position)
-	var nearest_player_distance = nearest_player.distance_to(enemy_object.global_position)
-	if !active || pathFinder.is_target_reached() || nearest_player_distance < player_min_distance:
+	var tracked_player = player_tracker.get_tracked_player()
+	if tracked_player != null:
+		_current_tracked_location = tracked_player.global_position
+	var tracked_player_distance = _current_tracked_location.distance_to(enemy_object.global_position)
+	if pathFinder.is_target_reached() || tracked_player_distance < player_min_distance:
 		enemy_object.velocity = velocity_offset
 	else:
 		var axis = enemy_object.to_local(pathFinder.get_next_path_position()).normalized()
 		enemy_object.velocity = axis * speed + velocity_offset
 	
-	if nearest_player.x > enemy_object.global_position.x:
+	if _current_tracked_location.x > enemy_object.global_position.x:
 		sprite.flip_h = true
 	else:
 		sprite.flip_h = false
@@ -42,8 +48,10 @@ func _physics_process(delta):
 
 
 func apply_force_vector(force: Vector2):
-	_active_forces.append([force, 1])
+	if active:
+		_active_forces.append([force, 1])
 
 
 func apply_force(direction: float, force: float):
-	apply_force_vector(Vector2.RIGHT.rotated(direction)*force)
+	if active:
+		apply_force_vector(Vector2.RIGHT.rotated(direction)*force)

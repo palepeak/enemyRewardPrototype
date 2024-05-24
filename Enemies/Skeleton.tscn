@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://ccnwusj1of0bq"]
+[gd_scene load_steps=23 format=3 uid="uid://ccnwusj1of0bq"]
 
 [ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="1_lw4d1"]
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="2_hue1l"]
@@ -11,6 +11,9 @@
 [ext_resource type="AudioStream" uid="uid://tf444rn6ehfd" path="res://Resources/skull_death.wav" id="9_rhqdh"]
 [ext_resource type="PackedScene" uid="uid://ceghegyl7vgdn" path="res://EnemyUtils/EnemyHurtbox.tscn" id="10_qxwg6"]
 [ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="11_7wqh6"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyShotHandler.gd" id="12_balaf"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyDropManager.gd" id="13_ag6te"]
+[ext_resource type="PackedScene" uid="uid://dqfyfhk0wux86" path="res://EnemyUtils/EnemyDropFragment.tscn" id="14_6w24t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oylsh"]
 radius = 12.0416
@@ -19,7 +22,7 @@ radius = 12.0416
 resource_local_to_scene = true
 shader = ExtResource("2_hue1l")
 shader_parameter/frame = 0
-shader_parameter/outlined = true
+shader_parameter/outlined = false
 shader_parameter/low_contrast = false
 shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
 
@@ -44,12 +47,24 @@ height = 64.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_34l6j"]
 
+[sub_resource type="Curve" id="Curve_gldhy"]
+min_value = 0.75
+max_value = 1.25
+_data = [Vector2(0, 0.75), 0.0, 0.5, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.25), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_nixo8"]
+min_value = 3.0
+max_value = 8.0
+_data = [Vector2(0, 4), 0.0, 0.0, 0, 0, Vector2(1, 8), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [node name="Skeleton" type="CharacterBody2D"]
 z_index = 4
 z_as_relative = false
-collision_layer = 0
-motion_mode = 1
-wall_min_slide_angle = 0.0
+collision_layer = 32
+collision_mask = 42
+wall_min_slide_angle = 0.785398
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oylsh")
@@ -58,12 +73,13 @@ shape = SubResource("CircleShape2D_oylsh")
 material = SubResource("ShaderMaterial_h71i5")
 sprite_frames = SubResource("SpriteFrames_s4ay3")
 
-[node name="PlayerTracker" type="Node" parent="."]
+[node name="PlayerTracker" type="Node2D" parent="."]
 script = ExtResource("4_y0dhi")
 
-[node name="EnemyMover" type="Node" parent="." node_paths=PackedStringArray("pathFinder", "enemy_object", "sprite")]
+[node name="EnemyMover" type="Node" parent="." node_paths=PackedStringArray("player_tracker", "pathFinder", "enemy_object", "sprite")]
 script = ExtResource("5_a5yly")
-player_min_distance = 300
+player_min_distance = 150
+player_tracker = NodePath("../PlayerTracker")
 pathFinder = NodePath("../BasePathFinder")
 enemy_object = NodePath("..")
 sprite = NodePath("../HitFlashSprite")
@@ -75,8 +91,9 @@ script = ExtResource("6_obxfk")
 player_tracker = NodePath("../PlayerTracker")
 root_node = NodePath("..")
 
-[node name="EnemyHealthManager" type="Node" parent="." node_paths=PackedStringArray("host_object", "death_audio", "hit_flash_sprite")]
+[node name="EnemyHealthManager" type="Node2D" parent="." node_paths=PackedStringArray("drop_manager", "host_object", "death_audio", "hit_flash_sprite")]
 script = ExtResource("7_ck1vt")
+drop_manager = NodePath("../EnemyDropManager")
 max_health = 6
 death_sprite = ExtResource("3_8meu7")
 death_particle = ExtResource("8_25wxb")
@@ -96,7 +113,18 @@ enemy_mover = NodePath("../EnemyMover")
 shape = SubResource("CapsuleShape2D_0yym1")
 
 [node name="EnemyHitbox" parent="." instance=ExtResource("11_7wqh6")]
-collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitbox"]
 shape = SubResource("CapsuleShape2D_34l6j")
+
+[node name="EnemyShotManager" type="Node2D" parent="." node_paths=PackedStringArray("player_tracker")]
+script = ExtResource("12_balaf")
+player_tracker = NodePath("../PlayerTracker")
+shot_frequency_adjust = SubResource("Curve_gldhy")
+
+[node name="EnemyDropManager" type="Node2D" parent="."]
+script = ExtResource("13_ag6te")
+type = 0
+drop_chance = 1.0
+drop_scene = ExtResource("14_6w24t")
+drop_chance_curve = SubResource("Curve_nixo8")
