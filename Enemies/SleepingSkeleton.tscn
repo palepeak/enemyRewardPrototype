@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dcs5tngwc2f7m"]
+[gd_scene load_steps=29 format=3 uid="uid://dcs5tngwc2f7m"]
 
 [ext_resource type="Script" path="res://Enemies/SleepingSkeleton.gd" id="1_nk5nq"]
 [ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="2_e78fh"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://ceghegyl7vgdn" path="res://EnemyUtils/EnemyHurtbox.tscn" id="13_yiduv"]
 [ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="14_tslpa"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyShotHandler.gd" id="15_nllhp"]
+[ext_resource type="AudioStream" uid="uid://sdxal5as7q8f" path="res://Resources/skeleton_wake.wav" id="17_ky0su"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h0doa"]
 radius = 12.0416
@@ -85,8 +86,8 @@ point_count = 3
 [node name="SleepingSkeleton" type="CharacterBody2D"]
 z_index = 4
 z_as_relative = false
-collision_layer = 32
-collision_mask = 42
+collision_layer = 0
+collision_mask = 10
 script = ExtResource("1_nk5nq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -158,5 +159,9 @@ player_tracker = NodePath("../PlayerTracker")
 active = false
 _can_shoot = true
 shot_frequency_adjust = SubResource("Curve_q84jj")
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("17_ky0su")
+volume_db = 5.0
 
 [connection signal="animation_finished" from="HitFlashSprite" to="." method="_on_hit_flash_sprite_animation_finished"]
