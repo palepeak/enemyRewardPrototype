@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://bxd61klg21wc6" path="res://Resources/reward_pickup.wav" id="5_unrrl"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_am6mq"]
-random_pitch = 2.0
+random_pitch = 1.2
 streams_count = 1
 stream_0/stream = ExtResource("4_3xytd")
 stream_0/weight = 1.0
@@ -28,7 +28,7 @@ texture = ExtResource("3_lcsch")
 
 [node name="NewEmberPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_am6mq")
-volume_db = 5.0
+volume_db = -10.0
 max_polyphony = 10
 
 [node name="FragmentPickup" type="AudioStreamPlayer" parent="."]

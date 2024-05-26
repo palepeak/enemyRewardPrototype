@@ -30,6 +30,8 @@ script = ExtResource("1_4cu8x")
 bullet_scene = ExtResource("2_8bc7t")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 2
+z_as_relative = false
 position = Vector2(9, -2)
 sprite_frames = SubResource("SpriteFrames_yet06")
 frame_progress = 0.37483

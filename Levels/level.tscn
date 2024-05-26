@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cj2jvej3dn5hd"]
+[gd_scene load_steps=31 format=3 uid="uid://cj2jvej3dn5hd"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_1c74q"]
 [ext_resource type="Shader" path="res://Levels/LevelColor.gdshader" id="2_p4isx"]
@@ -27,6 +27,9 @@ shader = ExtResource("2_p4isx")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_uybvy"]
 viewport_path = NodePath("LevelMapContainer/SubViewport")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_goeub"]
+viewport_path = NodePath("LevelMapContainer/SubViewport2")
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8yoly"]
 particles_animation = true
@@ -163,6 +166,7 @@ script = ExtResource("7_vn5su")
 script = ExtResource("6_i3txd")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.687215, 0.687215, 0.687215, 1)
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
@@ -216,6 +220,7 @@ spawn_frequency = 5.0
 [node name="LevelMapContainer" type="Node" parent="."]
 
 [node name="BossRoom" parent="LevelMapContainer" node_paths=PackedStringArray("world_color_store") instance=ExtResource("16_qv37e")]
+target_progress = 1
 world_color_store = NodePath("../../WorldColorStore")
 
 [node name="Sprite2D" type="Sprite2D" parent="LevelMapContainer"]
@@ -223,16 +228,26 @@ material = SubResource("ShaderMaterial_rge26")
 texture = SubResource("ViewportTexture_uybvy")
 centered = false
 
+[node name="Sprite2DZ1" type="Sprite2D" parent="LevelMapContainer"]
+z_index = 10
+z_as_relative = false
+material = SubResource("ShaderMaterial_rge26")
+texture = SubResource("ViewportTexture_goeub")
+centered = false
+
 [node name="SubViewport" type="SubViewport" parent="LevelMapContainer"]
 transparent_bg = true
 handle_input_locally = false
-render_target_update_mode = 4
 
 [node name="LevelMap" type="TileMap" parent="LevelMapContainer/SubViewport"]
 z_as_relative = false
 tile_set = ExtResource("14_xbdcr")
 rendering_quadrant_size = 32
 format = 2
+
+[node name="SubViewport2" type="SubViewport" parent="LevelMapContainer"]
+transparent_bg = true
+handle_input_locally = false
 
 [node name="CanvasLayer" type="CanvasLayer" parent="LevelMapContainer"]
 

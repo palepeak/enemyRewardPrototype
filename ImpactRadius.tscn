@@ -4,7 +4,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wdytv"]
 shader = ExtResource("1_g30tq")
-shader_parameter/impact_color = Color(0, 1, 1, 1)
+shader_parameter/impact_color = Color(0.929412, 0.466667, 0.25098, 1)
 
 [node name="ImpactRadius" type="Control"]
 layout_mode = 3

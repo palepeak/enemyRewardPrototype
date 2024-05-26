@@ -17,7 +17,7 @@ func start_darkness(level_map: TileMap):
 	shader.set_shader_parameter("emission_box_extents", [screen_size.x, screen_size.y, 1])
 	shader.set_shader_parameter("screen_size", screen_size)
 	shader.set_shader_parameter("level_size", level_size)
-	amount = 5000
+	amount = 2500
 
 
 func on_world_color_progress_update(progress: int):

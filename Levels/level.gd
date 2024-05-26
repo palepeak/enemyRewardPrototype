@@ -67,29 +67,38 @@ func _process(_delta):
 
 func _on_layout_creator_setup_complete(node: LayoutNode):
 	# debug rooms
-	var tut_room = RoomState.new(0, 30, 20, 20, 3, true)
-	var room1 = RoomState.new(0, 0, 20, 20, 3)
-	var room2 = RoomState.new(60, 0, 20, 20, 3)
-	var room3 = RoomState.new(90, 0, 15, 30, 3)
-	room_creator.create_room(tut_room, level_map, self)
-	room_creator.create_room(room1, level_map, self)
-	room_creator.create_room(room2, level_map, self)
-	room_creator.create_room(room3, level_map, self)
+	var tut_room = RoomState.new(0, 40, 20, 20, 3, true)
+	var room1 = RoomState.new(0, 0, 30, 30, 3)
+	var room2 = RoomState.new(60, 0, 30, 60, 3)
+	var room3 = RoomState.new(120, 0, 60, 60, 3)
+	var tut_area = room_creator.create_room(tut_room, level_map, self)
+	var room1_area = room_creator.create_room(room1, level_map, self)
+	var room2_area = room_creator.create_room(room2, level_map, self)
+	var room3_area = room_creator.create_room(room3, level_map, self)
 	
 	var tut1_exit = tut_room.get_exits(RoomState.RoomDirection.TOP)[0]
 	var room1_exit0 = room1.get_exits(RoomState.RoomDirection.BOTTOM)[0]
-	room_creator.create_hall(HallState.new(tut1_exit, room1_exit0, 3), level_map)
+	room_creator.create_hall(HallState.new(
+		tut_area, tut1_exit, 
+		room1_area, room1_exit0,
+		 3
+	), level_map)
 	var room1_exit = room1.get_exits(RoomState.RoomDirection.RIGHT)[0]
 	var room2_exit = room2.get_exits(RoomState.RoomDirection.LEFT)[0]
-	room_creator.create_hall(HallState.new(room1_exit, room2_exit, 3), level_map)
-	var room1_exit2 = room1.get_exits(RoomState.RoomDirection.RIGHT)[1]
-	var room2_exit2 = room2.get_exits(RoomState.RoomDirection.LEFT)[1]
-	room_creator.create_hall(HallState.new(room1_exit2, room2_exit2, 3), level_map)
+	room_creator.create_hall(HallState.new(
+		room1_area, room1_exit, 
+		room2_area, room2_exit,
+		3
+	), level_map)
 	var room2_exit3 = room2.get_exits(RoomState.RoomDirection.RIGHT)[0]
 	var room3_exit1 = room3.get_exits(RoomState.RoomDirection.LEFT)[0]
-	room_creator.create_hall(HallState.new(room2_exit3, room3_exit1, 3), level_map)
+	room_creator.create_hall(HallState.new(
+		room2_area, room2_exit3, 
+		room3_area, room3_exit1, 
+		3
+	), level_map)
 	room_creator.place_boss_room(
-		room2.get_exits(RoomState.RoomDirection.TOP)[1], 
+		room3.get_exits(RoomState.RoomDirection.TOP)[1], 
 		level_map, 
 		boss_map,
 	)
@@ -97,6 +106,7 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	boss_map.boss_room_exited.connect(exited_boss_room)
 	
 	$LevelMapContainer/SubViewport.size = (level_map.get_used_rect().size * 32)
+	$LevelMapContainer/SubViewport2.size = (level_map.get_used_rect().size * 32)
 	world_color_store.set_world_state(level_map, boss_map)
 	darkness_particle.start_darkness(level_map)
 	
@@ -104,17 +114,28 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	# for the other functionalities like collision and navigation
 	var collision_map = level_map.duplicate()
 	collision_map.z_index = -1000
+	var z_index_1_map = level_map.duplicate() as TileMap
+	z_index_1_map.remove_layer(3)
+	z_index_1_map.remove_layer(2)
+	z_index_1_map.remove_layer(0)
+	z_index_1_map.set_layer_navigation_enabled(0, false)
 	$LevelMapContainer.add_child(collision_map)
+	$LevelMapContainer/SubViewport2.add_child(z_index_1_map)
 	
 	setup_complete.emit()
 	PlayerStore.add_player_ref_as_primary(player)
-	var initial_spotlight = player.global_position + Vector2(0, -170)
+	var initial_spotlight = Vector2(
+		2+tut_room.x + tut_room.width/2,
+		tut_room.y + tut_room.height/2
+	)*32
+	player.global_position = initial_spotlight + Vector2(0, 170)
 	world_color_store.post_draw_color_line(initial_spotlight, initial_spotlight)
 	$Skull.global_position = initial_spotlight
 	add_child(player)
 	
 	# level map set, disable updates to save performance 
 	($LevelMapContainer/SubViewport as SubViewport).render_target_update_mode = SubViewport.UPDATE_ONCE
+	($LevelMapContainer/SubViewport2 as SubViewport).render_target_update_mode = SubViewport.UPDATE_ONCE
 
 
 

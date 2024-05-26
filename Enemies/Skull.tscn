@@ -16,7 +16,7 @@ resource_local_to_scene = true
 shader = ExtResource("2_oxn63")
 shader_parameter/frame = 0
 shader_parameter/outlined = false
-shader_parameter/low_contrast = false
+shader_parameter/low_contrast = true
 shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pmksd"]

@@ -2,7 +2,7 @@ shader_type canvas_item;
 
 uniform int frame = 0;
 uniform bool outlined = false;
-uniform bool low_contrast = false;
+uniform bool low_contrast = true;
 uniform vec4 line_color : source_color = vec4(0.92, 0.46, 0.25, 1.0);
 
 void fragment() {

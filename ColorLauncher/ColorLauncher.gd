@@ -23,6 +23,7 @@ func _ready():
 func _process(_delta):
 	if Input.is_action_just_pressed("launch_color"):
 		$Line2D.visible = true
+	elif Input.is_action_just_released("launch_color"):
 		_launch_pikmin()
 	elif Input.is_action_just_pressed("shoot") || Input.get_action_strength("shoot") >= 0.5:
 		$Line2D.visible = false

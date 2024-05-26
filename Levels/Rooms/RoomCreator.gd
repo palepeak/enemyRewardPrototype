@@ -4,8 +4,9 @@ const DEBUG = false
 
 const ROOMS_LAYER = 0
 const WALLS_LAYER = 1
-const FURNITURE_LAYER = 2
-const DEBUG_LAYER = 2
+const WALLS_0_LAYER = 2
+const FURNITURE_LAYER = 3
+const DEBUG_LAYER = 3
 
 const WALL_TERRAIN_ID = 0
 const FLOOR_TERRAIN_ID = 1
@@ -19,24 +20,17 @@ func create_room(
 	room_state: RoomState,
 	tilemap: TileMap,
 	level_root: Node2D,
-):
+) -> RoomArea2D:
 	set_up_layers(tilemap)
 	draw_border_and_back_wall(
 		room_state.x, room_state.y, 
 		room_state.width, room_state.height, room_state.wall_height, 
 		tilemap
 	)
-	create_area(
-		room_state.x, room_state.y, 
-		room_state.width, room_state.height, room_state.wall_height,
+	var return_val = create_area(
+		room_state,
 		level_root,
 	)
-	if !room_state.custom_room:
-		temp_create_enemies(
-			room_state.x, room_state.y, 
-			room_state.width, room_state.height, room_state.wall_height,
-			level_root,
-		)
 	draw_floor(
 		room_state.x, room_state.y, 
 		room_state.width, room_state.height, room_state.wall_height, 
@@ -47,8 +41,12 @@ func create_room(
 			var exits = room_state.get_exits(direction)
 			for exit in exits:
 				tilemap.set_cell(DEBUG_LAYER, exit, SOURCE_ID, Vector2(1, 2))
+	return return_val
 
-func create_hall(hall_state: HallState, tilemap: TileMap):
+func create_hall(
+	hall_state: HallState, 
+	tilemap: TileMap
+):
 	# hall is horizontal
 	if hall_state.start.y == hall_state.end.y:
 		create_horizontal_hall(hall_state, tilemap)
@@ -57,6 +55,16 @@ func create_hall(hall_state: HallState, tilemap: TileMap):
 
 
 func create_horizontal_hall(hall_state: HallState, tilemap: TileMap):
+	hall_state.start_room.mark_exit_used(
+		hall_state.start_blocker,
+		hall_state.start_direction,
+		hall_state.end_room,
+	)
+	hall_state.end_room.mark_exit_used(
+		hall_state.end_blocker, 
+		hall_state.end_direction,
+		hall_state.start_room,
+	)
 	for i in range(hall_state.start.x, hall_state.end.x+1):
 		# draw the path itself
 		tilemap.erase_cell(WALLS_LAYER, Vector2(i, hall_state.start.y))
@@ -95,9 +103,26 @@ func create_horizontal_hall(hall_state: HallState, tilemap: TileMap):
 			SOURCE_ID, 
 			Vector2(5, 1),
 		)
+	# Move wall height 0 to layer
+	for i in range(hall_state.start.x, hall_state.end.x+1):
+		var coords = Vector2(i, hall_state.start.y-1)
+		var tile = tilemap.get_cell_atlas_coords(WALLS_LAYER, coords)
+		tilemap.set_cell(WALLS_0_LAYER, coords, SOURCE_ID, tile)
+		tilemap.erase_cell(WALLS_LAYER, coords)
 
 
 func create_vertical_hall(hall_state: HallState, tilemap: TileMap):
+	hall_state.start_room.mark_exit_used(
+		hall_state.start_blocker,
+		hall_state.start_direction,
+		hall_state.end_room,
+	)
+	hall_state.end_room.mark_exit_used(
+		hall_state.end_blocker, 
+		hall_state.end_direction,
+		hall_state.start_room,
+	)
+	
 	var smaller = min(hall_state.start.y, hall_state.end.y+1)
 	var larger = max(hall_state.start.y, hall_state.end.y+1)
 	tilemap.set_cell(ROOMS_LAYER, Vector2(hall_state.start.x, larger+1), SOURCE_ID, Vector2(5, 2))
@@ -105,8 +130,10 @@ func create_vertical_hall(hall_state: HallState, tilemap: TileMap):
 	for i in range(smaller-1, larger+1):
 		# draw the path itself
 		tilemap.erase_cell(WALLS_LAYER, Vector2(hall_state.start.x, i))
+		tilemap.erase_cell(WALLS_0_LAYER, Vector2(hall_state.start.x, i))
 		tilemap.set_cell(ROOMS_LAYER, Vector2(hall_state.start.x, i), SOURCE_ID, Vector2(3, 3))
 		tilemap.erase_cell(WALLS_LAYER, Vector2(hall_state.start.x + 1, i))
+		tilemap.erase_cell(WALLS_0_LAYER, Vector2(hall_state.start.x + 1, i))
 		tilemap.set_cell(ROOMS_LAYER, Vector2(hall_state.start.x + 1, i), SOURCE_ID, Vector2(4, 3))
 		
 		# drawing left wall
@@ -123,20 +150,26 @@ func create_vertical_hall(hall_state: HallState, tilemap: TileMap):
 	for y in range(larger-hall_state.wall_height+1, larger+1):
 		var left_tile = Vector2(6, 0)
 		var right_tile = Vector2(4, 0)
+		var layer = WALLS_LAYER
 		if y == larger-hall_state.wall_height+1:
 			left_tile = Vector2(6, 1)
 			right_tile = Vector2(4, 1)
 		elif y == larger:
+			tilemap.erase_cell(layer, Vector2(hall_state.start.x-1, y))
+			tilemap.erase_cell(layer, Vector2(hall_state.start.x+2, y))
+			layer = WALLS_0_LAYER
 			left_tile = Vector2(2, 1)
 			right_tile = Vector2(0, 1)
 		
-		tilemap.set_cell(WALLS_LAYER, Vector2(hall_state.start.x-1, y), SOURCE_ID, left_tile)
-		tilemap.set_cell(WALLS_LAYER, Vector2(hall_state.start.x+2, y), SOURCE_ID, right_tile)
+		tilemap.set_cell(layer, Vector2(hall_state.start.x-1, y), SOURCE_ID, left_tile)
+		tilemap.set_cell(layer, Vector2(hall_state.start.x+2, y), SOURCE_ID, right_tile)
+
 
 func set_up_layers(tilemap: TileMap):
-	while tilemap.get_layers_count() < 4:
+	while tilemap.get_layers_count() < 5:
 		tilemap.add_layer(-1)
 	tilemap.set_layer_z_index(WALLS_LAYER, 100)
+	tilemap.set_layer_z_index(WALLS_0_LAYER, 100)
 	tilemap.set_layer_z_index(DEBUG_LAYER, 1000)
 	
 func draw_border_and_back_wall(
@@ -171,20 +204,23 @@ func draw_border_and_back_wall(
 		for m in wall_height:
 			wall_cells.append(Vector2(x+n+1, y+m))
 	tilemap.set_cells_terrain_connect(WALLS_LAYER, wall_cells, 0, WALL_TERRAIN_ID)
+	
+	# Move wall height 0 to layer
+	for i in range(x+1, x+width+1):
+		var coords = Vector2(i, y+wall_height-1)
+		var tile = tilemap.get_cell_atlas_coords(WALLS_LAYER, coords)
+		tilemap.set_cell(WALLS_0_LAYER, coords, SOURCE_ID, tile)
+		tilemap.erase_cell(WALLS_LAYER, coords)
 
 
 func create_area(
-	x: int,
-	y: int,
-	width: int,
-	height: int,
-	wall_height: int,
+	room_state: RoomState,
 	level_root: Node2D,
-):
+) -> RoomArea2D:
 	var area2d = room_area_scene.instantiate() as RoomArea2D
-	area2d.set_room_state(width, height+2)
-	area2d.position = Vector2((x+1)*32, (y+wall_height-1) * 32)
+	area2d.set_room_state(room_state)
 	level_root.add_child(area2d)
+	return area2d
 
 func draw_floor(
 	x: int,
@@ -204,50 +240,14 @@ func draw_floor(
 
 
 func place_boss_room(exit: Vector2, level_map: TileMap, boss_room_ref: BossRoom):
-	level_map.erase_cell(0, exit + Vector2(0, 1))
-	level_map.erase_cell(0, exit + Vector2(-1, 1))
-	level_map.erase_cell(0, exit + Vector2(0, 0))
-	level_map.erase_cell(0, exit + Vector2(-1, 0))
-	level_map.erase_cell(0, exit + Vector2(0, -1))
-	level_map.erase_cell(0, exit + Vector2(-1, -1))
-	level_map.erase_cell(0, exit + Vector2(0, -2))
-	level_map.erase_cell(0, exit + Vector2(-1, -2))
+	for layer in range(0, 4):
+		level_map.erase_cell(layer, exit + Vector2(0, 1))
+		level_map.erase_cell(layer, exit + Vector2(-1, 1))
+		level_map.erase_cell(layer, exit + Vector2(0, 0))
+		level_map.erase_cell(layer, exit + Vector2(-1, 0))
+		level_map.erase_cell(layer, exit + Vector2(0, -1))
+		level_map.erase_cell(layer, exit + Vector2(-1, -1))
+		level_map.erase_cell(layer, exit + Vector2(0, -2))
+		level_map.erase_cell(layer, exit + Vector2(-1, -2))
 	boss_room_ref.global_position = exit * 32
 	boss_room_ref.z_index = level_map.z_index+1
-
-var skull_scene = preload("res://Enemies/Skull.tscn")
-var sleeping_skeleton_scene = preload("res://Enemies/SleepingSkeleton.tscn")
-func temp_create_enemies(
-	x: int,
-	y: int,
-	width: int,
-	height: int,
-	wall_height: int,
-	level_root: Node2D,
-):
-	var area = width * height
-	var placed_coords = []
-	var placed = 0
-	while placed < randi_range(area/100, 2*area/100):
-		var x_candidate = randi_range(x+2, x+width)
-		var y_candidate = randi_range(y+wall_height, y+height+wall_height-1)
-		var candidate = Vector2(x_candidate, y_candidate)
-		if !placed_coords.has(candidate):
-			var skull = skull_scene.instantiate()
-			skull.global_position = candidate * 32
-			level_root.add_child(skull)
-			placed+=1
-			placed_coords.append(candidate)
-	
-	#placing fake skulls
-	placed = 0
-	while placed < randi_range(area/200, 2*area/200):
-		var x_candidate = randi_range(x+2, x+width)
-		var y_candidate = randi_range(y+wall_height, y+height+wall_height-1)
-		var candidate = Vector2(x_candidate, y_candidate)
-		if !placed_coords.has(candidate):
-			var skull = sleeping_skeleton_scene.instantiate()
-			skull.global_position = candidate * 32
-			level_root.add_child(skull)
-			placed+=1
-			placed_coords.append(candidate)

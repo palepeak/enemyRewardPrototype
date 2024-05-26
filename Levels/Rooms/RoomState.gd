@@ -10,6 +10,9 @@ var height: int
 var wall_height: int
 var custom_room: bool
 
+var _used_exits: Array[Vector2]
+var _exits: Array[Vector2]
+
 enum RoomDirection {LEFT=0, RIGHT=1, TOP=2, BOTTOM=3}
 
 func _init(
@@ -27,44 +30,52 @@ func _init(
 	wall_height = wall_height_arg
 	custom_room = custom_room_arg
 	
-func link_room_init(
-	link_room: RoomState,
-	direction: RoomDirection
-):
-	pass
+	init_exits()
+	
+func mark_exit_used(exit: Vector2):
+	_used_exits.append(exit)
+
+
+func get_all_exits() -> Array[Vector2]:
+	return _exits
+
+
+func get_used_exits() -> Array[Vector2]:
+	return _used_exits
+
 
 func get_exits(direction: RoomDirection) -> Array[Vector2]:
-	var exits: Array[Vector2] = []
-	# get north south exits
 	match direction:
 		RoomDirection.LEFT:
-			if height < 20:
-				exits.append(Vector2(x, y+wall_height+(height/2.0)))
-			else:
-				exits.append(Vector2(x, y+wall_height+2.0))
-				exits.append(Vector2(x, y+wall_height+height-4))
-				
+			return _exits.filter(func(it) -> bool: return it.x == x)
 		RoomDirection.RIGHT:
-			if height < 20:
-				exits.append(Vector2(x+width+1, y+wall_height+(height/2.0)))
-			else:
-				exits.append(Vector2(x+width+1, y+wall_height+2.0))
-				exits.append(Vector2(x+width+1, y+wall_height+height-4))
+			return _exits.filter(func(it) -> bool: return it.x == x+width+1)
 		RoomDirection.TOP:
-			if width < 20:
-				exits.append(Vector2(x+(width/2.0), y+wall_height-1))
-			else:
-				exits.append(Vector2(x+3, y+wall_height-1))
-				exits.append(Vector2(x+width-2, y+wall_height-1))
+			return _exits.filter(func(it) -> bool: return it.y == y+wall_height-1)
 		_:
-			if width < 20:
-				exits.append(Vector2(x+(width/2.0), y+wall_height+height))
-			else:
-				exits.append(Vector2(x+3, y+wall_height+height))
-				exits.append(Vector2(x+width-2, y+wall_height+height))
-	
-	return exits
-	
+			return _exits.filter(func(it) -> bool: return it.y == y+wall_height+height)
+
+
+func init_exits():
+	_exits = []
+	if height < 20:
+		_exits.append(Vector2(x, y+wall_height+(height/2.0)))
+		_exits.append(Vector2(x+width+1, y+wall_height+(height/2.0)))
+	else:
+		_exits.append(Vector2(x, y+wall_height+2.0))
+		_exits.append(Vector2(x, y+wall_height+height-4))
+		_exits.append(Vector2(x+width+1, y+wall_height+2.0))
+		_exits.append(Vector2(x+width+1, y+wall_height+height-4))
+	if width < 20:
+		_exits.append(Vector2(x+(width/2.0), y+wall_height-1))
+		_exits.append(Vector2(x+(width/2.0), y+wall_height+height))
+	else:
+		_exits.append(Vector2(x+3, y+wall_height-1))
+		_exits.append(Vector2(x+width-2, y+wall_height-1))
+		_exits.append(Vector2(x+3, y+wall_height+height))
+		_exits.append(Vector2(x+width-2, y+wall_height+height))
+
+
 func get_room_direction_inverse(direction: RoomDirection) -> RoomDirection:
 	match direction:
 		RoomDirection.LEFT:

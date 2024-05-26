@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://Weapons/Hand.gd" id="2_xxmv3"]
 
 [node name="Hand" type="Sprite2D"]
-process_priority = 35
+z_index = 2
+z_as_relative = false
 texture = ExtResource("1_yea07")
 script = ExtResource("2_xxmv3")
