@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cj7p86h4ojskm"]
+[gd_scene load_steps=22 format=3 uid="uid://cj7p86h4ojskm"]
 
 [ext_resource type="Script" path="res://Interface/Interface.gd" id="1_7dwbl"]
 [ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_6eq1f"]
@@ -12,6 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://ce3meubygmdox" path="res://Resources/character_icon.png" id="10_6mk86"]
 [ext_resource type="Shader" path="res://Interface/EmberProgress.gdshader" id="11_x3w3w"]
 [ext_resource type="SpriteFrames" uid="uid://2ua07pbc61cr" path="res://Resources/FireLitAnimation.tres" id="13_javmb"]
+[ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="13_r3jjo"]
+[ext_resource type="Texture2D" uid="uid://btj47kdm0qvm2" path="res://Weapons/shotgun/shotgun.png" id="14_qavwe"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j46oq"]
 bg_color = Color(0, 0, 0, 0.65098)
@@ -33,6 +35,34 @@ shader_parameter/speed = 10.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r1ed4"]
 shader = ExtResource("11_x3w3w")
 shader_parameter/progress = 0.5
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j3u84"]
+shader = ExtResource("13_r3jjo")
+shader_parameter/frame = 0
+shader_parameter/outlined = true
+shader_parameter/low_contrast = false
+shader_parameter/line_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Animation" id="Animation_31aqx"]
+resource_name = "show"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 4, 4.9),
+"transitions": PackedFloat32Array(0.164937, 1, 0.217638, 0.0883884),
+"update": 0,
+"values": [Vector2(280, 600), Vector2(280, 456), Vector2(280, 456), Vector2(280, 600)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5abnw"]
+_data = {
+"show": SubResource("Animation_31aqx")
+}
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -184,3 +214,58 @@ theme_override_constants/outline_size = 4
 theme_override_fonts/font = ExtResource("2_6eq1f")
 text = "50%"
 horizontal_alignment = 1
+
+[node name="AlertContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = 72.0
+offset_right = 200.0
+offset_bottom = 135.997
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="AlertContainer"]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 64.0
+color = Color(0, 0, 0, 0.113725)
+
+[node name="AlertImage" type="TextureRect" parent="AlertContainer"]
+material = SubResource("ShaderMaterial_j3u84")
+clip_contents = true
+layout_mode = 2
+offset_left = 14.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 40.0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("14_qavwe")
+expand_mode = 3
+
+[node name="AlertLabel" type="Label" parent="AlertContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -68.0
+offset_top = -7.5
+offset_right = 68.0
+offset_bottom = 7.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_6eq1f")
+text = "Obtained Shotgun!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AlertContainer"]
+libraries = {
+"": SubResource("AnimationLibrary_5abnw")
+}

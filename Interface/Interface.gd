@@ -8,6 +8,7 @@ func _ready():
 	HudUiStore.on_ember_count_changed.connect(update_embers)
 	DebugStore.debug_mode_changed.connect(toggle_debug_visiblity)
 	HudUiStore.on_ember_progress_changed.connect(_update_ember_progress_ui)
+	HudUiStore.on_item_pickup.connect(_show_pickup_alert)
 
 
 func show_hud():
@@ -59,3 +60,8 @@ func _update_ember_progress_ui(progress: float):
 
 func toggle_debug_visiblity(debug_visible: bool):
 	($DebugMenu as VBoxContainer).visible = debug_visible
+	
+func _show_pickup_alert(msg: String, image: Texture2D):
+	$AlertContainer/AlertLabel.text = msg
+	$AlertContainer/AlertImage.texture = image
+	$AlertContainer/AnimationPlayer.play("show")

@@ -1,0 +1,144 @@
+[gd_scene load_steps=22 format=3 uid="uid://dcghek37ddjhm"]
+
+[ext_resource type="Texture2D" uid="uid://civv5e70k7bo7" path="res://Resources/chest.png" id="1_bd2ay"]
+[ext_resource type="PackedScene" uid="uid://cdsetlk7430dq" path="res://Interface/HealthLantern.tscn" id="2_a6yxw"]
+[ext_resource type="Script" path="res://Drops/TreasureChest.gd" id="2_vx7hu"]
+[ext_resource type="AudioStream" uid="uid://ddoad2e64wkpm" path="res://Resources/no.wav" id="3_vc717"]
+[ext_resource type="Script" path="res://Drops/Interactable.gd" id="4_s7agy"]
+[ext_resource type="AudioStream" uid="uid://cc5ttlofpx6jv" path="res://Resources/chest_open.wav" id="5_thro8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v0shb"]
+size = Vector2(32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jrp8"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(192, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1jkng"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(224, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7037y"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(256, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7xfk"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(288, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d0tli"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(320, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hca1y"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(352, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkgnh"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xnmi0"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nshcp"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(64, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hv8s2"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(96, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xw44b"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(128, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g38tt"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(160, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkcib"]
+atlas = ExtResource("1_bd2ay")
+region = Rect2(192, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_23qfs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jrp8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1jkng")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7037y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7xfk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d0tli")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hca1y")
+}],
+"loop": false,
+"name": &"close",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hkgnh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xnmi0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nshcp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hv8s2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xw44b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g38tt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkcib")
+}],
+"loop": false,
+"name": &"open",
+"speed": 20.0
+}]
+
+[node name="TreasureChest" type="StaticBody2D"]
+z_index = 5
+z_as_relative = false
+collision_layer = 8
+collision_mask = 133
+script = ExtResource("2_vx7hu")
+reward = ExtResource("2_a6yxw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_v0shb")
+
+[node name="TreasureChest" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_23qfs")
+animation = &"open"
+
+[node name="Interactable" type="Node2D" parent="."]
+script = ExtResource("4_s7agy")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_vc717")
+volume_db = 20.0
+
+[node name="ChestOpenSFX" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_thro8")
+volume_db = -10.0
+
+[connection signal="on_interaction" from="Interactable" to="." method="_on_interactable_on_interaction"]

@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://cyp12dnierwgu"]
+
+[ext_resource type="Script" path="res://Drops/WeaponDrop.gd" id="1_ye78b"]
+[ext_resource type="Script" path="res://Drops/Interactable.gd" id="2_8w34g"]
+[ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="2_cyqfx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s2goo"]
+shader = ExtResource("2_cyqfx")
+shader_parameter/frame = 0
+shader_parameter/outlined = true
+shader_parameter/low_contrast = false
+shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xvpla"]
+shader = ExtResource("2_cyqfx")
+shader_parameter/frame = 0
+shader_parameter/outlined = true
+shader_parameter/low_contrast = false
+shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+
+[node name="WeaponDrop" type="Node2D"]
+material = SubResource("ShaderMaterial_s2goo")
+script = ExtResource("1_ye78b")
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+material = SubResource("ShaderMaterial_xvpla")
+
+[node name="Interactable" type="Node2D" parent="."]
+script = ExtResource("2_8w34g")
+
+[connection signal="on_interaction" from="Interactable" to="." method="_on_interactable_on_interaction"]

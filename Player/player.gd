@@ -28,6 +28,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	$TerrainHitbox.disabled = DebugStore.debug_mode
 	if dead:
 		return
 	
@@ -113,7 +114,14 @@ func add_gun(new_gun: Node2D):
 			$other_hand.position = $HitFlashSprite/LeftHand.position
 	else:
 		$other_hand.visible = false
-	add_child(gun)
+	if gun.get_parent() != null:
+		gun.reparent(self, false)
+	else:
+		add_child(gun)
+		
+	if gun.has_method("on_pickup"):
+		gun.on_pickup()
+		$CollectRewardAudioPlayer.play()
 	
 func remove_gun():
 	if gun != null:

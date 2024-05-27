@@ -8,5 +8,5 @@ func _ready():
 
 
 func play_reload(duration: float):
-	animation_player.speed_scale = duration
+	animation_player.speed_scale = 1.0/duration
 	animation_player.play("reload")

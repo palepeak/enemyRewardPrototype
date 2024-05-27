@@ -1,5 +1,6 @@
-[gd_scene load_steps=23 format=3 uid="uid://ccnwusj1of0bq"]
+[gd_scene load_steps=24 format=3 uid="uid://ccnwusj1of0bq"]
 
+[ext_resource type="Script" path="res://Enemies/Skeleton.gd" id="1_dls4m"]
 [ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="1_lw4d1"]
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="2_hue1l"]
 [ext_resource type="Texture2D" uid="uid://dqixmbahnp33v" path="res://Resources/skeleton.png" id="3_8meu7"]
@@ -65,6 +66,7 @@ z_as_relative = false
 collision_layer = 32
 collision_mask = 42
 wall_min_slide_angle = 0.785398
+script = ExtResource("1_dls4m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_oylsh")
@@ -122,6 +124,7 @@ shape = SubResource("CapsuleShape2D_34l6j")
 [node name="EnemyShotManager" type="Node2D" parent="." node_paths=PackedStringArray("player_tracker")]
 script = ExtResource("12_balaf")
 player_tracker = NodePath("../PlayerTracker")
+active = false
 shot_frequency_adjust = SubResource("Curve_gldhy")
 
 [node name="EnemyDropManager" type="Node2D" parent="."]

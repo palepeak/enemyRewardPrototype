@@ -1,6 +1,6 @@
 class_name PlayerTracker extends Node2D
 
-@export var enabled = true
+@export var enabled = false
 @export var calculate_vision = true
 @export_enum("Nearest", "Primary") var tracking_method: String = "Nearest"
 @export var max_distance = 0

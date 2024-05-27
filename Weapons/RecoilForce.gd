@@ -7,6 +7,9 @@ var current_forces = []
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var target = get_parent().get_parent() as CharacterBody2D
+	if target == null:
+		return
+	
 	var new_forces = []
 	var velocity = Vector2.ZERO
 	for force in current_forces:

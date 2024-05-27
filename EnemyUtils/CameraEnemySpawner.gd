@@ -10,10 +10,10 @@ class_name CameraEnemySpawner extends Path2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	GameStateStore.skull_killed.connect(func(): 
-		enabled = true
-		spawn_timer.start()
-	)
+	#GameStateStore.skull_killed.connect(func(): 
+	#	enabled = true
+	#	spawn_timer.start()
+	#)
 	spawn_timer.wait_time = spawn_frequency
 	if enabled: 
 		spawn_timer.start()

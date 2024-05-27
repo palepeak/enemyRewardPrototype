@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cu6uoq07ol4oi"]
+[gd_scene load_steps=5 format=3 uid="uid://cu6uoq07ol4oi"]
 
 [ext_resource type="Script" path="res://Levels/Rooms/RoomArea2D.gd" id="1_rpmrr"]
+[ext_resource type="AudioStream" uid="uid://dlx58cbv62i1a" path="res://Resources/door_lock.wav" id="2_hwys8"]
+[ext_resource type="AudioStream" uid="uid://ccu1op72wfcsj" path="res://Resources/level_clear.wav" id="3_2rrsm"]
 
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_0yjnm"]
 resource_local_to_scene = true
@@ -17,6 +19,13 @@ script = ExtResource("1_rpmrr")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("ConvexPolygonShape2D_0yjnm")
 debug_color = Color(0.717647, 0.482353, 0, 0.686275)
+
+[node name="LevelStartStream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_hwys8")
+volume_db = -5.0
+
+[node name="LevelClearStream" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_2rrsm")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]

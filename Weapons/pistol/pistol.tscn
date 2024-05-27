@@ -25,7 +25,6 @@ radius = 1.0
 
 [node name="Pistol" type="Node2D"]
 z_index = 10
-z_as_relative = false
 script = ExtResource("1_4cu8x")
 bullet_scene = ExtResource("2_8bc7t")
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://cj2jvej3dn5hd"]
+[gd_scene load_steps=30 format=3 uid="uid://cj2jvej3dn5hd"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_1c74q"]
 [ext_resource type="Shader" path="res://Levels/LevelColor.gdshader" id="2_p4isx"]
@@ -15,9 +15,8 @@
 [ext_resource type="Script" path="res://Levels/DarknessParticle2D.gd" id="10_chu0m"]
 [ext_resource type="TileSet" uid="uid://b26xocwdkhvvs" path="res://Levels/Rooms/Floor1.tres" id="14_xbdcr"]
 [ext_resource type="PackedScene" uid="uid://7p4cmbu3uh4h" path="res://ColorLauncher/Pikmin/PikminHolder.tscn" id="16_ojb83"]
-[ext_resource type="PackedScene" uid="uid://be5xe1ejj8plo" path="res://Levels/FunctionalRooms/BossRoom.tscn" id="16_qv37e"]
+[ext_resource type="PackedScene" uid="uid://be5xe1ejj8plo" path="res://Levels/FunctionalPieces/BossRoom.tscn" id="16_qv37e"]
 [ext_resource type="PackedScene" uid="uid://cubsi51rg3fe8" path="res://Enemies/Skull.tscn" id="17_1k767"]
-[ext_resource type="PackedScene" uid="uid://ccnwusj1of0bq" path="res://Enemies/Skeleton.tscn" id="18_yvqxr"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_a65kv"]
 light_mode = 1
@@ -176,6 +175,9 @@ range_item_cull_mask = 0
 shadow_color = Color(0.290196, 0.290196, 0.290196, 0)
 shadow_item_cull_mask = 2
 
+[node name="PikminHolder" parent="." node_paths=PackedStringArray("_player") instance=ExtResource("16_ojb83")]
+_player = NodePath("../Player")
+
 [node name="Player" parent="." instance=ExtResource("3_isyib")]
 z_as_relative = false
 position = Vector2(399, 1485)
@@ -272,16 +274,15 @@ libraries = {
 [node name="WorldColorStore" type="Node" parent="."]
 script = ExtResource("9_4ecwn")
 
-[node name="PikminHolder" parent="." node_paths=PackedStringArray("_player") instance=ExtResource("16_ojb83")]
-_player = NodePath("../Player")
-
 [node name="Skull" parent="." instance=ExtResource("17_1k767")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="AmmoCount" parent="CanvasLayer" instance=ExtResource("7_raeam")]
 
-[node name="Skeleton" parent="." instance=ExtResource("18_yvqxr")]
-position = Vector2(332, 305)
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
 
 [connection signal="setup_complete" from="LayoutCreator" to="." method="_on_layout_creator_setup_complete"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

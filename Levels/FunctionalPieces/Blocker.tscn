@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c3n7k12elv6rw"]
+
+[ext_resource type="Script" path="res://Levels/FunctionalPieces/Blocker.gd" id="1_ot3yr"]
+[ext_resource type="Texture2D" uid="uid://bnts7fx5i06q2" path="res://Resources/blocker.png" id="2_jknyv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yhyqd"]
+size = Vector2(64, 32)
+
+[node name="Blocker" type="StaticBody2D"]
+z_index = 4
+z_as_relative = false
+collision_layer = 2
+script = ExtResource("1_ot3yr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(16, 0)
+texture = ExtResource("2_jknyv")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(32, 16)
+shape = SubResource("RectangleShape2D_yhyqd")

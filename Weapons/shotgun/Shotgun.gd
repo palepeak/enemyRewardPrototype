@@ -23,3 +23,12 @@ func _on_basic_shootable_successful_shoot():
 			gun_bullet_speed,
 			gun_range,
 		)
+
+func on_pickup():
+	HudUiStore.on_item_pickup.emit(
+		"Obtained Shotgun!", 
+		$HitFlashSprite.sprite_frames.get_frame_texture("default", 0)
+	)
+	$Hand.visible = true
+	$Hand2.visible = true
+	$HitFlashSprite.material.set_shader_parameter("outlined", false)

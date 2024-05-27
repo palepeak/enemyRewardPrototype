@@ -13,9 +13,27 @@ const FLOOR_TERRAIN_ID = 1
 
 const SOURCE_ID = 0
 
-var room_area_scene = preload("res://Levels/Rooms/RoomArea2D.tscn")
+var _room_area_scene = preload("res://Levels/Rooms/RoomArea2D.tscn")
+var _treasure_scene = preload("res://Drops/TreasureChest.tscn")
+var _temp_shotgun_scene = preload("res://Weapons/shotgun/Shotgun.tscn")
 
-# Called when the node enters the scene tree for the first time.
+
+func create_treasure_room(
+	room_state: RoomState,
+	tilemap: TileMap,
+	level_root: Level,
+) -> RoomArea2D:
+	var room_area = create_room(room_state, tilemap, level_root)
+	var treasure_chest = _treasure_scene.instantiate() as TreasureChest
+	treasure_chest.reward = _temp_shotgun_scene
+	treasure_chest.position = 32 * Vector2(
+		room_state.width / 2, 
+		room_state.height / 2
+	)
+	treasure_chest.world_color_store = level_root.get_world_color_store()
+	room_area.add_child.call_deferred(treasure_chest)
+	return room_area
+
 func create_room(
 	room_state: RoomState,
 	tilemap: TileMap,
@@ -217,7 +235,7 @@ func create_area(
 	room_state: RoomState,
 	level_root: Node2D,
 ) -> RoomArea2D:
-	var area2d = room_area_scene.instantiate() as RoomArea2D
+	var area2d = _room_area_scene.instantiate() as RoomArea2D
 	area2d.set_room_state(room_state)
 	level_root.add_child(area2d)
 	return area2d
