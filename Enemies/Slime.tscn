@@ -1,0 +1,140 @@
+[gd_scene load_steps=25 format=3 uid="uid://brqhw27sr6qox"]
+
+[ext_resource type="Script" path="res://Enemies/Slime.gd" id="1_0nm45"]
+[ext_resource type="Texture2D" uid="uid://b1yj42m26y8j7" path="res://Resources/slime.png" id="2_8x3x4"]
+[ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="2_dpdb8"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyMover.gd" id="2_qd7t4"]
+[ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="3_oxdq3"]
+[ext_resource type="Script" path="res://EnemyUtils/PathFinders/RandomPathFinder.gd" id="5_2b3sh"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyHealthManager.gd" id="6_m5ogn"]
+[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://EnemyUtils/EnemyDeathParticle.tscn" id="7_7clr6"]
+[ext_resource type="AudioStream" uid="uid://dw3tvivela1qi" path="res://Resources/slime_death.wav" id="8_ngj1a"]
+[ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="9_exe8t"]
+[ext_resource type="PackedScene" uid="uid://ceghegyl7vgdn" path="res://EnemyUtils/EnemyHurtbox.tscn" id="10_qtyo4"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyDropManager.gd" id="11_m45dv"]
+[ext_resource type="PackedScene" uid="uid://dqfyfhk0wux86" path="res://EnemyUtils/EnemyDropFragment.tscn" id="12_pnxox"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l347u"]
+radius = 13.0384
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_psm20"]
+resource_local_to_scene = true
+shader = ExtResource("3_oxdq3")
+shader_parameter/frame = 0
+shader_parameter/outlined = false
+shader_parameter/low_contrast = true
+shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbbv3"]
+atlas = ExtResource("2_8x3x4")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tiove"]
+atlas = ExtResource("2_8x3x4")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yvkd2"]
+atlas = ExtResource("2_8x3x4")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qff7"]
+atlas = ExtResource("2_8x3x4")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eiswo"]
+atlas = ExtResource("2_8x3x4")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hpmos"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbbv3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tiove")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yvkd2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4qff7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eiswo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hp4wc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ey42t"]
+radius = 13.0384
+
+[sub_resource type="Curve" id="Curve_ck6iw"]
+min_value = 1.0
+max_value = 8.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.1, 2), 0.0, 0.0, 0, 0, Vector2(0.3, 3), 0.0, 0.0, 0, 0, Vector2(0.5, 4), 0.0, 0.0, 0, 0, Vector2(0.8, 5), 0.0, 0.0, 0, 0, Vector2(0.95, 6), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[node name="Slime" type="CharacterBody2D"]
+collision_layer = 32
+collision_mask = 10
+script = ExtResource("1_0nm45")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_l347u")
+
+[node name="HitFlashSprite" parent="." instance=ExtResource("2_dpdb8")]
+material = SubResource("ShaderMaterial_psm20")
+sprite_frames = SubResource("SpriteFrames_hpmos")
+
+[node name="EnemyMover" type="Node" parent="." node_paths=PackedStringArray("pathFinder", "enemy_object", "sprite")]
+script = ExtResource("2_qd7t4")
+active = false
+speed = 200
+pathFinder = NodePath("../RandomPathFinder")
+enemy_object = NodePath("..")
+sprite = NodePath("../HitFlashSprite")
+
+[node name="RandomPathFinder" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("root_node")]
+path_postprocessing = 1
+script = ExtResource("5_2b3sh")
+root_node = NodePath("..")
+recalculate_path_interval = 2.0
+
+[node name="EnemyHealthManager" type="Node2D" parent="." node_paths=PackedStringArray("drop_manager", "host_object", "death_audio", "hit_flash_sprite")]
+script = ExtResource("6_m5ogn")
+drop_manager = NodePath("../EnemyDropManager")
+max_health = 4
+death_particle = ExtResource("7_7clr6")
+host_object = NodePath("..")
+death_audio = NodePath("../AudioStreamPlayer2D")
+hit_flash_sprite = NodePath("../HitFlashSprite")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_ngj1a")
+volume_db = -5.0
+
+[node name="EnemyHitbox" parent="." instance=ExtResource("9_exe8t")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitbox"]
+shape = SubResource("CircleShape2D_hp4wc")
+
+[node name="Hurtbox" parent="." node_paths=PackedStringArray("health_manager", "enemy_mover") instance=ExtResource("10_qtyo4")]
+health_manager = NodePath("../EnemyHealthManager")
+enemy_mover = NodePath("../EnemyMover")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_ey42t")
+debug_color = Color(0.959945, 2.88785e-07, 0.518796, 0.42)
+
+[node name="EnemyDropManager" type="Node2D" parent="."]
+script = ExtResource("11_m45dv")
+type = 0
+guarentee_first_drop = false
+drop_chance = 1.0
+drop_scene = ExtResource("12_pnxox")
+drop_chance_curve = SubResource("Curve_ck6iw")

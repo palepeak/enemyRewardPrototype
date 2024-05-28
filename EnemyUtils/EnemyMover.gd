@@ -30,11 +30,13 @@ func _physics_process(delta):
 		
 	_active_forces = new_forces
 	
-	var tracked_player = player_tracker.get_tracked_player()
+	var tracked_player
+	if player_tracker != null:
+		tracked_player = player_tracker.get_tracked_player()
 	if tracked_player != null:
 		_current_tracked_location = tracked_player.global_position
 	var tracked_player_distance = _current_tracked_location.distance_to(enemy_object.global_position)
-	if pathFinder.is_target_reached() || tracked_player_distance < player_min_distance:
+	if pathFinder.is_navigation_finished() || tracked_player_distance < player_min_distance:
 		enemy_object.velocity = velocity_offset
 	else:
 		var axis = enemy_object.to_local(pathFinder.get_next_path_position()).normalized()

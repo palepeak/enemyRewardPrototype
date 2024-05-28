@@ -1,5 +1,8 @@
 class_name TreasureChest extends StaticBody2D
 
+signal opened()
+signal opened_failed()
+
 @export var reward: PackedScene
 @export var required_coverage: int
 @export var world_color_store: WorldColorStore
@@ -18,11 +21,18 @@ func _process(delta):
 
 
 func _on_interactable_on_interaction():
-	if !_opened && world_color_store.progress_percent >= required_coverage:
-		_opened = true
-		$TreasureChest.play("open")
-		$ChestOpenSFX.play()
-		print("opened")
-		_spawned_reward = _drop_scene.instantiate() as WeaponDrop
-		_spawned_reward.weapon = reward
-		add_child(_spawned_reward)
+	if _opened:
+		return
+	if world_color_store.progress_percent < required_coverage:
+		opened_failed.emit()
+		$OpenedFailedSFX.play()
+		return
+		
+	_opened = true
+	opened.emit()
+	$TreasureChest.play("open")
+	$ChestOpenSFX.play()
+	print("opened")
+	_spawned_reward = _drop_scene.instantiate() as WeaponDrop
+	_spawned_reward.weapon = reward
+	add_child(_spawned_reward)

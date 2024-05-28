@@ -70,14 +70,16 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	var tut_room = RoomState.new(0, 40, 20, 20, 3, true)
 	var room1 = RoomState.new(0, 3, 20, 20, 3)
 	var room2 = RoomState.new(40, 3, 30, 20, 3)
-	var treasure_room = RoomState.new(63, 30, 10, 10, 3, true)
+	var room2_1 = RoomState.new(65, 53, 30, 30, 3)
+	var treasure_room = RoomState.new(40, 50, 10, 10, 3, true)
 	var room3 = RoomState.new(90, 3, 15, 30, 3)
 	var boss_room = RoomState.new(130, 0, 10, 10, 3, true)
 	
 	var tut_area = room_creator.create_room(tut_room, level_map, self)
 	var room1_area = room_creator.create_room(room1, level_map, self)
 	var room2_area = room_creator.create_room(room2, level_map, self)
-	var treasure_area = room_creator.create_treasure_room(treasure_room, level_map, self)
+	var room2_1_area = room_creator.create_room(room2_1, level_map, self)
+	var treasure_area = room_creator.create_treasure_room(treasure_room, 40, level_map, self)
 	var room3_area = room_creator.create_room(room3, level_map, self)
 	var boss_area = room_creator.create_room(boss_room, level_map, self)
 	
@@ -103,12 +105,20 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 		3
 	), level_map)
 	var room2_exit4 = room2.get_exits(RoomState.RoomDirection.BOTTOM)[1]
-	var treasure_room_exit = treasure_room.get_exits(RoomState.RoomDirection.TOP)[0]
+	var room_2_1_exit1 = room2_1.get_exits(RoomState.RoomDirection.TOP)[0]
 	room_creator.create_hall(HallState.new(
-		treasure_area, treasure_room_exit, 
+		room2_1_area, room_2_1_exit1, 
 		room2_area, room2_exit4, 
 		3
 	), level_map)
+	var room2_1_exit2 = room2_1.get_exits(RoomState.RoomDirection.LEFT)[0]
+	var treasure_exit = treasure_room.get_exits(RoomState.RoomDirection.RIGHT)[0]
+	room_creator.create_hall(HallState.new(
+		treasure_area, treasure_exit,
+		room2_1_area, room2_1_exit2,
+		3
+	), level_map)
+	
 	var room3_exit = room3.get_exits(RoomState.RoomDirection.RIGHT)[0]
 	var boss_exit = boss_room.get_exits(RoomState.RoomDirection.LEFT)[0]
 	room_creator.create_hall(HallState.new(
@@ -116,6 +126,10 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 		boss_area, boss_exit, 
 		3
 	), level_map)
+	var boss_room_label = Label.new()
+	boss_room_label.text = "^ Boss battle above"
+	boss_room_label.position = 32 * Vector2(boss_room.width/2.0, boss_room.height/2.0)
+	boss_area.add_child(boss_room_label)
 	
 	room_creator.place_boss_room(
 		boss_room.get_exits(RoomState.RoomDirection.TOP)[0], 

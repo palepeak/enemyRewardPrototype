@@ -1,11 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://cj7p86h4ojskm"]
+[gd_scene load_steps=18 format=3 uid="uid://cj7p86h4ojskm"]
 
 [ext_resource type="Script" path="res://Interface/Interface.gd" id="1_7dwbl"]
 [ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_6eq1f"]
-[ext_resource type="PackedScene" uid="uid://cdsetlk7430dq" path="res://Interface/HealthLantern.tscn" id="3_ypn5q"]
 [ext_resource type="PackedScene" uid="uid://brh810ofxocq5" path="res://Interface/DebugMenu.tscn" id="4_1we2d"]
-[ext_resource type="Shader" path="res://Interface/FlashingShader.gdshader" id="4_upeh6"]
-[ext_resource type="Texture2D" uid="uid://blbodk68nkmyp" path="res://Resources/key.png" id="5_ya6of"]
 [ext_resource type="PackedScene" uid="uid://ca12t3apc885e" path="res://ColorLauncher/HeatBar.tscn" id="6_0gixd"]
 [ext_resource type="Texture2D" uid="uid://drifurwwrnt85" path="res://icon.svg" id="7_rwlbs"]
 [ext_resource type="Script" path="res://Interface/MinimapTexture.gd" id="8_hgkkn"]
@@ -25,12 +22,6 @@ border_color = Color(0.619608, 0.0196078, 0.388235, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ftq0s"]
 bg_color = Color(0.74902, 0.105882, 0.321569, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qo3qn"]
-shader = ExtResource("4_upeh6")
-shader_parameter/enabled = false
-shader_parameter/default_show = true
-shader_parameter/speed = 10.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r1ed4"]
 shader = ExtResource("11_x3w3w")
@@ -70,7 +61,6 @@ anchors_preset = 0
 offset_right = 960.0
 offset_bottom = 528.0
 script = ExtResource("1_7dwbl")
-health_sprite = ExtResource("3_ypn5q")
 
 [node name="HealthBar" type="HBoxContainer" parent="."]
 layout_mode = 0
@@ -89,19 +79,6 @@ theme_override_fonts/font = ExtResource("2_6eq1f")
 theme_override_styles/background = SubResource("StyleBoxFlat_j46oq")
 theme_override_styles/fill = SubResource("StyleBoxFlat_ftq0s")
 step = 1.0
-
-[node name="ColorRect" type="ColorRect" parent="ProgressBar"]
-layout_mode = 0
-offset_left = 768.0
-offset_top = 1.0
-offset_right = 770.0
-offset_bottom = 33.0
-color = Color(0.917647, 0.988235, 0.435294, 1)
-
-[node name="Sprite2D" type="Sprite2D" parent="ProgressBar/ColorRect"]
-material = SubResource("ShaderMaterial_qo3qn")
-position = Vector2(1, 15)
-texture = ExtResource("5_ya6of")
 
 [node name="DebugMenu" parent="." instance=ExtResource("4_1we2d")]
 visible = false

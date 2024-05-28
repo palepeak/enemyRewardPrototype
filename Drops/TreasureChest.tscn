@@ -133,9 +133,8 @@ animation = &"open"
 [node name="Interactable" type="Node2D" parent="."]
 script = ExtResource("4_s7agy")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="OpenedFailedSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_vc717")
-volume_db = 20.0
 
 [node name="ChestOpenSFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_thro8")

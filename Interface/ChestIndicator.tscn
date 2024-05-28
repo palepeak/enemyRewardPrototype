@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://bd8qx3s3nerld"]
+
+[ext_resource type="Shader" path="res://Interface/FlashingShader.gdshader" id="1_baqt2"]
+[ext_resource type="Script" path="res://Interface/ChestIndicator.gd" id="1_qmorm"]
+[ext_resource type="Texture2D" uid="uid://blbodk68nkmyp" path="res://Resources/key.png" id="2_4tc5h"]
+[ext_resource type="Texture2D" uid="uid://b1gpxfosr5gy7" path="res://Resources/check.png" id="4_g4gmo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qo3qn"]
+shader = ExtResource("1_baqt2")
+shader_parameter/enabled = false
+shader_parameter/default_show = true
+shader_parameter/speed = 10.0
+
+[sub_resource type="Animation" id="Animation_6o2g4"]
+resource_name = "jiggle"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("KeySprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.436332, 0.0, -0.436332, 0.0, 0.436332, 0.0, -0.436332, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3af36"]
+_data = {
+"jiggle": SubResource("Animation_6o2g4")
+}
+
+[node name="ChestIndicator" type="ColorRect"]
+offset_right = 2.0
+offset_bottom = 32.0
+color = Color(0.917647, 0.988235, 0.435294, 1)
+script = ExtResource("1_qmorm")
+
+[node name="KeySprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_qo3qn")
+position = Vector2(1, 15)
+texture = ExtResource("2_4tc5h")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3af36")
+}
+
+[node name="CheckSprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-15, 0)
+texture = ExtResource("4_g4gmo")
+centered = false

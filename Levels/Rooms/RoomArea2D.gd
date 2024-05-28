@@ -5,6 +5,7 @@ var _ghost_scene = preload("res://Enemies/EnemyGhost.tscn")
 var _skull_scene = preload("res://Enemies/Skull.tscn")
 var _sleeping_skeleton_scene = preload("res://Enemies/SleepingSkeleton.tscn")
 var _skeleton_scene = preload("res://Enemies/Skeleton.tscn")
+var _slime_scene = preload("res://Enemies/Slime.tscn")
 var _enemy_count = 0
 var _enemies = []
 var _blocker_map = {}
@@ -69,16 +70,19 @@ func temp_create_enemies():
 	var placed = _scatter(_skull_scene, amount, [], false)
 	
 	#placing fake skulls
-	amount = randi_range(area/200, 2*area/200)
+	amount = randi_range(area/400, 2*area/400)
 	placed = _scatter(_sleeping_skeleton_scene, amount, placed, false)
 	
 	#placing skeletons
-	amount = randi_range(area/200, 2*area/200)
+	amount = randi_range(area/300, 2*area/300)
 	placed = _scatter(_skeleton_scene, amount, placed, true)
 	
 	#placing ghosts
-	#amount = randi_range(area/200, 2*area/200)
-	#placed = _scatter(_ghost_scene, amount, placed, true)
+	amount = randi_range(area/200, 2*area/200)
+	placed = _scatter(_ghost_scene, amount, placed, true)
+	#placing slime
+	amount = 2*area/200 - amount
+	placed = _scatter(_slime_scene, amount, placed, true)
 
 
 func _scatter(
@@ -130,7 +134,7 @@ func _on_area_entered(area):
 		for lock in _blocker_map.values():
 			lock.set_enabled(!_room_state.custom_room)
 		for enemy in _enemies:
-			if enemy.has_method("activate"):
+			if enemy != null && enemy.has_method("activate"):
 				enemy.activate()
 	
 	GameStateStore.set_room(self)

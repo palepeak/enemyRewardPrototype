@@ -1,6 +1,6 @@
 class_name RoomCreator extends Node
 
-const DEBUG = false
+const DEBUG = true
 
 const ROOMS_LAYER = 0
 const WALLS_LAYER = 1
@@ -20,6 +20,7 @@ var _temp_shotgun_scene = preload("res://Weapons/shotgun/Shotgun.tscn")
 
 func create_treasure_room(
 	room_state: RoomState,
+	required_progress: int, 
 	tilemap: TileMap,
 	level_root: Level,
 ) -> RoomArea2D:
@@ -30,6 +31,8 @@ func create_treasure_room(
 		room_state.width / 2, 
 		room_state.height / 2
 	)
+	treasure_chest.required_coverage = required_progress
+	HudUiStore.create_treasure_indicator.emit(treasure_chest)
 	treasure_chest.world_color_store = level_root.get_world_color_store()
 	room_area.add_child.call_deferred(treasure_chest)
 	return room_area

@@ -21,6 +21,9 @@ func process_hit(area: Area2D, damage: float):
 		hit_flash_sprite.play_hit_none_flash()
 
 func process_death():
+	if death_sprite == null:
+		var animation_name = hit_flash_sprite.animation
+		death_sprite = hit_flash_sprite.sprite_frames.get_frame_texture(animation_name, 0)
 	var death_node = death_particle.instantiate() as GPUParticles2D
 	death_node.process_material.set_shader_parameter("sprite", death_sprite)
 	var texture_size = death_sprite.get_size() / 2.0
