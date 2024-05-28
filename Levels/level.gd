@@ -65,6 +65,9 @@ func _process(_delta):
 		darkness_particle.set_camera_position($Camera2D.global_position)
 		darkness_particle.global_position = $Camera2D.global_position
 
+
+var _temp_shotgun_scene = preload("res://Weapons/shotgun/Shotgun.tscn")
+
 func _on_layout_creator_setup_complete(node: LayoutNode):
 	# debug rooms
 	var tut_room = RoomState.new(0, 40, 20, 20, 3, true)
@@ -79,7 +82,9 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	var room1_area = room_creator.create_room(room1, level_map, self)
 	var room2_area = room_creator.create_room(room2, level_map, self)
 	var room2_1_area = room_creator.create_room(room2_1, level_map, self)
-	var treasure_area = room_creator.create_treasure_room(treasure_room, 40, level_map, self)
+	var treasure_area = room_creator.create_treasure_room(
+		treasure_room, 40, _temp_shotgun_scene,
+		level_map, self)
 	var room3_area = room_creator.create_room(room3, level_map, self)
 	var boss_area = room_creator.create_room(boss_room, level_map, self)
 	

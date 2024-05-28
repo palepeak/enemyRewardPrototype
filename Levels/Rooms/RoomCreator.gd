@@ -1,6 +1,6 @@
 class_name RoomCreator extends Node
 
-const DEBUG = true
+const DEBUG = false
 
 const ROOMS_LAYER = 0
 const WALLS_LAYER = 1
@@ -15,18 +15,18 @@ const SOURCE_ID = 0
 
 var _room_area_scene = preload("res://Levels/Rooms/RoomArea2D.tscn")
 var _treasure_scene = preload("res://Drops/TreasureChest.tscn")
-var _temp_shotgun_scene = preload("res://Weapons/shotgun/Shotgun.tscn")
 
 
 func create_treasure_room(
 	room_state: RoomState,
 	required_progress: int, 
+	reward_scene: PackedScene,
 	tilemap: TileMap,
 	level_root: Level,
 ) -> RoomArea2D:
 	var room_area = create_room(room_state, tilemap, level_root)
 	var treasure_chest = _treasure_scene.instantiate() as TreasureChest
-	treasure_chest.reward = _temp_shotgun_scene
+	treasure_chest.reward = reward_scene
 	treasure_chest.position = 32 * Vector2(
 		room_state.width / 2, 
 		room_state.height / 2
