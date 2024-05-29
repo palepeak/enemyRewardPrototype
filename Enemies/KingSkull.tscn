@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://bvbja2og84vti"]
+
+[ext_resource type="PackedScene" uid="uid://cubsi51rg3fe8" path="res://Enemies/Skull.tscn" id="1_o2t0p"]
+[ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="2_aylm7"]
+[ext_resource type="Texture2D" uid="uid://4lahngqfcoll" path="res://Resources/skull_king.png" id="3_21cfn"]
+[ext_resource type="PackedScene" uid="uid://drbq0u8gpy2w4" path="res://ColorLauncher/Pikmin/KingPikmin.tscn" id="4_bnyeb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_f70kn"]
+resource_local_to_scene = true
+shader = ExtResource("2_aylm7")
+shader_parameter/frame = 0
+shader_parameter/outlined = false
+shader_parameter/low_contrast = true
+shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v3k32"]
+atlas = ExtResource("3_21cfn")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eg1u7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v3k32")
+}],
+"loop": true,
+"name": &"default",
+"speed": 0.0
+}]
+
+[node name="KingSkull" instance=ExtResource("1_o2t0p")]
+
+[node name="HitFlashSprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_f70kn")
+sprite_frames = SubResource("SpriteFrames_eg1u7")
+
+[node name="EnemyDropManager" parent="." index="2"]
+type = 1
+drop_scene = ExtResource("4_bnyeb")
+drop_chance_curve = null

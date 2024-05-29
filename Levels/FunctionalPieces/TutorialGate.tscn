@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3 uid="uid://gg4efhgjd26t"]
+
+[ext_resource type="PackedScene" uid="uid://bvbja2og84vti" path="res://Enemies/KingSkull.tscn" id="1_c7jds"]
+[ext_resource type="Script" path="res://Levels/FunctionalPieces/TutorialGate.gd" id="1_ogap3"]
+[ext_resource type="PackedScene" uid="uid://cubsi51rg3fe8" path="res://Enemies/Skull.tscn" id="3_1yjve"]
+
+[sub_resource type="Animation" id="Animation_4plr8"]
+resource_name = "color_room"
+length = 0.6
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"_color_room_step"
+}, {
+"args": [],
+"method": &"_color_room_step"
+}, {
+"args": [],
+"method": &"_color_room_step"
+}, {
+"args": [],
+"method": &"_color_room_step"
+}, {
+"args": [],
+"method": &"_color_room_step"
+}, {
+"args": [],
+"method": &"_color_room_step"
+}, {
+"args": [],
+"method": &"_color_room_step"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aa5oh"]
+_data = {
+"color_room": SubResource("Animation_4plr8")
+}
+
+[node name="TutorialGate" type="Node2D"]
+script = ExtResource("1_ogap3")
+
+[node name="KingSkull" parent="." instance=ExtResource("1_c7jds")]
+
+[node name="Skull" parent="." instance=ExtResource("3_1yjve")]
+position = Vector2(-88, -171)
+
+[node name="Skull2" parent="." instance=ExtResource("3_1yjve")]
+position = Vector2(126, 139)
+
+[node name="Skull3" parent="." instance=ExtResource("3_1yjve")]
+position = Vector2(145, -124)
+
+[node name="Skull4" parent="." instance=ExtResource("3_1yjve")]
+position = Vector2(-137, 134)
+
+[node name="Skull5" parent="." instance=ExtResource("3_1yjve")]
+position = Vector2(-188, -35)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_aa5oh")
+}

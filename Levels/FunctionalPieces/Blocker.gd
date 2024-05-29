@@ -1,8 +1,9 @@
 class_name Blocker extends StaticBody2D
 
+@export var enabled = false
 
 func _ready():
-	set_enabled(false)
+	set_enabled(enabled)
 
 
 func set_enabled(enabled: bool):

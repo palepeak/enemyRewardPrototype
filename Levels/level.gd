@@ -164,14 +164,13 @@ func _on_layout_creator_setup_complete(node: LayoutNode):
 	
 	setup_complete.emit()
 	PlayerStore.add_player_ref_as_primary(player)
-	var initial_spotlight = Vector2(
-		2+tut_room.x + tut_room.width/2,
-		tut_room.y + tut_room.height/2
-	)*32
+	var initial_spotlight = tut_room.get_center()*32
 	player.global_position = initial_spotlight + Vector2(0, 170)
-	world_color_store.post_draw_color_line(initial_spotlight, initial_spotlight)
-	$Skull.global_position = initial_spotlight
+	world_color_store.post_draw_color_point(initial_spotlight)
+	$TutorialGate.global_position = initial_spotlight
 	add_child(player)
+	
+	HudUiStore.show_dialog.emit("Try left click to shoot")
 	
 	# level map set, disable updates to save performance 
 	($LevelMapContainer/SubViewport as SubViewport).render_target_update_mode = SubViewport.UPDATE_ONCE
@@ -219,13 +218,8 @@ func get_camera() -> Camera2D:
 	return $Camera2D
 
 
-var _previous_position
 func _on_timer_timeout():
 	if player != null:
 		if !GameStateStore.in_room():
-			if _previous_position == null:
-				_previous_position = player.global_position
-			world_color_store.post_draw_color_line(_previous_position, player.global_position)
-		elif _previous_position != null:
-			_previous_position = player.global_position
+			world_color_store.post_draw_color_point(player.global_position)
 			

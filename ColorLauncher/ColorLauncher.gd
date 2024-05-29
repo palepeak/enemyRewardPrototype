@@ -44,10 +44,12 @@ func _process(_delta):
 		# a delta that is too small causes the same issue
 		target_launch_position = Vector2(0, 10)
 	
-	if position.distance_to(target_launch_position) > max_range:
-		target_launch_position = target_launch_position.normalized() * max_range
-	elif position.distance_to(target_launch_position) < minimum_range:
-		target_launch_position = target_launch_position.normalized() * minimum_range
+	# Do not restrict min and max distance for first throw
+	if !GameStateStore.first_throw:
+		if position.distance_to(target_launch_position) > max_range:
+			target_launch_position = target_launch_position.normalized() * max_range
+		elif position.distance_to(target_launch_position) < minimum_range:
+			target_launch_position = target_launch_position.normalized() * minimum_range
 		
 	var point_in_x = (target_launch_position - $Path2D.curve.get_point_position(0)).x * -400/1152
 	var point_in_y = min(-200, (target_launch_position - $Path2D.curve.get_point_position(0)).y)

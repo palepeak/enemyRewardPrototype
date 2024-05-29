@@ -13,9 +13,11 @@ func _physics_process(delta):
 	elapsed += delta
 	path.progress_ratio = ease(elapsed, 1)
 	if path.progress_ratio >= 1.0 && !done:
-		done = true 
+		if GameStateStore.first_throw:
+			GameStateStore.emit_first_throw() 
+		done = true
 		var end = Vector2i(to_global(curve.get_point_position(1)))
-		worldColorStore.post_draw_color_line(end, end)
+		worldColorStore.post_draw_color_point(end)
 		$AnimationPlayer.play("fade_out")
 		
 		if residual != null:

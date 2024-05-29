@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cj7p86h4ojskm"]
+[gd_scene load_steps=25 format=3 uid="uid://cj7p86h4ojskm"]
 
 [ext_resource type="Script" path="res://Interface/Interface.gd" id="1_7dwbl"]
 [ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_6eq1f"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Interface/MinimapTexture.gd" id="8_hgkkn"]
 [ext_resource type="Texture2D" uid="uid://ce3meubygmdox" path="res://Resources/character_icon.png" id="10_6mk86"]
 [ext_resource type="Shader" path="res://Interface/EmberProgress.gdshader" id="11_x3w3w"]
+[ext_resource type="Texture2D" uid="uid://dmbq014tbogbr" path="res://Resources/test_portrait_talk.png" id="12_0y4ix"]
 [ext_resource type="SpriteFrames" uid="uid://2ua07pbc61cr" path="res://Resources/FireLitAnimation.tres" id="13_javmb"]
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="13_r3jjo"]
 [ext_resource type="Texture2D" uid="uid://btj47kdm0qvm2" path="res://Weapons/shotgun/shotgun.png" id="14_qavwe"]
@@ -27,6 +28,38 @@ bg_color = Color(0.74902, 0.105882, 0.321569, 1)
 shader = ExtResource("11_x3w3w")
 shader_parameter/progress = 0.5
 
+[sub_resource type="Animation" id="Animation_r4j1j"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2soav"]
+_data = {
+"show": SubResource("Animation_r4j1j")
+}
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j3u84"]
 shader = ExtResource("13_r3jjo")
 shader_parameter/frame = 0
@@ -36,7 +69,6 @@ shader_parameter/line_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Animation" id="Animation_31aqx"]
 resource_name = "show"
-length = 5.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -44,16 +76,54 @@ tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 4, 4.9),
-"transitions": PackedFloat32Array(0.164937, 1, 0.217638, 0.0883884),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.164937, 1),
 "update": 0,
-"values": [Vector2(280, 600), Vector2(280, 456), Vector2(280, 456), Vector2(280, 600)]
+"values": [Vector2(280, 600), Vector2(280, 456)]
+}
+
+[sub_resource type="Animation" id="Animation_kx23h"]
+resource_name = "hide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.217638, 1),
+"update": 0,
+"values": [Vector2(280, 456), Vector2(280, 600)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5abnw"]
 _data = {
+"hide": SubResource("Animation_kx23h"),
 "show": SubResource("Animation_31aqx")
 }
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5gkp"]
+atlas = ExtResource("12_0y4ix")
+region = Rect2(0, 0, 96, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wrcmp"]
+atlas = ExtResource("12_0y4ix")
+region = Rect2(96, 0, 96, 144)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yco4j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5gkp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wrcmp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -132,23 +202,6 @@ editor_only = false
 position = Vector2(64, 64)
 texture = ExtResource("10_6mk86")
 
-[node name="EmberCount" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -116.0
-offset_top = -127.0
-offset_right = -15.0
-offset_bottom = -104.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_fonts/font = ExtResource("2_6eq1f")
-text = "0/100 Embers"
-horizontal_alignment = 1
-
 [node name="EmberProgress" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 3
@@ -192,6 +245,28 @@ theme_override_fonts/font = ExtResource("2_6eq1f")
 text = "50%"
 horizontal_alignment = 1
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EmberProgress"]
+libraries = {
+"": SubResource("AnimationLibrary_2soav")
+}
+
+[node name="EmberCount" type="Label" parent="EmberProgress"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -108.0
+offset_top = -119.0
+offset_right = -7.0
+offset_bottom = -96.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_6eq1f")
+text = "0/100 Embers"
+horizontal_alignment = 1
+
 [node name="AlertContainer" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 7
@@ -200,16 +275,19 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -200.0
-offset_top = 72.0
+offset_top = -72.0
 offset_right = 200.0
-offset_bottom = 135.997
+offset_bottom = -7.00049
 grow_horizontal = 2
 grow_vertical = 0
 
 [node name="ColorRect" type="ColorRect" parent="AlertContainer"]
-layout_mode = 0
-offset_right = 400.0
-offset_bottom = 64.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 0.113725)
 
 [node name="AlertImage" type="TextureRect" parent="AlertContainer"]
@@ -232,17 +310,28 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -68.0
-offset_top = -7.5
-offset_right = 68.0
-offset_bottom = 7.5
+offset_top = -7.99835
+offset_right = 184.0
+offset_bottom = 7.00165
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_6eq1f")
-text = "Obtained Shotgun!"
-horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="AlertContainer"]
 libraries = {
 "": SubResource("AnimationLibrary_5abnw")
 }
+
+[node name="Portrait" type="AnimatedSprite2D" parent="AlertContainer"]
+position = Vector2(-12, -72)
+sprite_frames = SubResource("SpriteFrames_yco4j")
+autoplay = "default"
+frame_progress = 0.590077
+centered = false
+
+[node name="Timer" type="Timer" parent="AlertContainer"]
+one_shot = true
+
+[connection signal="timeout" from="AlertContainer/Timer" to="." method="_on_timer_timeout"]

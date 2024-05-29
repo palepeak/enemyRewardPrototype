@@ -120,22 +120,31 @@ func _scatter(
 func _remove_enemy_ref():
 	_enemy_count -= 1
 	if _enemy_count == 0:
-		_cleared = true
-		$LevelClearStream.play()
-		for lock in _blocker_map.values():
-			lock.set_enabled(false)
+		unlock_room()
+
+
+func unlock_room():
+	_cleared = true
+	$LevelClearStream.play()
+	for lock in _blocker_map.values():
+		lock.set_enabled(false)
+
+
+func lock_room(override_lock: bool = false):
+	$LevelStartStream.play()
+	get_tree().call_group("ReturningEmbers", "activate")
+	for lock in _blocker_map.values():
+		lock.set_enabled(override_lock || !_room_state.custom_room)
 
 
 func _on_area_entered(area):
 	if !_cleared && !_entered:
 		_entered = true
 		if !_room_state.custom_room:
-			$LevelClearStream.play()
-		for lock in _blocker_map.values():
-			lock.set_enabled(!_room_state.custom_room)
-		for enemy in _enemies:
-			if enemy != null && enemy.has_method("activate"):
-				enemy.activate()
+			lock_room()
+			for enemy in _enemies:
+				if enemy != null && enemy.has_method("activate"):
+					enemy.activate()
 	
 	GameStateStore.set_room(self)
 	DebugStore.debug_print("player in area" + str(self))

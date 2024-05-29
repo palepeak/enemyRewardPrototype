@@ -5,7 +5,9 @@ signal show_title_screen()
 signal show_game_over_screen()
 signal toggle_pause_screen()
 signal show_win_screen()
-signal skull_killed()
+
+var first_throw = true
+signal on_first_throw()
 
 var _current_level: Level
 var _start_time: int
@@ -33,6 +35,7 @@ func remove_level():
 		_current_level.queue_free()
 	_current_level = null
 	_clear_target = 999
+	first_throw = true
 
 
 func get_level() -> Level:
@@ -53,4 +56,13 @@ func set_room(area: RoomArea2D):
 	_current_room = area
 
 
+func get_current_room() -> RoomArea2D:
+	return _current_room
+
+
 func in_room() -> bool: return _current_room != null
+
+
+func emit_first_throw():
+	first_throw = false
+	on_first_throw.emit()

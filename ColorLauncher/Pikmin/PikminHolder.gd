@@ -3,8 +3,6 @@ class_name PikminHolder extends Node2D
 @export var _player: Player
 enum PartyMovement {IDLE, LEFT, RIGHT}
 var _pikmins = []
-var _cur_size = 0
-var _cur_front = 0
 var _cur_fragment_progress = 0.0
 
 var _group_movement: PartyMovement = PartyMovement.IDLE
@@ -13,9 +11,10 @@ var _group_movement_emitted: PartyMovement = PartyMovement.IDLE
 var pikmin_scene = preload("res://ColorLauncher/Pikmin/Pikmin.tscn")
 var _elapsed = 0.0
 
+var _collected_pikmin = false
+
 func _ready():
 	_player.register_pikmin_holder(self)
-	_pikmins.resize(100)
 
 
 func _process(delta):
@@ -27,9 +26,9 @@ func _process(delta):
 		return
 	_elapsed = 0.0
 	
-	for i in _cur_size:
+	for i in _pikmins.size():
 		var target_pos = _get_target_position(i)
-		_get_pikmin(i).set_party_target_pos(target_pos)
+		_pikmins[i].set_party_target_pos(target_pos)
 
 	$Sprite2D.visible = DebugStore.debug_mode
 	
@@ -54,31 +53,32 @@ func _process(delta):
 
 
 func can_collect_pikmin() -> bool:
-	return _cur_size < 100
+	return _pikmins.size() < 100
 
 
 func collect_pikmin(pikmin: Pikmin):
+	if !_collected_pikmin:
+		_collected_pikmin = true
+		HudUiStore.show_ember_progress.emit()
 	pikmin.phase_to(_player.global_position)
-	_set_pikmin(_cur_size, pikmin)
-	_cur_size += 1
-	$PointLight2D.energy = _cur_size/100.0
-	HudUiStore.on_ember_count_changed.emit(_cur_size)
+	if pikmin.is_in_group("ReturningEmbers"):
+		_pikmins.insert(0, pikmin)
+	else:
+		_pikmins.append(pikmin)
+	$PointLight2D.energy = _pikmins.size()/100.0
+	HudUiStore.on_ember_count_changed.emit(_pikmins.size())
 
 
 func pop_pikmin() -> Pikmin:
-	var popped_pikmin = _get_pikmin(0)
+	var popped_pikmin = _pikmins.pop_front()
 	if popped_pikmin != null:
 		popped_pikmin.remove_from_party()
-		_set_pikmin(0, null)
-		_cur_front += 1
-		_cur_front = _cur_front % 100
-		_cur_size -= 1
-		HudUiStore.on_ember_count_changed.emit(_cur_size)
+		HudUiStore.on_ember_count_changed.emit(_pikmins.size())
 	return popped_pikmin
 
 
 func add_pikmin():
-	if _cur_size < 100:
+	if _pikmins.size() < 100:
 		var new_pikmin = pikmin_scene.instantiate() as Pikmin
 		new_pikmin.global_position = _player.global_position
 		# TODO figure out a better place to add the pikmins to
@@ -90,19 +90,11 @@ func collect_fragment(fragment_value: float):
 	$FragmentPickup.play()
 	_cur_fragment_progress += fragment_value
 	_cur_fragment_progress = min(_cur_fragment_progress, 1.0)
-	if _cur_fragment_progress >= 1.0 && _cur_size < 100:
+	if _cur_fragment_progress >= 1.0 && _pikmins.size() < 100:
 		add_pikmin()
 		_cur_fragment_progress = 0.0
 		$NewEmberPlayer.play()
 	HudUiStore.on_ember_progress_changed.emit(_cur_fragment_progress)
-
-
-func _get_pikmin(index) -> Pikmin:
-	return _pikmins[(_cur_front + index) % 100]
-
-
-func _set_pikmin(index, pikmin):
-	_pikmins[(_cur_front + index) % 100] = pikmin
 
 
 func _get_target_position(index):

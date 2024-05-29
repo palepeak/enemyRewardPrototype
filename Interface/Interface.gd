@@ -3,6 +3,7 @@ class_name UserInterface extends Control
 var health_sprite = preload("res://Interface/HealthLantern.tscn")
 var _chest_indicator_scene = preload("res://Interface/ChestIndicator.tscn")
 var _treasure_indicators = []
+var _alert_showing = false
 
 
 func _ready():
@@ -12,10 +13,13 @@ func _ready():
 	DebugStore.debug_mode_changed.connect(toggle_debug_visiblity)
 	HudUiStore.on_ember_progress_changed.connect(_update_ember_progress_ui)
 	HudUiStore.on_item_pickup.connect(_show_pickup_alert)
+	HudUiStore.show_dialog.connect(_show_dialog_alert)
 	HudUiStore.create_treasure_indicator.connect(_create_treasure_indicator)
+	HudUiStore.show_ember_progress.connect(_show_ember_progress)
 
 
 func show_hud():
+	$EmberProgress.visible = false
 	update_max_health(3)
 	update_health(3)
 	update_embers(0)
@@ -50,7 +54,12 @@ func update_health(new_health: int):
 
 
 func update_embers(ember_count: int):
-	$EmberCount.text = str(ember_count) + "/100 Embers"
+	$EmberProgress/EmberCount.text = str(ember_count) + "/100 Embers"
+
+
+func _show_ember_progress():
+	_show_dialog_alert("Try right click to illuminate")
+	$EmberProgress/AnimationPlayer.play("show")
 
 
 func _update_ember_progress_ui(progress: float):
@@ -65,7 +74,31 @@ func toggle_debug_visiblity(debug_visible: bool):
 func _show_pickup_alert(msg: String, image: Texture2D):
 	$AlertContainer/AlertLabel.text = msg
 	$AlertContainer/AlertImage.texture = image
-	$AlertContainer/AnimationPlayer.play("show")
+	var anim = $AlertContainer/AnimationPlayer as AnimationPlayer
+	$AlertContainer/Timer.wait_time = 4
+	$AlertContainer/Timer.start()
+	if !_alert_showing:
+		anim.play("show")
+	$AlertContainer/Portrait.visible = false
+	_alert_showing = true
+
+
+func _show_dialog_alert(msg: String):
+	$AlertContainer/AlertLabel.text = msg
+	var anim = $AlertContainer/AnimationPlayer as AnimationPlayer
+	
+	$AlertContainer/Timer.wait_time = 4 + msg.length()/16
+	$AlertContainer/Timer.start()
+	if !_alert_showing:
+		anim.play("show")
+	$AlertContainer/Portrait.visible = true
+	_alert_showing = true
+
+
+
+func _on_timer_timeout():
+	_alert_showing = false
+	$AlertContainer/AnimationPlayer.play("hide")
 
 
 func _create_treasure_indicator(treasure: TreasureChest):

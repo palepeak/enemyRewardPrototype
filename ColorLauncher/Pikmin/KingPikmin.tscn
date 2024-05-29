@@ -1,0 +1,138 @@
+[gd_scene load_steps=22 format=3 uid="uid://drbq0u8gpy2w4"]
+
+[ext_resource type="PackedScene" uid="uid://ux4eq21autwi" path="res://ColorLauncher/Pikmin/Pikmin.tscn" id="1_jsf1t"]
+[ext_resource type="Texture2D" uid="uid://b1d63u6ok15uf" path="res://Resources/pikmin_king_idle.png" id="2_bdhd7"]
+[ext_resource type="Script" path="res://ColorLauncher/Pikmin/KingPikmin.gd" id="2_iogpd"]
+[ext_resource type="Texture2D" uid="uid://cqxs6di0w6a0b" path="res://Resources/pikmin_king_walk.png" id="3_10m8c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfv4h"]
+atlas = ExtResource("2_bdhd7")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38w1m"]
+atlas = ExtResource("2_bdhd7")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u16fw"]
+atlas = ExtResource("2_bdhd7")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ebca1"]
+atlas = ExtResource("2_bdhd7")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ep51a"]
+atlas = ExtResource("2_bdhd7")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shfxs"]
+atlas = ExtResource("2_bdhd7")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atp8p"]
+atlas = ExtResource("2_bdhd7")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5xli4"]
+atlas = ExtResource("2_bdhd7")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cuvd0"]
+atlas = ExtResource("3_10m8c")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q85nr"]
+atlas = ExtResource("3_10m8c")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4isla"]
+atlas = ExtResource("3_10m8c")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1gj7r"]
+atlas = ExtResource("3_10m8c")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cspaf"]
+atlas = ExtResource("3_10m8c")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_va25w"]
+atlas = ExtResource("3_10m8c")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y52lt"]
+atlas = ExtResource("3_10m8c")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8vqc"]
+atlas = ExtResource("3_10m8c")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xrlws"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfv4h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38w1m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u16fw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ebca1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ep51a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shfxs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atp8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5xli4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cuvd0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q85nr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4isla")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1gj7r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cspaf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_va25w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y52lt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8vqc")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="KingPikmin" groups=["ReturningEmbers"] instance=ExtResource("1_jsf1t")]
+script = ExtResource("2_iogpd")
+
+[node name="Sprite" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_xrlws")
+frame_progress = 0.244853

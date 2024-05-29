@@ -16,7 +16,7 @@
 [ext_resource type="TileSet" uid="uid://b26xocwdkhvvs" path="res://Levels/Rooms/Floor1.tres" id="14_xbdcr"]
 [ext_resource type="PackedScene" uid="uid://7p4cmbu3uh4h" path="res://ColorLauncher/Pikmin/PikminHolder.tscn" id="16_ojb83"]
 [ext_resource type="PackedScene" uid="uid://be5xe1ejj8plo" path="res://Levels/FunctionalPieces/BossRoom.tscn" id="16_qv37e"]
-[ext_resource type="PackedScene" uid="uid://cubsi51rg3fe8" path="res://Enemies/Skull.tscn" id="17_1k767"]
+[ext_resource type="PackedScene" uid="uid://gg4efhgjd26t" path="res://Levels/FunctionalPieces/TutorialGate.tscn" id="17_del3c"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_a65kv"]
 light_mode = 1
@@ -274,7 +274,9 @@ libraries = {
 [node name="WorldColorStore" type="Node" parent="."]
 script = ExtResource("9_4ecwn")
 
-[node name="Skull" parent="." instance=ExtResource("17_1k767")]
+[node name="TutorialGate" parent="." node_paths=PackedStringArray("world_color_store", "camera") instance=ExtResource("17_del3c")]
+world_color_store = NodePath("../WorldColorStore")
+camera = NodePath("../Camera2D")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

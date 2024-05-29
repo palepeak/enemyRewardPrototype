@@ -8,11 +8,11 @@ void fragment() {
 	float y = UV.y - 0.5;
 	float dist = sqrt(pow(x, 2) + pow(y, 2));
 	if (dist > 0.5){
-		COLOR = vec4(0.0);
+		COLOR.a = 0.0;
 	} else if (dist > 0.495)  {
 		COLOR.a = 0.6;
 	} else {
-		COLOR.a = 0.3;
+		COLOR.a = 0.0;
 	}
 }
 

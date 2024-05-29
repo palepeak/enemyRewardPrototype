@@ -145,11 +145,13 @@ script = ExtResource("1_nc0pl")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_thpgh")
+animation = &"walk"
 autoplay = "default"
-frame_progress = 0.559299
 
 [node name="PlayerTracker" type="Node2D" parent="."]
 script = ExtResource("4_6r3db")
+enabled = true
+calculate_vision = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_amqna")

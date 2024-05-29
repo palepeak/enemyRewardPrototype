@@ -19,6 +19,7 @@ var emitted_progress: int = 0.0
 
 var threads = []
 var requests = []
+var _color_room_requests = []
 @onready var image_mutex: Mutex = Mutex.new()
 @onready var threads_mutex: Mutex = Mutex.new()
 
@@ -60,9 +61,12 @@ func get_color_texture() -> Texture2D:
 	return color_texture
 
 
-func post_draw_color_line(start: Vector2i, end: Vector2i):
-	requests.push_back([start, end])
+func post_draw_color_point(start: Vector2i):
+	requests.push_back(start)
 
+
+func post_draw_room(room_state: RoomState, radius: float):
+	_color_room_requests.push_back([room_state, radius])
 
 func _process(_delta):
 	if color_texture == null:
@@ -75,29 +79,57 @@ func _process(_delta):
 			var thread = Thread.new()
 			threads.push_back(thread)
 			thread.start(_thread_draw_color_function.bind(
-				request[0]/image_compression_factor,
-				request[1]/image_compression_factor, 
+				request/image_compression_factor,
 				radius/image_compression_factor,
+				true,
+				[],
 				thread))
+		
+		if threads.size() < 10 and !_color_room_requests.is_empty():
+			var thread = Thread.new()
+			
+			var request = _color_room_requests.pop_back()
+			var room = request[0]
+			var request_radius = request[1]
+			var room_center = 32 * room.get_center() / image_compression_factor
+			var bounding_box_origin = 32 * Vector2(
+				room.x + 1, 
+				room.y + room.wall_height,
+			) / image_compression_factor
+			var bounding_box_size = 32 * Vector2(
+				room.width, 
+				room.height,
+			) / image_compression_factor
+			threads.push_back(thread)
+			thread.start(_thread_draw_color_function.bind(
+				room_center,
+				request_radius/image_compression_factor,
+				false,
+				[bounding_box_origin, bounding_box_size],
+				thread,
+			))
 		threads_mutex.unlock()
 	else:
 		if !requests.is_empty():
 			var request = requests.pop_back()
 			_thread_draw_color_function(
 				request[0]/image_compression_factor,
-				request[1]/image_compression_factor, 
 				radius/image_compression_factor,
+				true,
+				[],
 				null)
 
 
 func _thread_draw_color_function(
 	start: Vector2i, 
-	end: Vector2i, 
 	radius_compressed: int, 
+	full_explore: bool,
+	bounding_box: Array,
 	thread_ref,
 ):
 	var visited = {}
-	var to_visit = [end, start]
+	var found_uncolored = false
+	var to_visit = [start]
 	while !to_visit.is_empty():
 		# get current pixel to work with
 		var current_pixel = to_visit.pop_back() as Vector2i
@@ -107,26 +139,34 @@ func _thread_draw_color_function(
 		# check if pixel is within bounds
 		if current_pixel.x < 0 or current_pixel.x >= color_image_map.get_width() or current_pixel.y < 0 or current_pixel.y >= color_image_map.get_height():
 			continue
+		
+		var colored = color_image_map.get_pixelv(current_pixel) == color_bit
+		if !colored:
+			found_uncolored = true
+		
+		var in_bounds = true
+		if !bounding_box.is_empty():
+			var origin = bounding_box[0]
+			var size = bounding_box[1]
+			if (
+				current_pixel.x < origin.x || 
+				current_pixel.x > origin.x + size.x ||
+				current_pixel.y < origin.y ||
+				current_pixel.y > origin.y + size.y
+			):
+				in_bounds = false
+		
 		visited[current_pixel] = true
 		
-		# process current pixel is in bounds
-		# getting the closest pixel along the slope
-		var closest_point = Vector2i(Geometry2D.get_closest_point_to_segment(
-			current_pixel,
-			start,
-			end
-		))
-		if start == end:
-			closest_point = start
 		# checking distance
-		var distance = _distance_to(current_pixel, closest_point)
+		var distance = _distance_to(current_pixel, start)
 		# point too far, ignore
 		if distance > radius_compressed:
 			continue
 		
 		if THREADED:
 			image_mutex.lock()
-		if color_image_map.get_pixelv(current_pixel) != color_bit && _coord_on_tilemap_contains_tile(current_pixel):
+		if !colored && in_bounds && _coord_on_tilemap_contains_scoring_tile(current_pixel):
 			# draw pixel onto image
 			color_image_map.set_pixelv(current_pixel, color_bit)
 			if _coord_on_tilemap_contains_scoring_tile(current_pixel):
@@ -143,10 +183,14 @@ func _thread_draw_color_function(
 			
 		
 		# add neighbors to visit list
-		for x in range(current_pixel.x-1, current_pixel.x+2):
-			for y in range(current_pixel.y-1, current_pixel.y+2):
-				if (x != current_pixel.x || y != current_pixel.y):
-					to_visit.append(Vector2i(x, y))
+		if !colored || full_explore:
+			for x in range(current_pixel.x-1, current_pixel.x+2):
+				for y in range(current_pixel.y-1, current_pixel.y+2):
+					if (x != current_pixel.x || y != current_pixel.y):
+						to_visit.append(Vector2i(x, y))
+		elif !found_uncolored:
+			# Explore semi fully to ensure we have an uncolored starting point
+			to_visit.append(Vector2i(current_pixel.x+2, current_pixel.y))
 				
 	if THREADED:
 		# this call is thread safe without mutex

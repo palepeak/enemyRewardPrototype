@@ -44,6 +44,13 @@ func get_used_exits() -> Array[Vector2]:
 	return _used_exits
 
 
+func get_center() -> Vector2:
+	return Vector2(
+		x + width/2.0 + 1, 
+		y + wall_height + height/2.0,
+	)
+
+
 func get_exits(direction: RoomDirection) -> Array[Vector2]:
 	match direction:
 		RoomDirection.LEFT:
