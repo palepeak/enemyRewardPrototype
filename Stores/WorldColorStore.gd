@@ -10,7 +10,6 @@ var boss_tile_map_position = null
 var color_image_map: Image = null
 var image_compression_factor = 4
 var color_texture: ImageTexture = null
-var radius = 100
 
 var total_size = 0
 var progress_pixel = 0
@@ -18,7 +17,7 @@ var progress_percent: int = 0.0
 var emitted_progress: int = 0.0
 
 var threads = []
-var requests = []
+var _requests = []
 var _color_room_requests = []
 @onready var image_mutex: Mutex = Mutex.new()
 @onready var threads_mutex: Mutex = Mutex.new()
@@ -61,8 +60,8 @@ func get_color_texture() -> Texture2D:
 	return color_texture
 
 
-func post_draw_color_point(start: Vector2i):
-	requests.push_back(start)
+func post_draw_color_point(start: Vector2i, radius: int = 100):
+	_requests.push_back([start, radius])
 
 
 func post_draw_room(room_state: RoomState, radius: float):
@@ -74,12 +73,14 @@ func _process(_delta):
 	
 	if THREADED:
 		threads_mutex.lock()
-		if threads.size() < 10 and !requests.is_empty():
-			var request = requests.pop_back()
+		if threads.size() < 10 and !_requests.is_empty():
+			var request = _requests.pop_back()
+			var origin = request[0]
+			var radius = request[1]
 			var thread = Thread.new()
 			threads.push_back(thread)
 			thread.start(_thread_draw_color_function.bind(
-				request/image_compression_factor,
+				origin/image_compression_factor,
 				radius/image_compression_factor,
 				true,
 				[],
@@ -110,11 +111,11 @@ func _process(_delta):
 			))
 		threads_mutex.unlock()
 	else:
-		if !requests.is_empty():
-			var request = requests.pop_back()
+		if !_requests.is_empty():
+			var request = _requests.pop_back()
 			_thread_draw_color_function(
 				request[0]/image_compression_factor,
-				radius/image_compression_factor,
+				request[1]/image_compression_factor,
 				true,
 				[],
 				null)

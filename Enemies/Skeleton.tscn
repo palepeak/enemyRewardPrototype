@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://ccnwusj1of0bq"]
+[gd_scene load_steps=23 format=3 uid="uid://ccnwusj1of0bq"]
 
 [ext_resource type="Script" path="res://Enemies/Skeleton.gd" id="1_dls4m"]
 [ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="1_lw4d1"]
@@ -8,7 +8,6 @@
 [ext_resource type="Script" path="res://EnemyUtils/EnemyMover.gd" id="5_a5yly"]
 [ext_resource type="Script" path="res://EnemyUtils/PathFinders/BasePathFinder.gd" id="6_obxfk"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyHealthManager.gd" id="7_ck1vt"]
-[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://EnemyUtils/EnemyDeathParticle.tscn" id="8_25wxb"]
 [ext_resource type="AudioStream" uid="uid://tf444rn6ehfd" path="res://Resources/skull_death.wav" id="9_rhqdh"]
 [ext_resource type="PackedScene" uid="uid://ceghegyl7vgdn" path="res://EnemyUtils/EnemyHurtbox.tscn" id="10_qxwg6"]
 [ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="11_7wqh6"]
@@ -22,10 +21,11 @@ radius = 12.0416
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h71i5"]
 resource_local_to_scene = true
 shader = ExtResource("2_hue1l")
-shader_parameter/frame = 0
+shader_parameter/frame = 1
 shader_parameter/outlined = false
 shader_parameter/low_contrast = true
 shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+shader_parameter/line_color2 = Color(1, 1, 1, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o273g"]
 atlas = ExtResource("3_8meu7")
@@ -99,8 +99,6 @@ script = ExtResource("7_ck1vt")
 drop_manager = NodePath("../EnemyDropManager")
 max_health = 6
 damage_on_shadow = false
-death_sprite = ExtResource("3_8meu7")
-death_particle = ExtResource("8_25wxb")
 host_object = NodePath("..")
 death_audio = NodePath("../AudioStreamPlayer2D")
 hit_flash_sprite = NodePath("../HitFlashSprite")
@@ -115,11 +113,13 @@ enemy_mover = NodePath("../EnemyMover")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CapsuleShape2D_0yym1")
+disabled = true
 
 [node name="EnemyHitbox" parent="." instance=ExtResource("11_7wqh6")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitbox"]
 shape = SubResource("CapsuleShape2D_34l6j")
+disabled = true
 
 [node name="EnemyShotManager" type="Node2D" parent="." node_paths=PackedStringArray("player_tracker")]
 script = ExtResource("12_balaf")

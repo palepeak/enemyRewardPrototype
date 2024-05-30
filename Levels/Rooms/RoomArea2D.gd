@@ -1,13 +1,17 @@
 class_name RoomArea2D extends Area2D
 
+var _enemy_entrance_scene = preload("res://EnemyUtils/EnemyEntrance.tscn")
 var _blocker_scene = preload("res://Levels/FunctionalPieces/Blocker.tscn")
+
 var _ghost_scene = preload("res://Enemies/EnemyGhost.tscn")
+var _dark_ghost_scene = preload("res://Enemies/DarkGhost.tscn")
 var _skull_scene = preload("res://Enemies/Skull.tscn")
 var _sleeping_skeleton_scene = preload("res://Enemies/SleepingSkeleton.tscn")
 var _skeleton_scene = preload("res://Enemies/Skeleton.tscn")
 var _slime_scene = preload("res://Enemies/Slime.tscn")
 var _enemy_count = 0
 var _enemies = []
+var _enemy_entrance = []
 var _blocker_map = {}
 
 var _room_state: RoomState
@@ -67,11 +71,15 @@ func temp_create_enemies():
 	
 	var area = _room_state.width * _room_state.height
 	var amount = randi_range(area/200, 2*area/200)
-	var placed = _scatter(_skull_scene, amount, [], false)
+	var placed = _scatter(_skull_scene, amount, [], false, false)
 	
+	# dark ghosts
+	#_scatter(_dark_ghost_scene, 1, placed, true)
+	#return
+	 
 	#placing fake skulls
 	amount = randi_range(area/400, 2*area/400)
-	placed = _scatter(_sleeping_skeleton_scene, amount, placed, false)
+	placed = _scatter(_sleeping_skeleton_scene, amount, placed, false, false)
 	
 	#placing skeletons
 	amount = randi_range(area/300, 2*area/300)
@@ -90,6 +98,7 @@ func _scatter(
 	amount: int, 
 	placed_coords: Array[Vector2] = [],
 	is_clear_enemy: bool = true,
+	delay: bool = true
 ) -> Array[Vector2]:
 	var area = _room_state.width * _room_state.height
 	var placed = 0
@@ -111,7 +120,16 @@ func _scatter(
 				_enemy_count += 1
 				
 			add_child.call_deferred(node)
-			_enemies.append(node)
+			
+			if delay:
+				var enemy_entrance = _enemy_entrance_scene.instantiate() as EnemyEntrance
+				enemy_entrance.enemy_node = node
+				enemy_entrance.position = candidate*32
+				add_child.call_deferred(enemy_entrance)
+				_enemy_entrance.append(enemy_entrance)
+			else:
+				_enemies.append(node)
+			
 			placed +=1
 			placed_coords.append(candidate)
 	return placed_coords
@@ -141,9 +159,12 @@ func _on_area_entered(area):
 		_entered = true
 		if !_room_state.custom_room:
 			lock_room()
+			for entrance in _enemy_entrance:
+				entrance.activate()
 			for enemy in _enemies:
-				if enemy != null && enemy.has_method("activate"):
+				if enemy.has_method("activate"):
 					enemy.activate()
+				
 	
 	GameStateStore.set_room(self)
 	DebugStore.debug_print("player in area" + str(self))

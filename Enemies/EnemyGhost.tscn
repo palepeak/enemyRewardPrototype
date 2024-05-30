@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b6wbreupq0v3m"]
+[gd_scene load_steps=25 format=3 uid="uid://b6wbreupq0v3m"]
 
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="1_71u8p"]
 [ext_resource type="Script" path="res://Enemies/EnemyGhost.gd" id="1_htt6w"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" path="res://EnemyUtils/PathFinders/NoCollisionPathFinder.gd" id="3_qiu7j"]
 [ext_resource type="Texture2D" uid="uid://u51ofhsr1nca" path="res://Resources/ghost_single1.png" id="6_rt6a2"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyHealthManager.gd" id="8_4epax"]
-[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://EnemyUtils/EnemyDeathParticle.tscn" id="9_d6cxv"]
 [ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="10_ya16m"]
 [ext_resource type="AudioStream" uid="uid://busqh3v1xmrjb" path="res://Resources/enemy_death/ghost_death.wav" id="11_l8paj"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyDropManager.gd" id="12_2vvvt"]
@@ -22,10 +21,11 @@ radius = 11.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4mts0"]
 resource_local_to_scene = true
 shader = ExtResource("1_71u8p")
-shader_parameter/frame = 0
+shader_parameter/frame = 1
 shader_parameter/outlined = false
 shader_parameter/low_contrast = true
 shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+shader_parameter/line_color2 = Color(1, 1, 1, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_536wr"]
 atlas = ExtResource("1_qn8fi")
@@ -88,7 +88,7 @@ script = ExtResource("1_htt6w")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_4ljix")
 
-[node name="HitFlashAnimatedSprite2d" parent="." instance=ExtResource("1_q8qrk")]
+[node name="HitFlashSprite" parent="." instance=ExtResource("1_q8qrk")]
 material = SubResource("ShaderMaterial_4mts0")
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_0gm5u")
@@ -98,7 +98,7 @@ script = ExtResource("3_oro6a")
 player_tracker = NodePath("../PlayerTracker")
 pathFinder = NodePath("../NoCollisionPathFinder")
 enemy_object = NodePath("..")
-sprite = NodePath("../HitFlashAnimatedSprite2d")
+sprite = NodePath("../HitFlashSprite")
 
 [node name="NoCollisionPathFinder" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("player_tracker", "root_node")]
 path_desired_distance = 4.0
@@ -119,15 +119,15 @@ script = ExtResource("8_4epax")
 drop_manager = NodePath("../EnemyDropManager")
 max_health = 3
 death_sprite = ExtResource("6_rt6a2")
-death_particle = ExtResource("9_d6cxv")
 host_object = NodePath("..")
 death_audio = NodePath("../AudioStreamPlayer2D")
-hit_flash_sprite = NodePath("../HitFlashAnimatedSprite2d")
+hit_flash_sprite = NodePath("../HitFlashSprite")
 
 [node name="Hitbox" parent="." instance=ExtResource("10_ya16m")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CapsuleShape2D_xr0o3")
+disabled = true
 
 [node name="Hurtbox" parent="." node_paths=PackedStringArray("health_manager", "enemy_mover") instance=ExtResource("12_owpnl")]
 health_manager = NodePath("../EnemyHealthManager")
@@ -135,6 +135,7 @@ enemy_mover = NodePath("../EnemyMover")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CapsuleShape2D_g5bdn")
+disabled = true
 debug_color = Color(0.980726, 0, 0.377214, 0.42)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

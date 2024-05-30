@@ -21,6 +21,7 @@ shader_parameter/frame = 0
 shader_parameter/outlined = true
 shader_parameter/low_contrast = false
 shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_color2 = Color(1, 1, 1, 0)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sqa6h"]
 animations = [{

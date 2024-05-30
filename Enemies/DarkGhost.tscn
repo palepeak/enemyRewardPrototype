@@ -1,0 +1,126 @@
+[gd_scene load_steps=21 format=3 uid="uid://djqlmw8hdbyu4"]
+
+[ext_resource type="Script" path="res://Enemies/DarkGhost.gd" id="1_8jbgr"]
+[ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="1_jq5u6"]
+[ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="2_0c4qd"]
+[ext_resource type="Texture2D" uid="uid://bvqajgd53jfsq" path="res://Resources/dark_ghost.png" id="3_enyxh"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyMover.gd" id="4_dp44k"]
+[ext_resource type="Script" path="res://EnemyUtils/PathFinders/NoCollisionPathFinder.gd" id="5_f62eq"]
+[ext_resource type="Script" path="res://EnemyUtils/PlayerTracker.gd" id="6_u0k1r"]
+[ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="7_wmq40"]
+[ext_resource type="AudioStream" uid="uid://busqh3v1xmrjb" path="res://Resources/enemy_death/ghost_death.wav" id="8_o5lmd"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyHealthManager.gd" id="9_lwd3g"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyColorHurtbox.gd" id="10_7e7c1"]
+[ext_resource type="Texture2D" uid="uid://dvdsfh8une7eg" path="res://Resources/dark_ghost_single.png" id="11_oecya"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7lkkr"]
+radius = 11.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mhygw"]
+resource_local_to_scene = true
+shader = ExtResource("2_0c4qd")
+shader_parameter/frame = 1
+shader_parameter/outlined = true
+shader_parameter/low_contrast = false
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_color2 = Color(0.392157, 0, 0.784314, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efo6c"]
+atlas = ExtResource("3_enyxh")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h546h"]
+atlas = ExtResource("3_enyxh")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgemw"]
+atlas = ExtResource("3_enyxh")
+region = Rect2(64, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_togv5"]
+atlas = ExtResource("3_enyxh")
+region = Rect2(96, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_11ncm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efo6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h546h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qgemw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_togv5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2wtjd"]
+radius = 11.0
+height = 40.0
+
+[node name="DarkGhost" type="CharacterBody2D"]
+collision_layer = 32
+collision_mask = 32
+script = ExtResource("1_8jbgr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7lkkr")
+
+[node name="HitFlashSprite" parent="." instance=ExtResource("1_jq5u6")]
+material = SubResource("ShaderMaterial_mhygw")
+sprite_frames = SubResource("SpriteFrames_11ncm")
+frame_progress = 0.790122
+light_effects_enabled = false
+
+[node name="EnemyMover" type="Node" parent="." node_paths=PackedStringArray("player_tracker", "pathFinder", "enemy_object", "sprite")]
+script = ExtResource("4_dp44k")
+player_tracker = NodePath("../PlayerTracker")
+pathFinder = NodePath("../NoCollisionPathFinder")
+enemy_object = NodePath("..")
+sprite = NodePath("../HitFlashSprite")
+
+[node name="NoCollisionPathFinder" type="NavigationAgent2D" parent="." node_paths=PackedStringArray("player_tracker", "root_node")]
+path_desired_distance = 4.0
+target_desired_distance = 4.0
+navigation_layers = 13
+path_postprocessing = 1
+script = ExtResource("5_f62eq")
+player_tracker = NodePath("../PlayerTracker")
+root_node = NodePath("..")
+recalculate_path_interval = 0.2
+
+[node name="PlayerTracker" type="Node2D" parent="."]
+script = ExtResource("6_u0k1r")
+calculate_vision = false
+
+[node name="Hitbox" parent="." instance=ExtResource("7_wmq40")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CapsuleShape2D_2wtjd")
+disabled = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_o5lmd")
+volume_db = -10.0
+attenuation = 0.153893
+max_polyphony = 5
+
+[node name="EnemyHealthManager" type="Node2D" parent="." node_paths=PackedStringArray("host_object", "death_audio", "hit_flash_sprite")]
+script = ExtResource("9_lwd3g")
+color_affected = false
+max_health = 3
+death_sprite = ExtResource("11_oecya")
+host_object = NodePath("..")
+death_audio = NodePath("../AudioStreamPlayer2D")
+hit_flash_sprite = NodePath("../HitFlashSprite")
+
+[node name="EnemyColorHurtbox" type="Node2D" parent="." node_paths=PackedStringArray("enemy_health_manager")]
+script = ExtResource("10_7e7c1")
+enemy_health_manager = NodePath("../EnemyHealthManager")

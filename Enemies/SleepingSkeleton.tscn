@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dcs5tngwc2f7m"]
+[gd_scene load_steps=28 format=3 uid="uid://dcs5tngwc2f7m"]
 
 [ext_resource type="Script" path="res://Enemies/SleepingSkeleton.gd" id="1_nk5nq"]
 [ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="2_e78fh"]
@@ -11,7 +11,6 @@
 [ext_resource type="Script" path="res://EnemyUtils/PathFinders/BasePathFinder.gd" id="8_0st4h"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyHealthManager.gd" id="9_jcecx"]
 [ext_resource type="Texture2D" uid="uid://dqixmbahnp33v" path="res://Resources/skeleton.png" id="10_lmcdo"]
-[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://EnemyUtils/EnemyDeathParticle.tscn" id="11_htsh2"]
 [ext_resource type="AudioStream" uid="uid://tf444rn6ehfd" path="res://Resources/skull_death.wav" id="12_kpiap"]
 [ext_resource type="PackedScene" uid="uid://ceghegyl7vgdn" path="res://EnemyUtils/EnemyHurtbox.tscn" id="13_yiduv"]
 [ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="14_tslpa"]
@@ -28,6 +27,7 @@ shader_parameter/frame = 0
 shader_parameter/outlined = false
 shader_parameter/low_contrast = true
 shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+shader_parameter/line_color2 = Color(1, 1, 1, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hkxdf"]
 atlas = ExtResource("2_ergrr")
@@ -112,7 +112,6 @@ max_distance = 600
 
 [node name="EnemyMover" type="Node" parent="." node_paths=PackedStringArray("player_tracker", "pathFinder", "enemy_object", "sprite")]
 script = ExtResource("7_8p0er")
-active = false
 player_min_distance = 150
 player_tracker = NodePath("../PlayerTracker")
 pathFinder = NodePath("../BasePathFinder")
@@ -133,7 +132,6 @@ max_health = 6
 damage_on_shadow = false
 invulnurable = true
 death_sprite = ExtResource("10_lmcdo")
-death_particle = ExtResource("11_htsh2")
 host_object = NodePath("..")
 death_audio = NodePath("../AudioStreamPlayer2D")
 hit_flash_sprite = NodePath("../HitFlashSprite")

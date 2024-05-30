@@ -2,4 +2,7 @@ extends CharacterBody2D
 
 
 func activate():
-	$EnemyMover.active = true
+	$EnemyMover.enabled = true
+	$Hurtbox/CollisionShape2D.disabled = false
+	$EnemyHitbox/CollisionShape2D.disabled = false
+	$HitFlashSprite.material.set_shader_parameter("frame", 0)

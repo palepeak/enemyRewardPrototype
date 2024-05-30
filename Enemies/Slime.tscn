@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://brqhw27sr6qox"]
+[gd_scene load_steps=24 format=3 uid="uid://brqhw27sr6qox"]
 
 [ext_resource type="Script" path="res://Enemies/Slime.gd" id="1_0nm45"]
 [ext_resource type="Texture2D" uid="uid://b1yj42m26y8j7" path="res://Resources/slime.png" id="2_8x3x4"]
@@ -7,7 +7,6 @@
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="3_oxdq3"]
 [ext_resource type="Script" path="res://EnemyUtils/PathFinders/RandomPathFinder.gd" id="5_2b3sh"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyHealthManager.gd" id="6_m5ogn"]
-[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://EnemyUtils/EnemyDeathParticle.tscn" id="7_7clr6"]
 [ext_resource type="AudioStream" uid="uid://dw3tvivela1qi" path="res://Resources/slime_death.wav" id="8_ngj1a"]
 [ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="9_exe8t"]
 [ext_resource type="PackedScene" uid="uid://ceghegyl7vgdn" path="res://EnemyUtils/EnemyHurtbox.tscn" id="10_qtyo4"]
@@ -20,10 +19,11 @@ radius = 13.0384
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_psm20"]
 resource_local_to_scene = true
 shader = ExtResource("3_oxdq3")
-shader_parameter/frame = 0
+shader_parameter/frame = 1
 shader_parameter/outlined = false
 shader_parameter/low_contrast = true
 shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+shader_parameter/line_color2 = Color(1, 1, 1, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nbbv3"]
 atlas = ExtResource("2_8x3x4")
@@ -93,7 +93,7 @@ sprite_frames = SubResource("SpriteFrames_hpmos")
 
 [node name="EnemyMover" type="Node" parent="." node_paths=PackedStringArray("pathFinder", "enemy_object", "sprite")]
 script = ExtResource("2_qd7t4")
-active = false
+enabled = false
 speed = 200
 pathFinder = NodePath("../RandomPathFinder")
 enemy_object = NodePath("..")
@@ -109,7 +109,6 @@ recalculate_path_interval = 2.0
 script = ExtResource("6_m5ogn")
 drop_manager = NodePath("../EnemyDropManager")
 max_health = 4
-death_particle = ExtResource("7_7clr6")
 host_object = NodePath("..")
 death_audio = NodePath("../AudioStreamPlayer2D")
 hit_flash_sprite = NodePath("../HitFlashSprite")
@@ -122,6 +121,7 @@ volume_db = -5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitbox"]
 shape = SubResource("CircleShape2D_hp4wc")
+disabled = true
 
 [node name="Hurtbox" parent="." node_paths=PackedStringArray("health_manager", "enemy_mover") instance=ExtResource("10_qtyo4")]
 health_manager = NodePath("../EnemyHealthManager")
@@ -129,6 +129,7 @@ enemy_mover = NodePath("../EnemyMover")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_ey42t")
+disabled = true
 debug_color = Color(0.959945, 2.88785e-07, 0.518796, 0.42)
 
 [node name="EnemyDropManager" type="Node2D" parent="."]

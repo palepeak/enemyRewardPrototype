@@ -21,7 +21,7 @@ func _process(delta):
 func _on_hit_flash_sprite_animation_finished():
 	$EnemyHitbox/CollisionShape2D.disabled = false
 	$CollisionShape2D.disabled = false
-	$EnemyMover.active = true
+	$EnemyMover.enabled = true
 	$EnemyMover.speed = 100
 	$EnemyShotManager.activate()
 	$PlayerTracker.enabled = true

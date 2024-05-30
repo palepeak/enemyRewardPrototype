@@ -4,12 +4,13 @@ class_name CharacterHealthManager extends Node2D
 @export var damage_on_shadow = true
 @export var invulnurable: bool = false
 @export var death_sprite: Texture2D
-@export var death_particle: PackedScene
+@export var death_particle: PackedScene = preload("res://EnemyUtils/EnemyDeathParticle.tscn")
 @export var host_object: Node2D
-
 @export var death_audio: AudioStreamPlayer2D
 @export var hit_flash_sprite: HitFlashSprite
+
 @onready var current_health = max_health
+
 
 func process_hit(_area: Area2D, damage: float):
 	var children = host_object.get_children()
@@ -20,6 +21,9 @@ func process_hit(_area: Area2D, damage: float):
 
 
 func process_death():
+	if death_sprite == null:
+		var animation_name = hit_flash_sprite.animation
+		death_sprite = hit_flash_sprite.sprite_frames.get_frame_texture(animation_name, 0)
 	var death_node = death_particle.instantiate() as GPUParticles2D
 	(death_node.process_material as ShaderMaterial).set_shader_parameter("sprite", death_sprite)
 	death_node.global_position = get_parent().global_position

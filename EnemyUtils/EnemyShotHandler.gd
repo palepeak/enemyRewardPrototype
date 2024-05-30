@@ -4,7 +4,7 @@ class_name EnemyShotManager extends Node2D
 
 @export var active = true
 @export var _can_shoot = false
-@export var shot_speed = 300
+@export var shot_speed = 250
 @export var shot_frequency = 3.0
 @export var max_distance = 600
 @export var shot_frequency_adjust: Curve

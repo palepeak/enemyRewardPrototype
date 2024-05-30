@@ -1,6 +1,6 @@
 class_name EnemyMover extends Node
 
-@export var active: bool = true
+@export var enabled: bool = true
 @export var speed: int = 100
 @export var player_min_distance: int = -1
 @export var player_tracker: PlayerTracker
@@ -16,7 +16,7 @@ var _active_forces = []
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	if !active:
+	if !enabled:
 		return
 	var new_forces = []
 	var velocity_offset = Vector2.ZERO
@@ -50,10 +50,10 @@ func _physics_process(delta):
 
 
 func apply_force_vector(force: Vector2):
-	if active:
+	if enabled:
 		_active_forces.append([force, 1])
 
 
 func apply_force(direction: float, force: float):
-	if active:
+	if enabled:
 		apply_force_vector(Vector2.RIGHT.rotated(direction)*force)

@@ -12,6 +12,7 @@ shader_parameter/frame = 0
 shader_parameter/outlined = false
 shader_parameter/low_contrast = true
 shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+shader_parameter/line_color2 = Color(1, 1, 1, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v3k32"]
 atlas = ExtResource("3_21cfn")
@@ -33,6 +34,9 @@ animations = [{
 [node name="HitFlashSprite" parent="." index="0"]
 material = SubResource("ShaderMaterial_f70kn")
 sprite_frames = SubResource("SpriteFrames_eg1u7")
+
+[node name="EnemyHealthManager" parent="." index="1"]
+death_sprite = null
 
 [node name="EnemyDropManager" parent="." index="2"]
 type = 1

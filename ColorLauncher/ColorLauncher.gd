@@ -6,6 +6,7 @@ class_name ColorLauncher extends Node2D
 @export var reload_time = 0.5
 @export var max_range = 300
 @export var minimum_range = 0
+@export var bomb_radius = 100
 
 @onready var reload_timer: Timer = $Timer
 @onready var raycast: RayCast2D = $RayCast2D
@@ -75,6 +76,7 @@ func _launch_pikmin():
 		bomb_instance.worldColorStore = worldColorStore
 		bomb_instance.residual = bomb_residual
 		bomb_instance.pikmin = pikmin
+		bomb_instance.radius = bomb_radius
 		GameStateStore.get_level().add_child(bomb_instance)
 
 

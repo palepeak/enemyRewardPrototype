@@ -1,9 +1,10 @@
 shader_type canvas_item;
 
-uniform int frame = 0;
+uniform int frame = 1;
 uniform bool outlined = false;
 uniform bool low_contrast = true;
 uniform vec4 line_color : source_color = vec4(0.92, 0.46, 0.25, 1.0);
+uniform vec4 line_color2 : source_color = vec4(1.0, 1.0, 1.0, 0.0);
 
 void fragment() {
 	vec4 color = texture(TEXTURE, UV);
@@ -28,8 +29,13 @@ void fragment() {
 		outline += texture(TEXTURE, UV + vec2(-size.x, -size.y)).a;
 		outline += texture(TEXTURE, UV + vec2(size.x, -size.y)).a;
 		outline = min(outline, 1.0);
-	
-		new_color = mix(color, line_color, outline - color.a);
+		
+		float w = cos(0.7854) * UV.x + sin(0.7854) * UV.y - 2.0 * TIME;
+		if (floor(mod(w * 8.0, 2.5)) < 0.0001 || line_color2.a == 0.0) {
+			new_color = mix(color, line_color, outline - color.a);
+		} else {
+			new_color = mix(color, line_color2, outline - color.a);
+		}
 	} else if (low_contrast) {
 		float a = 0.4;
 		float b = 0.2;

@@ -1,11 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://cubsi51rg3fe8"]
+[gd_scene load_steps=15 format=3 uid="uid://cubsi51rg3fe8"]
 
 [ext_resource type="Script" path="res://Enemies/Skull.gd" id="1_7dtvi"]
 [ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="1_fg6kn"]
 [ext_resource type="Texture2D" uid="uid://berounl1audpn" path="res://Resources/skull.png" id="1_qkakr"]
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="2_oxn63"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyHealthManager.gd" id="3_s01x4"]
-[ext_resource type="PackedScene" uid="uid://c7sk51mlrecuc" path="res://EnemyUtils/EnemyDeathParticle.tscn" id="4_2wie7"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyDropManager.gd" id="5_oiec6"]
 [ext_resource type="PackedScene" uid="uid://dqfyfhk0wux86" path="res://EnemyUtils/EnemyDropFragment.tscn" id="6_6kyxp"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyHurtbox.gd" id="7_2yqxo"]
@@ -18,6 +17,7 @@ shader_parameter/frame = 0
 shader_parameter/outlined = false
 shader_parameter/low_contrast = true
 shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+shader_parameter/line_color2 = Color(1, 1, 1, 0)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pmksd"]
 atlas = ExtResource("1_qkakr")
@@ -57,8 +57,6 @@ script = ExtResource("3_s01x4")
 drop_manager = NodePath("../EnemyDropManager")
 max_health = 6
 damage_on_shadow = false
-death_sprite = ExtResource("1_qkakr")
-death_particle = ExtResource("4_2wie7")
 host_object = NodePath("..")
 death_audio = NodePath("../AudioStreamPlayer2D")
 hit_flash_sprite = NodePath("../HitFlashSprite")

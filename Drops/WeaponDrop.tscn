@@ -10,6 +10,7 @@ shader_parameter/frame = 0
 shader_parameter/outlined = true
 shader_parameter/low_contrast = false
 shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+shader_parameter/line_color2 = Color(1, 1, 1, 0)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xvpla"]
 shader = ExtResource("2_cyqfx")
@@ -17,6 +18,7 @@ shader_parameter/frame = 0
 shader_parameter/outlined = true
 shader_parameter/low_contrast = false
 shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
+shader_parameter/line_color2 = Color(1, 1, 1, 0)
 
 [node name="WeaponDrop" type="Node2D"]
 material = SubResource("ShaderMaterial_s2goo")
