@@ -61,10 +61,7 @@ func collect_pikmin(pikmin: Pikmin):
 		_collected_pikmin = true
 		HudUiStore.show_ember_progress.emit()
 	pikmin.phase_to(_player.global_position)
-	if pikmin.is_in_group("ReturningEmbers"):
-		_pikmins.insert(0, pikmin)
-	else:
-		_pikmins.append(pikmin)
+	_pikmins.append(pikmin)
 	$PointLight2D.energy = _pikmins.size()/100.0
 	HudUiStore.on_ember_count_changed.emit(_pikmins.size())
 

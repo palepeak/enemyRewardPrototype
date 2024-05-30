@@ -12,7 +12,7 @@ func _ready():
 	GameStateStore.on_first_throw.connect(_start_coloring)
 
 
-var debug_size = 150.0
+var debug_size = 50.0
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if _opened:
@@ -22,17 +22,6 @@ func _process(delta):
 	if !_placed_blocker && _tutorial_room != null:
 		_placed_blocker = true
 		_tutorial_room.lock_room(true)
-	
-	
-	if (
-		GameStateStore.first_throw == true && 
-		get_window().has_focus() &&
-		_tutorial_room != null && 
-		camera != null
-	):
-		var target = 32 * _tutorial_room._room_state.get_center()
-		var offset = target - camera.get_screen_center_position()
-		get_viewport().warp_mouse(get_viewport_rect().size/2.0 + offset)
 	
 	var child_count = 0
 	for child in get_children():

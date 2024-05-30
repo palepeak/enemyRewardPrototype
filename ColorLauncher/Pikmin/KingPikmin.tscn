@@ -130,9 +130,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="KingPikmin" groups=["ReturningEmbers"] instance=ExtResource("1_jsf1t")]
+[node name="KingPikmin" instance=ExtResource("1_jsf1t")]
 script = ExtResource("2_iogpd")
 
-[node name="Sprite" parent="." index="0"]
+[node name="Sprite" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_xrlws")
 frame_progress = 0.244853

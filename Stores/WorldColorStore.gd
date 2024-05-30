@@ -191,6 +191,7 @@ func _thread_draw_color_function(
 		elif !found_uncolored:
 			# Explore semi fully to ensure we have an uncolored starting point
 			to_visit.append(Vector2i(current_pixel.x+2, current_pixel.y))
+			to_visit.append(Vector2i(current_pixel.x-2, current_pixel.y))
 				
 	if THREADED:
 		# this call is thread safe without mutex

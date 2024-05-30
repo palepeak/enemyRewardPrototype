@@ -23,6 +23,6 @@ func _process(delta):
 	curve.set_point_position(1, to_local(target_location))
 	$PathFollow2D.progress_ratio = ease(min(1,_elapsed/target_duration), 2)
 	if _elapsed >= target_duration:
-		target_player.collect_fragment(randf_range(0.1, 0.2))
+		target_player.collect_fragment(randf_range(0.01, 0.02))
 		queue_free()
 

@@ -67,21 +67,6 @@ shader_parameter/outlined = true
 shader_parameter/low_contrast = false
 shader_parameter/line_color = Color(1, 1, 1, 1)
 
-[sub_resource type="Animation" id="Animation_31aqx"]
-resource_name = "show"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.164937, 1),
-"update": 0,
-"values": [Vector2(280, 600), Vector2(280, 456)]
-}
-
 [sub_resource type="Animation" id="Animation_kx23h"]
 resource_name = "hide"
 tracks/0/type = "value"
@@ -95,6 +80,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(0.217638, 1),
 "update": 0,
 "values": [Vector2(280, 456), Vector2(280, 600)]
+}
+
+[sub_resource type="Animation" id="Animation_31aqx"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.164937, 1),
+"update": 0,
+"values": [Vector2(280, 600), Vector2(280, 456)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5abnw"]

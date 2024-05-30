@@ -132,7 +132,6 @@ func unlock_room():
 
 func lock_room(override_lock: bool = false):
 	$LevelStartStream.play()
-	get_tree().call_group("ReturningEmbers", "activate")
 	for lock in _blocker_map.values():
 		lock.set_enabled(override_lock || !_room_state.custom_room)
 
