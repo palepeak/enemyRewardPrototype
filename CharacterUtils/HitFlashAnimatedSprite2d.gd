@@ -11,7 +11,7 @@ var _current_on_color = false
 var _processed_coords
 var _processed_pixel
 
-func _process(delta):
+func _process(_delta):
 	if !light_effects_enabled:
 		return
 	if world_color_store == null:

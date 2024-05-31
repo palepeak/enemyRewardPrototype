@@ -48,7 +48,7 @@ func _ready():
 	add_child(audio_stream_player_shoot)
 	add_child(audio_stream_player_reload)
 
-func _input(event):
+func _input(_event):
 	if Input.is_action_just_pressed("shoot"):
 		try_shoot()
 

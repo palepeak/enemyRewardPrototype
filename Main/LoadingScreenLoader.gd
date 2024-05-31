@@ -38,7 +38,7 @@ func start_checking_status():
 	_check_load_status()
 
 
-func _process(delta):
+func _process(_delta):
 	_check_load_status()
 	
 	if _loaded_result != null && _loading_stop_override.call():

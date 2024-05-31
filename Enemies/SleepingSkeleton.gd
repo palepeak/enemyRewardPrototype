@@ -10,7 +10,7 @@ func _ready():
 	$CollisionShape2D.disabled = true
 
 
-func _process(delta):
+func _process(_delta):
 	if !_activated && $HitFlashSprite._current_on_color:
 		$AudioStreamPlayer2D2.play()
 		_activated = true

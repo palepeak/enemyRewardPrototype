@@ -7,8 +7,8 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if player == null:
 		player = PlayerStore.get_primary_player()
 	else:
-		global_position = (player.global_position + Vector2(-960/2, -528) + Vector2(0, 32))/-8
+		global_position = (player.global_position + Vector2(-960.0/2.0, -528) + Vector2(0, 32))/-8.0

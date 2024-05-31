@@ -20,7 +20,7 @@ func _world_color_progress_update(progress: int):
 	$ProgressLockedDoorRight.set_progress(progress)
 	$ProgressLockedDoorLeft.set_progress(progress)
 
-func _on_win_area_2d_area_entered(area):
+func _on_win_area_2d_area_entered(_area):
 	DebugStore.debug_print("Boss room win entered")
 	GameStateStore.show_win_screen.emit()
 

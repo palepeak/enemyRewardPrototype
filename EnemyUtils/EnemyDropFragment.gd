@@ -9,8 +9,6 @@ var _elapsed = 0.0
 func _ready():
 	var target_angle = global_rotation
 	global_rotation = 0
-	var target_location = camera.get_screen_center_position() + Vector2(395, 186)
-	var target_position_local = to_local(target_location)
 	curve.set_point_out(0, Vector2(
 		(cos(target_angle)+sin(target_angle)*randf_range(-1, 1)),
 		(sin(target_angle)+cos(target_angle)*randf_range(-1, 1)),

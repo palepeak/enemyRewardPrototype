@@ -39,7 +39,6 @@ func _ready():
 
 
 func _process(_delta):
-	var player = PlayerStore.get_primary_player()
 	if player != null:
 		if ControlsManager.using_mouse:
 			($Camera2D as Camera2D).position_smoothing_speed = 20
@@ -68,7 +67,7 @@ func _process(_delta):
 
 var _temp_shotgun_scene = preload("res://Weapons/shotgun/Shotgun.tscn")
 
-func _on_layout_creator_setup_complete(node: LayoutNode):
+func _on_layout_creator_setup_complete(_node: LayoutNode):
 	# debug rooms
 	var tut_room = RoomState.new(0, 40, 20, 20, 3, true)
 	var room1 = RoomState.new(0, 3, 20, 20, 3)
@@ -194,7 +193,6 @@ func on_world_color_progress_update(progress: int):
 
 
 func entered_boss_room(_area: Area2D):
-	var progress = world_color_store.emitted_progress
 	$Camera2D/CameraEnemySpawner.enabled = false
 	darkness_particle.fade_out()
 

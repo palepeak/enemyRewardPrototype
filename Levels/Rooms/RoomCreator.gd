@@ -28,8 +28,8 @@ func create_treasure_room(
 	var treasure_chest = _treasure_scene.instantiate() as TreasureChest
 	treasure_chest.reward = reward_scene
 	treasure_chest.position = 32 * Vector2(
-		room_state.width / 2, 
-		room_state.height / 2
+		room_state.width / 2.0, 
+		room_state.height / 2.0
 	)
 	treasure_chest.required_coverage = required_progress
 	HudUiStore.create_treasure_indicator.emit(treasure_chest)
@@ -102,28 +102,29 @@ func create_horizontal_hall(hall_state: HallState, tilemap: TileMap):
 	tilemap.set_cell(ROOMS_LAYER, Vector2(hall_state.end.x+1, hall_state.end.y), SOURCE_ID, Vector2(5, 2))
 	tilemap.set_cell(ROOMS_LAYER, Vector2(hall_state.end.x+1, hall_state.end.y+1), SOURCE_ID, Vector2(4, 3))
 	# drawing the back wall
-	for i in hall_state.wall_height:
-		tilemap.erase_cell(WALLS_LAYER, Vector2(hall_state.start.x, hall_state.start.y-1-i))
-		tilemap.erase_cell(WALLS_LAYER, Vector2(hall_state.end.x, hall_state.end.y-1-i))
-	tilemap.set_cell(WALLS_LAYER, Vector2(hall_state.start.x, hall_state.start.y-hall_state.wall_height), SOURCE_ID, Vector2(4, 1))
-	tilemap.set_cell(WALLS_LAYER, Vector2(hall_state.start.x, hall_state.start.y-1), SOURCE_ID, Vector2(0, 1))
-	tilemap.set_cell(WALLS_LAYER, Vector2(hall_state.end.x, hall_state.end.y-hall_state.wall_height), SOURCE_ID, Vector2(6, 1))
-	tilemap.set_cell(WALLS_LAYER, Vector2(hall_state.end.x, hall_state.end.y-1), SOURCE_ID, Vector2(2, 1))
-	var wall_cells = []
-	for n in range(hall_state.start.x, hall_state.end.x+1):
-		for m in hall_state.wall_height:
-			wall_cells.append(Vector2(n, hall_state.start.y-1-m))
-	tilemap.set_cells_terrain_connect(WALLS_LAYER, wall_cells, 0, WALL_TERRAIN_ID)
-	# replacing end tiles manually
-	tilemap.set_cell(WALLS_LAYER, Vector2(hall_state.start.x, hall_state.start.y-hall_state.wall_height), SOURCE_ID, Vector2(4, 1))
-	tilemap.set_cell(WALLS_LAYER, Vector2(hall_state.end.x, hall_state.end.y-hall_state.wall_height), SOURCE_ID, Vector2(6, 1))
-	for x in range(hall_state.start.x+1, hall_state.end.x):
-		tilemap.set_cell(
-			WALLS_LAYER, 
-			Vector2(x, hall_state.start.y-hall_state.wall_height), 
-			SOURCE_ID, 
-			Vector2(5, 1),
-		)
+	for x in range(hall_state.start.x, hall_state.end.x+1):
+		for y in range(hall_state.start.y - hall_state.wall_height, hall_state.end.y):
+			# custom end pieces
+			if x == hall_state.start.x && y == hall_state.start.y - hall_state.wall_height:
+				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(4, 1))
+			elif x == hall_state.end.x && y == hall_state.start.y - hall_state.wall_height:
+				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(6, 1))
+			elif x == hall_state.start.x && y == hall_state.end.y:
+				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(0, 1))
+			elif x == hall_state.end.x && y == hall_state.end.y:
+				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(2, 1))
+			elif x == hall_state.start.x:
+				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(4, 0))
+			elif x == hall_state.end.x:
+				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(6, 0))
+			# Base top, middle, and bottom rows
+			elif y == hall_state.start.y - hall_state.wall_height:
+				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(1, 0))
+			elif y == hall_state.start.y-1:
+				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(1, 1))
+			else:
+				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(5, 0))
+	
 	# Move wall height 0 to layer
 	for i in range(hall_state.start.x, hall_state.end.x+1):
 		var coords = Vector2(i, hall_state.start.y-1)

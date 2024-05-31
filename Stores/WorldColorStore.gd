@@ -13,8 +13,8 @@ var color_texture: ImageTexture = null
 
 var total_size = 0
 var progress_pixel = 0
-var progress_percent: int = 0.0
-var emitted_progress: int = 0.0
+var progress_percent: int = 0
+var emitted_progress: int = 0
 
 var threads = []
 var _requests = []

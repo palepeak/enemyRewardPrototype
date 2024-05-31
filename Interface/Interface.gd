@@ -87,7 +87,7 @@ func _show_dialog_alert(msg: String):
 	$AlertContainer/AlertLabel.text = msg
 	var anim = $AlertContainer/AnimationPlayer as AnimationPlayer
 	
-	$AlertContainer/Timer.wait_time = 4 + msg.length()/16
+	$AlertContainer/Timer.wait_time = 4 + msg.length()/16.0
 	$AlertContainer/Timer.start()
 	if !_alert_showing:
 		anim.play("show")

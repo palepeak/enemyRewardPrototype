@@ -1,9 +1,8 @@
 class_name EnemyHealthManager extends CharacterHealthManager
 
-@onready var world_color_store: WorldColorStore = GameStateStore.get_level().get_world_color_store()
 @export var color_affected = true
 @export var drop_manager: EnemyDropManager
-
+var _world_color_store: WorldColorStore
 
 func _ready():
 	if death_sprite == null:
@@ -12,8 +11,11 @@ func _ready():
 
 
 func process_hit(area: Area2D, damage: float):
-	var world_color_store: WorldColorStore = GameStateStore.get_level().get_world_color_store()
-	var on_color = world_color_store.global_coords_on_colored_tile(host_object.global_position)
+	var on_color = false
+	if _world_color_store == null:
+		_world_color_store = GameStateStore.get_level().get_world_color_store()
+	if _world_color_store != null:
+		on_color = _world_color_store.global_coords_on_colored_tile(host_object.global_position)
 	
 	if invulnurable:
 		hit_flash_sprite.play_hit_none_flash()

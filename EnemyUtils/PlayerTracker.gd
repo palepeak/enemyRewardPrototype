@@ -5,7 +5,6 @@ class_name PlayerTracker extends Node2D
 @export_enum("Nearest", "Primary") var tracking_method: String = "Nearest"
 @export var max_distance = 0
 var _path_ray: RayCast2D
-var _see_player
 
 
 func _ready():
@@ -42,8 +41,8 @@ func get_tracked_player() -> Player:
 	return null
 
 
-func _get_nearest_player(position: Vector2) -> Player:
-	return PlayerStore.get_nearest_player(position)
+func _get_nearest_player(position_arg: Vector2) -> Player:
+	return PlayerStore.get_nearest_player(position_arg)
 
 
 func _get_primary_player() -> Player:

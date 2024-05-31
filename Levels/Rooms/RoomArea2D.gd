@@ -70,7 +70,7 @@ func temp_create_enemies():
 	_spawned = true
 	
 	var area = _room_state.width * _room_state.height
-	var amount = randi_range(area/200, 2*area/200)
+	var amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
 	var placed = _scatter(_skull_scene, amount, [], false, false)
 	
 	# dark ghosts
@@ -78,18 +78,18 @@ func temp_create_enemies():
 	#return
 	 
 	#placing fake skulls
-	amount = randi_range(area/400, 2*area/400)
+	amount = randi_range(area/400, 2*area/400) #warning-ignore:integer_division
 	placed = _scatter(_sleeping_skeleton_scene, amount, placed, false, false)
 	
 	#placing skeletons
-	amount = randi_range(area/300, 2*area/300)
+	amount = randi_range(area/300, 2*area/300) #warning-ignore:integer_division
 	placed = _scatter(_skeleton_scene, amount, placed, true)
 	
 	#placing ghosts
-	amount = randi_range(area/200, 2*area/200)
+	amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
 	placed = _scatter(_ghost_scene, amount, placed, true)
 	#placing slime
-	amount = 2*area/200 - amount
+	amount = 2*area/200 - amount #warning-ignore:integer_division
 	placed = _scatter(_slime_scene, amount, placed, true)
 
 
@@ -100,7 +100,6 @@ func _scatter(
 	is_clear_enemy: bool = true,
 	delay: bool = true
 ) -> Array[Vector2]:
-	var area = _room_state.width * _room_state.height
 	var placed = 0
 	while placed < amount:
 		var x_candidate = randi_range(1, _room_state.width-1)
@@ -154,7 +153,7 @@ func lock_room(override_lock: bool = false):
 		lock.set_enabled(override_lock || !_room_state.custom_room)
 
 
-func _on_area_entered(area):
+func _on_area_entered(_area):
 	if !_cleared && !_entered:
 		_entered = true
 		if !_room_state.custom_room:
@@ -170,7 +169,7 @@ func _on_area_entered(area):
 	DebugStore.debug_print("player in area" + str(self))
 
 
-func _on_area_exited(area):
+func _on_area_exited(_area):
 	if !_spawned_neighbors:
 		_spawned_neighbors = true
 		for neighbor in _neighbors:

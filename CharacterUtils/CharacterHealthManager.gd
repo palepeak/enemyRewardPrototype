@@ -13,7 +13,6 @@ class_name CharacterHealthManager extends Node2D
 
 
 func process_hit(_area: Area2D, damage: float):
-	var children = host_object.get_children()
 	hit_flash_sprite.play_hit_flash()
 	current_health -= damage
 	if current_health <= 0:

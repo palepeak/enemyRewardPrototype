@@ -35,9 +35,6 @@ animations = [{
 material = SubResource("ShaderMaterial_f70kn")
 sprite_frames = SubResource("SpriteFrames_eg1u7")
 
-[node name="EnemyHealthManager" parent="." index="1"]
-death_sprite = null
-
 [node name="EnemyDropManager" parent="." index="2"]
 type = 1
 drop_scene = ExtResource("4_bnyeb")

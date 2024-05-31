@@ -13,7 +13,7 @@ func _ready():
 	add_child(player_tracker)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("interact"):
 		var player = player_tracker.get_tracked_player()
 		if player != null:

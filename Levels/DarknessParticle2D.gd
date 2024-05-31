@@ -12,7 +12,6 @@ func start_darkness(level_map: TileMap):
 	var level_size = 32 * (level_map_bounding_cells.size)
 	
 	var screen_size = Vector2i(get_viewport_rect().size)
-	var emission_box_extents = level_size/2 + screen_size
 	var shader = process_material as ShaderMaterial
 	shader.set_shader_parameter("emission_box_extents", [screen_size.x, screen_size.y, 1])
 	shader.set_shader_parameter("screen_size", screen_size)
@@ -25,8 +24,8 @@ func on_world_color_progress_update(progress: int):
 		$AnimationPlayer.play("fade_out_permanent")
 
 
-func set_camera_position(position: Vector2):
-	process_material.set_shader_parameter("camera_position", position)
+func set_camera_position(position_arg: Vector2):
+	process_material.set_shader_parameter("camera_position", position_arg)
 
 
 func fade_out():
