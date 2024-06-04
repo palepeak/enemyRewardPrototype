@@ -34,7 +34,6 @@ func process_death():
 	var death_node = death_particle.instantiate() as GPUParticles2D
 	death_node.process_material.set_shader_parameter("sprite", death_sprite)
 	var texture_size = death_sprite.get_size() / 2.0
-	print(texture_size)
 	death_node.process_material.set_shader_parameter("emission_box_extents", Vector3(
 		texture_size.x, texture_size.y, 0.0
 	))

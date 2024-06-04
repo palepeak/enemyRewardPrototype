@@ -58,7 +58,7 @@ func update_embers(ember_count: int):
 
 
 func _show_ember_progress():
-	_show_dialog_alert("Try right click to throw your new buddy")
+	_show_dialog_alert("Right click to throw your new buddy")
 	$EmberProgress/AnimationPlayer.play("show")
 
 

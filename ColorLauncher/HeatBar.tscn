@@ -4,7 +4,7 @@
 [ext_resource type="FontFile" uid="uid://c41yk2j18s8am" path="res://Resources/alagard.ttf" id="2_e4vds"]
 [ext_resource type="Shader" path="res://Interface/WarningStripes.gdshader" id="3_15m23"]
 [ext_resource type="Shader" path="res://Interface/FlashingShader.gdshader" id="4_oxgdp"]
-[ext_resource type="Texture2D" uid="uid://b0fa2avbp7lxa" path="res://Resources/warning_icon.png" id="5_m2dwg"]
+[ext_resource type="Texture2D" uid="uid://b7vd36ixtuo1h" path="res://Resources/warning_icon.png" id="5_m2dwg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l640p"]
 bg_color = Color(0, 0, 0, 0.705882)

@@ -169,7 +169,7 @@ func _on_layout_creator_setup_complete(_node: LayoutNode):
 	$TutorialGate.global_position = initial_spotlight
 	add_child(player)
 	
-	HudUiStore.show_dialog.emit("Welcome hero. Try left click to shoot. Enemies are weakened by the light.")
+	HudUiStore.show_dialog.emit("Welcome hero. Left click to shoot. Enemies are weakened by the light.")
 	
 	# level map set, disable updates to save performance 
 	($LevelMapContainer/SubViewport as SubViewport).render_target_update_mode = SubViewport.UPDATE_ONCE

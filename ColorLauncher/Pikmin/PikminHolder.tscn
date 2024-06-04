@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://7p4cmbu3uh4h"]
 
 [ext_resource type="Script" path="res://ColorLauncher/Pikmin/PikminHolder.gd" id="1_yu3kf"]
-[ext_resource type="Texture2D" uid="uid://b0fa2avbp7lxa" path="res://Resources/warning_icon.png" id="2_3ownb"]
+[ext_resource type="Texture2D" uid="uid://b7vd36ixtuo1h" path="res://Resources/warning_icon.png" id="2_3ownb"]
 [ext_resource type="Texture2D" uid="uid://i0csel8ixuln" path="res://Resources/2d_lights_and_shadows_neutral_point_light.webp" id="3_lcsch"]
 [ext_resource type="AudioStream" uid="uid://tnv3sxpplamb" path="res://Resources/ember_up.wav" id="4_3xytd"]
 [ext_resource type="AudioStream" uid="uid://bxd61klg21wc6" path="res://Resources/reward_pickup.wav" id="5_unrrl"]

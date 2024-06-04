@@ -158,6 +158,9 @@ process_mode = 1
 process_priority = 1
 script = ExtResource("1_1c74q")
 
+[node name="WorldColorStore" type="Node" parent="."]
+script = ExtResource("9_4ecwn")
+
 [node name="LayoutCreator" type="Node" parent="."]
 script = ExtResource("7_vn5su")
 
@@ -270,9 +273,6 @@ world_color_store = NodePath("../../WorldColorStore")
 libraries = {
 "": SubResource("AnimationLibrary_4pblf")
 }
-
-[node name="WorldColorStore" type="Node" parent="."]
-script = ExtResource("9_4ecwn")
 
 [node name="TutorialGate" parent="." node_paths=PackedStringArray("world_color_store", "camera") instance=ExtResource("17_del3c")]
 world_color_store = NodePath("../WorldColorStore")

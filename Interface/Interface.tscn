@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://Interface/MinimapTexture.gd" id="8_hgkkn"]
 [ext_resource type="Texture2D" uid="uid://ce3meubygmdox" path="res://Resources/character_icon.png" id="10_6mk86"]
 [ext_resource type="Shader" path="res://Interface/EmberProgress.gdshader" id="11_x3w3w"]
-[ext_resource type="Texture2D" uid="uid://dmbq014tbogbr" path="res://Resources/test_portrait_talk.png" id="12_0y4ix"]
+[ext_resource type="Texture2D" uid="uid://dmbq014tbogbr" path="res://Resources/test_portrait_talk.png" id="12_5d55f"]
 [ext_resource type="SpriteFrames" uid="uid://2ua07pbc61cr" path="res://Resources/FireLitAnimation.tres" id="13_javmb"]
 [ext_resource type="Shader" path="res://CharacterUtils/HitFlash.gdshader" id="13_r3jjo"]
 [ext_resource type="Texture2D" uid="uid://btj47kdm0qvm2" path="res://Weapons/shotgun/shotgun.png" id="14_qavwe"]
@@ -104,22 +104,22 @@ _data = {
 "show": SubResource("Animation_31aqx")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_d5gkp"]
-atlas = ExtResource("12_0y4ix")
+[sub_resource type="AtlasTexture" id="AtlasTexture_iemdj"]
+atlas = ExtResource("12_5d55f")
 region = Rect2(0, 0, 96, 144)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wrcmp"]
-atlas = ExtResource("12_0y4ix")
+[sub_resource type="AtlasTexture" id="AtlasTexture_uolqf"]
+atlas = ExtResource("12_5d55f")
 region = Rect2(96, 0, 96, 144)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_yco4j"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_d5gkp")
+"texture": SubResource("AtlasTexture_iemdj")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wrcmp")
+"texture": SubResource("AtlasTexture_uolqf")
 }],
 "loop": true,
 "name": &"default",
@@ -252,6 +252,7 @@ libraries = {
 }
 
 [node name="EmberCount" type="Label" parent="EmberProgress"]
+visible = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -329,8 +330,14 @@ libraries = {
 position = Vector2(-12, -72)
 sprite_frames = SubResource("SpriteFrames_yco4j")
 autoplay = "default"
-frame_progress = 0.590077
+frame_progress = 0.437973
 centered = false
+
+[node name="ReferenceRect" type="ReferenceRect" parent="AlertContainer/Portrait"]
+offset_right = 96.0
+offset_bottom = 144.0
+border_color = Color(0.619608, 0.0196078, 0.388235, 1)
+editor_only = false
 
 [node name="Timer" type="Timer" parent="AlertContainer"]
 one_shot = true

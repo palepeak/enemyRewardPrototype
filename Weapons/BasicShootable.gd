@@ -3,6 +3,7 @@ class_name BasicShootable extends Area2D
 signal successful_shoot()
 
 # Ammo counting and shooting mechanics
+@export var enabled = true
 @export var max_ammo: int
 @export var clip_size: int
 @onready var current_ammo = max_ammo
@@ -48,21 +49,20 @@ func _ready():
 	add_child(audio_stream_player_shoot)
 	add_child(audio_stream_player_reload)
 
-func _input(_event):
-	if Input.is_action_just_pressed("shoot"):
-		try_shoot()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if !enabled:
+		return
 	in_wall = get_overlapping_bodies().size() > 0
 	
+	if Input.is_action_just_pressed("shoot"):
+		try_shoot()
 	if Input.is_action_pressed("reload"):
 		if (current_ammo == -1 or current_ammo > 0) and current_clip_ammo != clip_size:
 			start_reload()
 	
 		
 func try_shoot():
-	
 	# No ammo left, nothing to do
 	if current_ammo == 0 and current_clip_ammo <= 0:
 		return

@@ -5,6 +5,7 @@ signal drop_collected()
 
 @onready var player_instance: Player = get_parent()
 @export var invulnerability_time: float = 2.0
+@export var dash_invulnurable = false
 var _invulnerable_timer: Timer
 var _invulnerable = false
 var _delta_counter = 0
@@ -19,7 +20,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	if has_overlapping_areas() && !_invulnerable:
+	if has_overlapping_areas() && !_invulnerable && !dash_invulnurable:
 		_invulnerable = true
 		_delta_counter = 0.0
 		_invulnerable_timer.start()

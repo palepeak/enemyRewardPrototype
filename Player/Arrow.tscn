@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://e4frrsyn286p"]
+
+[ext_resource type="Texture2D" uid="uid://bixbxmmjx6a8n" path="res://Resources/arrow.png" id="1_515q6"]
+
+[node name="Arrow" type="Sprite2D"]
+texture = ExtResource("1_515q6")
+centered = false
+offset = Vector2(0, -8)

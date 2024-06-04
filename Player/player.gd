@@ -3,14 +3,13 @@ class_name Player extends CharacterBody2D
 # Exports
 @export var gun_scene: PackedScene
 @export var dead: bool = false
-@export var speed = 400
 
 # Global
 
 # Local
 @onready var sprite: HitFlashSprite = $HitFlashSprite
-@onready var footstep_audio_player: AudioStreamPlayer = $FootstepAudioPlayer
 var gun: Node2D
+var _gun_controller: BasicShootable
 var is_left_hand = false
 var gun_one_handed = true
 var gun_position = 0.0
@@ -39,59 +38,50 @@ func _process(_delta):
 		gun.scale = Vector2(-1,1)
 		$HitFlashSprite/GunLine/GunPosition.progress_ratio = gun_position
 		gun.position = $HitFlashSprite/GunLine/GunPosition.position
-		$other_hand.position = $HitFlashSprite/RightHand.position
+		$HitFlashSprite/other_hand.position = $HitFlashSprite/RightHand.position
 	elif is_left_hand and (direction > -PI/3 and direction < 1 * PI/3):
 		# switch to right hand
 		is_left_hand = false
 		gun.scale = Vector2(1,1)
 		$HitFlashSprite/GunLine/GunPosition.progress_ratio = 1.0 - gun_position
 		gun.position = $HitFlashSprite/GunLine/GunPosition.position
-		$other_hand.position = $HitFlashSprite/LeftHand.position
+		$HitFlashSprite/other_hand.position = $HitFlashSprite/LeftHand.position
 	
 	if gun != null:
 		gun.rotation = get_gun_rotation(is_left_hand)
 		gun.z_index = z_index+1
 	
-	velocity = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	if velocity != Vector2.ZERO && !footstep_audio_player.playing:
-		footstep_audio_player.play()
-	elif velocity == Vector2.ZERO && footstep_audio_player.playing:
-		footstep_audio_player.stop()
-	
-	var moving = false
-	if velocity.length() > 0:
-		moving = true
-		velocity = velocity.normalized() * speed
-	
+	var moving = velocity != Vector2.ZERO
 	# Setting moving animation
 	if direction > PI/4 and direction <= 3 * PI/4:
-		$other_hand.visible = true
-		if moving:
-			sprite.play("walk_down")
-		else:
-			sprite.play("idle_down")
+		$HitFlashSprite/other_hand.visible = true
+		if sprite.is_playing():
+			if moving:
+				sprite.play("walk_down")
+			else:
+				sprite.play("idle_down")
 	elif direction > -PI/4 and direction <= PI/4:
-		$other_hand.visible = false
-		if moving:
-			sprite.play("walk_right")
-		else:
-			sprite.play("idle_right")
+		$HitFlashSprite/other_hand.visible = false
+		if sprite.is_playing():
+			if moving:
+				sprite.play("walk_right")
+			else:
+				sprite.play("idle_right")
 	elif direction > -3 * PI/4 and direction <= -PI/4:
-		$other_hand.visible = true
+		$HitFlashSprite/other_hand.visible = true
 		gun.z_index = z_index-1
-		if moving:
-			sprite.play("walk_up")
-		else:
-			sprite.play("idle_up")
+		if sprite.is_playing():
+			if moving:
+				sprite.play("walk_up")
+			else:
+				sprite.play("idle_up")
 	else:
-		$other_hand.visible = false
-		if moving:
-			sprite.play("walk_left")
-		else:
-			sprite.play("idle_left")
-		
-	set_velocity(velocity)
-	move_and_slide()
+		$HitFlashSprite/other_hand.visible = false
+		if sprite.is_playing():
+			if moving:
+				sprite.play("walk_left")
+			else:
+				sprite.play("idle_left")
 
 
 func add_gun(new_gun: Node2D):
@@ -100,6 +90,7 @@ func add_gun(new_gun: Node2D):
 		gun = null
 	
 	gun = new_gun
+	_gun_controller = gun.find_children("*", "BasicShootable")[0]
 	var gun_positioner = gun.find_children("*", "GunPositioner")
 	if gun_positioner.size() > 0:
 		gun_position = (gun_positioner[0] as GunPositioner).position
@@ -107,13 +98,13 @@ func add_gun(new_gun: Node2D):
 	$HitFlashSprite/GunLine/GunPosition.progress_ratio = 1.0 - gun_position
 	gun.position = $HitFlashSprite/GunLine/GunPosition.position
 	if gun_one_handed == true or gun_one_handed == null:
-		$other_hand.visible = true
+		$HitFlashSprite/other_hand.visible = true
 		if is_left_hand:
-			$other_hand.position = $HitFlashSprite/RightHand.position
+			$HitFlashSprite/other_hand.position = $HitFlashSprite/RightHand.position
 		else:
-			$other_hand.position = $HitFlashSprite/LeftHand.position
+			$HitFlashSprite/other_hand.position = $HitFlashSprite/LeftHand.position
 	else:
-		$other_hand.visible = false
+		$HitFlashSprite/other_hand.visible = false
 	if gun.get_parent() != null:
 		gun.reparent(self, false)
 	else:
@@ -122,12 +113,18 @@ func add_gun(new_gun: Node2D):
 	if gun.has_method("on_pickup"):
 		gun.on_pickup()
 		$CollectRewardAudioPlayer.play()
-	
+
+
 func remove_gun():
 	if gun != null:
 		remove_child(gun)
 		gun = null
-	
+
+
+func set_gun_enabled(enabled: bool):
+	_gun_controller.enabled = enabled
+
+
 func get_aim_position_rotation() -> float:
 	return (ControlsManager.get_aim_target_local(self, 300)).normalized().angle()
 
@@ -152,6 +149,7 @@ func collect_fragment(fragment_value: float):
 func register_pikmin_holder(holder):
 	pikmin_holder = holder
 	$ColorLauncher.pikmin_holder = holder
+	$PlayerMover.pikmin_holder = holder
 
 
 func can_collect_pikmin() -> bool:
@@ -160,3 +158,7 @@ func can_collect_pikmin() -> bool:
 
 func collect_pikmin(pikmin: Pikmin):
 	pikmin_holder.collect_pikmin(pikmin)
+
+
+func make_invulnurable(invulnurable: bool):
+	$PlayerHurtbox.dash_invulnurable = invulnurable

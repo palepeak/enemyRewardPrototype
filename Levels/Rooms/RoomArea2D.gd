@@ -73,21 +73,24 @@ func temp_create_enemies():
 	var amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
 	var placed = _scatter(_skull_scene, amount, [], false, false)
 	
-	# dark ghosts
-	#_scatter(_dark_ghost_scene, 1, placed, true)
-	#return
-	 
+	#placing skeletons
+	amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
+	placed = _scatter(_skeleton_scene, amount, placed, true)
+	
 	#placing fake skulls
 	amount = randi_range(area/400, 2*area/400) #warning-ignore:integer_division
 	placed = _scatter(_sleeping_skeleton_scene, amount, placed, false, false)
 	
-	#placing skeletons
-	amount = randi_range(area/300, 2*area/300) #warning-ignore:integer_division
-	placed = _scatter(_skeleton_scene, amount, placed, true)
+	return
+	
+	# dark ghosts
+	amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
+	placed = _scatter(_dark_ghost_scene, amount, placed, true)
 	
 	#placing ghosts
 	amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
 	placed = _scatter(_ghost_scene, amount, placed, true)
+	
 	#placing slime
 	amount = 2*area/200 - amount #warning-ignore:integer_division
 	placed = _scatter(_slime_scene, amount, placed, true)
