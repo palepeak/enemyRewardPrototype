@@ -64,6 +64,7 @@ func create_room(
 				tilemap.set_cell(DEBUG_LAYER, exit, SOURCE_ID, Vector2(1, 2))
 	return return_val
 
+
 func create_hall(
 	hall_state: HallState, 
 	tilemap: TileMap
@@ -109,9 +110,9 @@ func create_horizontal_hall(hall_state: HallState, tilemap: TileMap):
 				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(4, 1))
 			elif x == hall_state.end.x && y == hall_state.start.y - hall_state.wall_height:
 				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(6, 1))
-			elif x == hall_state.start.x && y == hall_state.end.y:
+			elif x == hall_state.start.x && y == hall_state.end.y-1:
 				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(0, 1))
-			elif x == hall_state.end.x && y == hall_state.end.y:
+			elif x == hall_state.end.x && y == hall_state.end.y-1:
 				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(2, 1))
 			elif x == hall_state.start.x:
 				tilemap.set_cell(WALLS_LAYER, Vector2(x, y), SOURCE_ID, Vector2(4, 0))
