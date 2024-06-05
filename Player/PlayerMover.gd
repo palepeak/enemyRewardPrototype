@@ -62,13 +62,13 @@ func _process(delta):
 		var level = GameStateStore.get_level()
 		var world_color_store = level.get_world_color_store()
 		if world_color_store.global_coords_on_colored_tile(global_position):
-			_start_invul_effects(_dodge_roll_direction.angle())
+			_start_invul_effects()
 		else:
 			var ember = pikmin_holder.pop_pikmin()
 			if ember == null:
 				_roll_fail_audio_player.play()
 			else:
-				_start_invul_effects(_dodge_roll_direction.angle())
+				_start_invul_effects()
 				world_color_store.post_draw_color_point(global_position, 40)
 				var residual = _residual_scene.instantiate() as ColorBombResidual
 				residual.global_position = global_position
@@ -99,13 +99,13 @@ func _process(delta):
 	player.move_and_slide()
 
 
-func _start_invul_effects(direction: float):
+func _start_invul_effects():
 	player.make_invulnurable(true)
-	_start_trail_emission(direction)
+	_start_trail_emission()
 	_roll_audio_player.play()
 	
 
-func _start_trail_emission(direction: float):
+func _start_trail_emission():
 	var cur_animation = sprite.animation
 	if cur_animation == "idle_down":
 		sprite.play("walk_down")

@@ -9,6 +9,7 @@ var _skull_scene = preload("res://Enemies/Skull.tscn")
 var _sleeping_skeleton_scene = preload("res://Enemies/SleepingSkeleton.tscn")
 var _skeleton_scene = preload("res://Enemies/Skeleton.tscn")
 var _slime_scene = preload("res://Enemies/Slime.tscn")
+var _cube_scene = preload("res://Enemies/Cube.tscn")
 var _enemy_count = 0
 var _enemies = []
 var _enemy_entrance = []
@@ -73,13 +74,18 @@ func temp_create_enemies():
 	var amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
 	var placed = _scatter(_skull_scene, amount, [], false, false)
 	
-	#placing skeletons
-	amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
-	placed = _scatter(_skeleton_scene, amount, placed, true)
-	
-	#placing fake skulls
-	amount = randi_range(area/400, 2*area/400) #warning-ignore:integer_division
-	placed = _scatter(_sleeping_skeleton_scene, amount, placed, false, false)
+	var scenario = randi_range(0, 1)
+	if scenario == 0:
+		#placing skeletons
+		amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
+		placed = _scatter(_skeleton_scene, amount, placed)
+		
+		#placing fake skulls
+		amount = randi_range(area/400, 2*area/400) #warning-ignore:integer_division
+		placed = _scatter(_sleeping_skeleton_scene, amount, placed, false, false)
+	else:
+		#placing cube
+		placed = _scatter(_cube_scene, max(1, area/600), placed)
 	
 	return
 	

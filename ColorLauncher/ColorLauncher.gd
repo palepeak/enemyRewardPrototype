@@ -77,7 +77,7 @@ func _launch_pikmin():
 		bomb_instance.residual = bomb_residual
 		bomb_instance.pikmin = pikmin
 		bomb_instance.radius = bomb_radius
-		GameStateStore.get_level().add_child(bomb_instance)
+		GameStateStore.add_to_level(bomb_instance)
 
 
 func add_pikmin():

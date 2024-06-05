@@ -40,7 +40,13 @@ func remove_level():
 
 func get_level() -> Level:
 	return _current_level
-	
+
+
+func add_to_level(node: Node2D):
+	var level = get_level()
+	if level != null:
+		level.add_child.call_deferred(node)
+
 func set_clear_percent(target): _clear_target = target
 func get_clear_percent() -> int: return _clear_target
 

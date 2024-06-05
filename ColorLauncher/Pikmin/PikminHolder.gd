@@ -80,7 +80,7 @@ func add_pikmin():
 		new_pikmin.global_position = _player.global_position
 		# TODO figure out a better place to add the pikmins to
 		# Pikmins currently can't persist between levels
-		GameStateStore.get_level().add_child(new_pikmin)
+		GameStateStore.add_to_level(new_pikmin)
 
 
 func collect_fragment(fragment_value: float):

@@ -28,7 +28,7 @@ func process_death():
 	death_node.global_position = get_parent().global_position
 	if host_object.velocity.x > 0:
 		death_node.scale = Vector2(-1,1)
-	GameStateStore.get_level().add_child(death_node)
+	GameStateStore.add_to_level(death_node)
+	death_audio.autoplay = true
 	death_audio.reparent(death_node)
-	death_audio.play()
 	get_parent().queue_free()

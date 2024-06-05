@@ -20,4 +20,4 @@ func process_death():
 	var death_node = death_particle.instantiate() as GPUParticles2D
 	(death_node.process_material as ShaderMaterial).set_shader_parameter("sprite", death_sprite)
 	death_node.global_position = player_instance.global_position
-	GameStateStore.get_level().add_child(death_node)
+	GameStateStore.add_to_level(death_node)

@@ -573,6 +573,7 @@ dodge_roll_speed = SubResource("Curve_64p7i")
 [node name="TrailEmitter" type="GPUParticles2D" parent="PlayerMover"]
 z_index = -1
 material = SubResource("ShaderMaterial_jajwm")
+emitting = false
 process_material = SubResource("ParticleProcessMaterial_jqupk")
 lifetime = 0.2
 

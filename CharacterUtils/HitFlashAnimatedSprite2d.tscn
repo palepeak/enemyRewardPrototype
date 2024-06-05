@@ -12,7 +12,7 @@ shader = ExtResource("1_b8t4d")
 shader_parameter/frame = 1
 shader_parameter/outlined = false
 shader_parameter/low_contrast = true
-shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_color = Color(0.92, 0.46, 0.25, 1)
 shader_parameter/line_color2 = Color(1, 1, 1, 0)
 
 [sub_resource type="Animation" id="Animation_0pa6k"]

@@ -41,8 +41,8 @@ func process_death():
 	death_node.global_position = get_parent().global_position
 	if hit_flash_sprite.flip_h:
 		death_node.scale = Vector2(-1,1)
-	GameStateStore.get_level().add_child(death_node)
+	GameStateStore.add_to_level(death_node)
 	if death_audio != null:
+		death_audio.autoplay = true
 		death_audio.reparent(death_node)
-		death_audio.play()
 	get_parent().queue_free()

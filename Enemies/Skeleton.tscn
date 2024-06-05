@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ccnwusj1of0bq"]
+[gd_scene load_steps=24 format=3 uid="uid://ccnwusj1of0bq"]
 
 [ext_resource type="Script" path="res://Enemies/Skeleton.gd" id="1_dls4m"]
 [ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="1_lw4d1"]
@@ -11,9 +11,10 @@
 [ext_resource type="AudioStream" uid="uid://tf444rn6ehfd" path="res://Resources/skull_death.wav" id="9_rhqdh"]
 [ext_resource type="PackedScene" uid="uid://ceghegyl7vgdn" path="res://EnemyUtils/EnemyHurtbox.tscn" id="10_qxwg6"]
 [ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="11_7wqh6"]
-[ext_resource type="Script" path="res://EnemyUtils/EnemyShotHandler.gd" id="12_balaf"]
 [ext_resource type="Script" path="res://EnemyUtils/EnemyDropManager.gd" id="13_ag6te"]
 [ext_resource type="PackedScene" uid="uid://dqfyfhk0wux86" path="res://EnemyUtils/EnemyDropFragment.tscn" id="14_6w24t"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyAttackHandler.gd" id="14_un3cq"]
+[ext_resource type="Script" path="res://Enemies/SkeletonAttack.gd" id="15_w2u4g"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oylsh"]
 radius = 12.0416
@@ -48,16 +49,16 @@ height = 64.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_34l6j"]
 
-[sub_resource type="Curve" id="Curve_gldhy"]
-min_value = 0.75
-max_value = 1.25
-_data = [Vector2(0, 0.75), 0.0, 0.5, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.25), 0.0, 0.0, 0, 0]
-point_count = 3
-
 [sub_resource type="Curve" id="Curve_nixo8"]
 min_value = 3.0
 max_value = 8.0
 _data = [Vector2(0, 4), 0.0, 0.0, 0, 0, Vector2(1, 8), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_7tkuy"]
+min_value = 0.5
+max_value = 1.5
+_data = [Vector2(0, 0.75), 0.0, 0.5, 0, 1, Vector2(1, 1.25), 0.5, 0.0, 1, 0]
 point_count = 2
 
 [node name="Skeleton" type="CharacterBody2D"]
@@ -121,15 +122,19 @@ disabled = true
 shape = SubResource("CapsuleShape2D_34l6j")
 disabled = true
 
-[node name="EnemyShotManager" type="Node2D" parent="." node_paths=PackedStringArray("player_tracker")]
-script = ExtResource("12_balaf")
-player_tracker = NodePath("../PlayerTracker")
-active = false
-shot_frequency_adjust = SubResource("Curve_gldhy")
-
 [node name="EnemyDropManager" type="Node2D" parent="."]
 script = ExtResource("13_ag6te")
 type = 0
 drop_chance = 1.0
 drop_scene = ExtResource("14_6w24t")
 drop_chance_curve = SubResource("Curve_nixo8")
+
+[node name="EnemyAttackManager" type="Node2D" parent="." node_paths=PackedStringArray("attack")]
+script = ExtResource("14_un3cq")
+attack = NodePath("../SkeletonAttack")
+active = false
+attack_frequency_adjust = SubResource("Curve_7tkuy")
+
+[node name="SkeletonAttack" type="Node2D" parent="." node_paths=PackedStringArray("player_tracker")]
+script = ExtResource("15_w2u4g")
+player_tracker = NodePath("../PlayerTracker")

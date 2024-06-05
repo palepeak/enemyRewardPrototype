@@ -37,5 +37,5 @@ func spawn_enemies():
 		# Set the mob's position to a random location.
 		enemy.global_position = $PathFollow2D.global_position
 		
-		GameStateStore.get_level().add_child(enemy)
+		GameStateStore.add_to_level(enemy)
 	

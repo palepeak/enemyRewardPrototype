@@ -23,7 +23,7 @@ func _on_hit_flash_sprite_animation_finished():
 	$CollisionShape2D.disabled = false
 	$EnemyMover.enabled = true
 	$EnemyMover.speed = 100
-	$EnemyShotManager.activate()
+	$EnemyAttackManager.activate()
 	$PlayerTracker.enabled = true
 	$EnemyHealthManager.invulnurable = false
 	$HitFlashSprite.set_outline_color(Vector4(.92, .46, .25, 1.0))

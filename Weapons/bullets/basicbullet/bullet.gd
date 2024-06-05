@@ -25,7 +25,7 @@ func _process(delta):
 				fall.global_position = global_position
 				fall.rotation = rotation
 				
-				GameStateStore.get_level().add_child(fall)
+				GameStateStore.add_to_level(fall)
 			queue_free()
 	var collision_result = move_and_collide(bullet_direction * bullet_speed * delta)
 	if collision_result != null:
@@ -35,7 +35,7 @@ func _process(delta):
 				var smoke = smoke_scene.instantiate() as GPUParticles2D
 				smoke.rotation = collision_result.get_normal().angle()
 				smoke.global_position = collision_result.get_position()
-				GameStateStore.get_level().add_child(smoke)
+				GameStateStore.add_to_level(smoke)
 			queue_free()
 		else:
 			queue_free()

@@ -10,6 +10,7 @@ size = Vector2(64, 32)
 z_index = 4
 z_as_relative = false
 collision_layer = 2
+collision_mask = 33
 script = ExtResource("1_ot3yr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

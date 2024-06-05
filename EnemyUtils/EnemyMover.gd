@@ -42,10 +42,12 @@ func _physics_process(delta):
 		var axis = enemy_object.to_local(pathFinder.get_next_path_position()).normalized()
 		enemy_object.velocity = axis * speed + velocity_offset
 	
-	if _current_tracked_location.x > enemy_object.global_position.x:
-		sprite.flip_h = true
-	else:
-		sprite.flip_h = false
+	if sprite != null:
+		if _current_tracked_location.x > enemy_object.global_position.x:
+			sprite.flip_h = true
+		else:
+			sprite.flip_h = false
+	
 	enemy_object.move_and_slide()
 
 

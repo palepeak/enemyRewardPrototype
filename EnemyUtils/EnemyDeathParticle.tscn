@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://c7sk51mlrecuc"]
+[gd_scene load_steps=11 format=3 uid="uid://c7sk51mlrecuc"]
 
 [ext_resource type="Shader" path="res://EnemyUtils/EnemyDeathParticle.gdshader" id="1_s0ram"]
 [ext_resource type="Texture2D" uid="uid://div46717kf3qd" path="res://Resources/particle.png" id="3_g15df"]
+[ext_resource type="AudioStream" uid="uid://bs60pnubujxhn" path="res://Resources/hit_sound.wav" id="3_lqyil"]
+[ext_resource type="AudioStream" uid="uid://bqj4phyec7foi" path="res://Resources/hit_sound_weak.wav" id="4_f1mcg"]
 
 [sub_resource type="Gradient" id="Gradient_xnpg1"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -60,6 +62,13 @@ script/source = "extends GPUParticles2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	DebugStore.debug_print(\"death started\")
+	
+	var world_color_store = GameStateStore.get_level().get_world_color_store()
+	var on_color = world_color_store.global_coords_on_colored_tile(global_position)
+	if on_color:
+		$StrongAudioPlayer.play()
+	else:
+		$WeakAudioPlayer.play()
 "
 
 [sub_resource type="Animation" id="Animation_4kfbf"]
@@ -101,3 +110,12 @@ libraries = {
 "": SubResource("AnimationLibrary_guhbw")
 }
 autoplay = "new_animation"
+
+[node name="StrongAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_lqyil")
+volume_db = 15.0
+max_polyphony = 15
+
+[node name="WeakAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_f1mcg")
+max_polyphony = 15

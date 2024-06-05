@@ -59,7 +59,7 @@ script = ExtResource("1_ogap3")
 [node name="Skull" parent="." instance=ExtResource("3_1yjve")]
 position = Vector2(-88, -171)
 
-[node name="Skull2" parent="." instance=ExtResource("3_1yjve")]
+[node name="KingSkull2" parent="." instance=ExtResource("1_c7jds")]
 position = Vector2(126, 139)
 
 [node name="Skull3" parent="." instance=ExtResource("3_1yjve")]
@@ -68,7 +68,7 @@ position = Vector2(145, -124)
 [node name="Skull4" parent="." instance=ExtResource("3_1yjve")]
 position = Vector2(-137, 134)
 
-[node name="Skull5" parent="." instance=ExtResource("3_1yjve")]
+[node name="KingSkull5" parent="." instance=ExtResource("1_c7jds")]
 position = Vector2(-188, -35)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

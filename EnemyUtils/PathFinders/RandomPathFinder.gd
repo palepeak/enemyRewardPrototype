@@ -11,5 +11,5 @@ func _ready():
 
 
 func _get_player_position() -> Vector2:
-	var random_angle = randf_range(0, 2*PI)
+	var random_angle = randf_range(0.0, 2.0*PI)
 	return root_node.global_position + Vector2.DOWN.rotated(random_angle) * randi_range(100, 300)

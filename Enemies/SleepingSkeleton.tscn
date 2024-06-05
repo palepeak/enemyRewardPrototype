@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dcs5tngwc2f7m"]
+[gd_scene load_steps=29 format=3 uid="uid://dcs5tngwc2f7m"]
 
 [ext_resource type="Script" path="res://Enemies/SleepingSkeleton.gd" id="1_nk5nq"]
 [ext_resource type="PackedScene" uid="uid://b2us8yigpf5a3" path="res://CharacterUtils/HitFlashAnimatedSprite2d.tscn" id="2_e78fh"]
@@ -14,7 +14,8 @@
 [ext_resource type="AudioStream" uid="uid://tf444rn6ehfd" path="res://Resources/skull_death.wav" id="12_kpiap"]
 [ext_resource type="PackedScene" uid="uid://ceghegyl7vgdn" path="res://EnemyUtils/EnemyHurtbox.tscn" id="13_yiduv"]
 [ext_resource type="PackedScene" uid="uid://bndxkdjgj3au6" path="res://EnemyUtils/EnemyHitbox.tscn" id="14_tslpa"]
-[ext_resource type="Script" path="res://EnemyUtils/EnemyShotHandler.gd" id="15_nllhp"]
+[ext_resource type="Script" path="res://EnemyUtils/EnemyAttackHandler.gd" id="16_xcnf8"]
+[ext_resource type="Script" path="res://Enemies/SkeletonAttack.gd" id="17_kw3t0"]
 [ext_resource type="AudioStream" uid="uid://sdxal5as7q8f" path="res://Resources/skeleton_wake.wav" id="17_ky0su"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h0doa"]
@@ -77,11 +78,11 @@ height = 64.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sjv8s"]
 
-[sub_resource type="Curve" id="Curve_q84jj"]
-min_value = 0.75
-max_value = 1.25
-_data = [Vector2(0, 0.75), 0.0, 0.5, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.25), 0.0, 0.0, 0, 0]
-point_count = 3
+[sub_resource type="Curve" id="Curve_xuien"]
+min_value = 0.5
+max_value = 1.5
+_data = [Vector2(0, 0.75), 0.0, 0.5, 0, 1, Vector2(1, 1.25), 0.5, 0.0, 1, 0]
+point_count = 2
 
 [node name="SleepingSkeleton" type="CharacterBody2D"]
 z_index = 4
@@ -112,6 +113,7 @@ max_distance = 600
 
 [node name="EnemyMover" type="Node" parent="." node_paths=PackedStringArray("player_tracker", "pathFinder", "enemy_object", "sprite")]
 script = ExtResource("7_8p0er")
+enabled = false
 player_min_distance = 150
 player_tracker = NodePath("../PlayerTracker")
 pathFinder = NodePath("../BasePathFinder")
@@ -152,15 +154,18 @@ shape = SubResource("CapsuleShape2D_f1rch")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHitbox"]
 shape = SubResource("CapsuleShape2D_sjv8s")
 
-[node name="EnemyShotManager" type="Node2D" parent="." node_paths=PackedStringArray("player_tracker")]
-script = ExtResource("15_nllhp")
-player_tracker = NodePath("../PlayerTracker")
-active = false
-_can_shoot = true
-shot_frequency_adjust = SubResource("Curve_q84jj")
-
 [node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("17_ky0su")
 volume_db = 5.0
+
+[node name="EnemyAttackManager" type="Node2D" parent="." node_paths=PackedStringArray("attack")]
+script = ExtResource("16_xcnf8")
+attack = NodePath("SkeletonAttack")
+active = false
+attack_frequency_adjust = SubResource("Curve_xuien")
+
+[node name="SkeletonAttack" type="Node2D" parent="EnemyAttackManager" node_paths=PackedStringArray("player_tracker")]
+script = ExtResource("17_kw3t0")
+player_tracker = NodePath("../../PlayerTracker")
 
 [connection signal="animation_finished" from="HitFlashSprite" to="." method="_on_hit_flash_sprite_animation_finished"]

@@ -81,14 +81,14 @@ func try_shoot():
 		var fire = fire_effect.instantiate()
 		fire.global_position = fire_point.global_position
 		fire.rotation = global_rotation
-		GameStateStore.get_level().add_child(fire)
+		GameStateStore.add_to_level(fire)
 	if recoil_force_handler != null:
 		recoil_force_handler.start_recoil()
 	if shell_scene != null:
 		var shell = shell_scene.instantiate() as Node2D
 		shell.global_position = chamber_point.global_position
 		shell.global_rotation = global_rotation
-		GameStateStore.get_level().add_child(shell)
+		GameStateStore.add_to_level(shell)
 		
 	in_shoot_cooldown = true
 	shoot_timer.start(shoot_speed)
