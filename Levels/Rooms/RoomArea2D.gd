@@ -33,14 +33,14 @@ func set_room_state(room_state: RoomState):
 	
 	var width = _room_state.width * 32
 	var height = (_room_state.height + 2) * 32
-	var collision_polygon = $CollisionShape2D.shape as ConvexPolygonShape2D
+	var collision_polygon = $RoomAreaPolygon as CollisionPolygon2D
 	var new_points = PackedVector2Array([
 			Vector2(0, 0),
 			Vector2(0, height),
 			Vector2(width, height),
 			Vector2(width, 0)
 	])
-	collision_polygon.points = new_points
+	collision_polygon.polygon = new_points
 
 
 func mark_exit_used(
