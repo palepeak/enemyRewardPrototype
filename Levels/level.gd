@@ -69,13 +69,13 @@ var _temp_shotgun_scene = preload("res://Weapons/shotgun/Shotgun.tscn")
 
 func _on_layout_creator_setup_complete(_node: LayoutNode):
 	# debug rooms
-	var tut_room = RoomState.new(0, 40, 20, 20, 3, true)
-	var room1 = RoomState.new(0, 3, 20, 20, 3)
-	var room2 = RoomState.new(40, 3, 30, 20, 3)
-	var room2_1 = RoomState.new(65, 53, 30, 30, 3)
-	var treasure_room = RoomState.new(40, 50, 10, 10, 3, true)
-	var room3 = RoomState.new(90, 3, 15, 30, 3)
-	var boss_room = RoomState.new(130, 0, 10, 10, 3, true)
+	var tut_room = RoomState.new(0, 40, 20, 20, 3, 0, true)
+	var room1 = RoomState.new(0, 3, 20, 20, 3, 1)
+	var room2 = RoomState.new(40, 3, 30, 20, 3, 2)
+	var room2_1 = RoomState.new(65, 53, 30, 30, 3, 3)
+	var treasure_room = RoomState.new(40, 50, 10, 10, 3, 3, true)
+	var room3 = RoomState.new(90, 3, 15, 30, 3, 3)
+	var boss_room = RoomState.new(130, 0, 10, 10, 3, 4, true)
 	
 	var tut_area = room_creator.create_room(tut_room, level_map, self)
 	var room1_area = room_creator.create_room(room1, level_map, self)

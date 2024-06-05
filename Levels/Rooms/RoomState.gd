@@ -8,6 +8,7 @@ var y: int
 var width: int
 var height: int
 var wall_height: int
+var depth: int
 var custom_room: bool
 
 var _used_exits: Array[Vector2]
@@ -21,6 +22,7 @@ func _init(
 	width_arg: int,
 	height_arg: int, 
 	wall_height_arg: int,
+	depth_arg: int,
 	custom_room_arg: bool = false,
 ):
 	x = x_arg
@@ -29,6 +31,7 @@ func _init(
 	height = height_arg
 	wall_height = wall_height_arg
 	custom_room = custom_room_arg
+	depth = depth_arg
 	
 	init_exits()
 	

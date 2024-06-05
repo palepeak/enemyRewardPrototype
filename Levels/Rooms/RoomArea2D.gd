@@ -74,8 +74,8 @@ func temp_create_enemies():
 	var amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
 	var placed = _scatter(_skull_scene, amount, [], false, false)
 	
-	var scenario = randi_range(0, 1)
-	if scenario == 0:
+	var scenario = _room_state.depth
+	if scenario == 1:
 		#placing skeletons
 		amount = randi_range(area/200, 2*area/200) #warning-ignore:integer_division
 		placed = _scatter(_skeleton_scene, amount, placed)
@@ -83,7 +83,18 @@ func temp_create_enemies():
 		#placing fake skulls
 		amount = randi_range(area/400, 2*area/400) #warning-ignore:integer_division
 		placed = _scatter(_sleeping_skeleton_scene, amount, placed, false, false)
-	else:
+	elif scenario == 2:
+		#placing cube
+		placed = _scatter(_cube_scene, max(1, area/600), placed)
+	elif scenario == 3:
+		#placing skeletons
+		amount = randi_range(area/300, 2*area/300) #warning-ignore:integer_division
+		placed = _scatter(_skeleton_scene, amount, placed)
+		
+		#placing fake skulls
+		amount = randi_range(area/400, 2*area/400) #warning-ignore:integer_division
+		placed = _scatter(_sleeping_skeleton_scene, amount, placed, false, false)
+		
 		#placing cube
 		placed = _scatter(_cube_scene, max(1, area/600), placed)
 	
