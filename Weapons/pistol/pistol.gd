@@ -11,7 +11,8 @@ func _on_shootable_successful_shoot():
 	bullet.global_rotation = global_rotation
 	var direction = Vector2(cos(global_rotation), sin(global_rotation))
 	
-	get_tree().get_root().add_child(bullet)
+	GameStateStore.get_level().add_child(bullet)
+	print($BasicShootable/FirePoint.global_position)
 	bullet.fire(
 		$BasicShootable/FirePoint.global_position,
 		direction,

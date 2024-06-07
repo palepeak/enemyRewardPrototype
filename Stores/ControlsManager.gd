@@ -37,7 +37,11 @@ func _process(delta):
 		_current_aim_target_local = _aim_target_center_mode_local
 	else:
 		var aim_target = Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down")
-		_aim_target_local = (aim_target*delta*_controller_aim_sensitivity + _aim_target_local)
+		if (aim_target.length() > 0.99):
+			_aim_target_local = (aim_target*delta*_controller_aim_sensitivity*2 + _aim_target_local)
+		else:
+			_aim_target_local = (aim_target*delta*_controller_aim_sensitivity + _aim_target_local)
+			
 		if _aim_target_local.length() > 1:
 			_aim_target_local = _aim_target_local.normalized()
 		_current_aim_target_local = _aim_target_local

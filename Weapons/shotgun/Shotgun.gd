@@ -16,7 +16,7 @@ func _on_basic_shootable_successful_shoot():
 		var bullet = bullet_scene.instantiate()
 		var direction = Vector2(cos(bullet_direction), sin(bullet_direction))
 	
-		get_tree().get_root().add_child(bullet)
+		GameStateStore.get_level().add_child(bullet)
 		bullet.fire(
 			$BasicShootable/FirePoint.global_position,
 			direction,
